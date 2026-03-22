@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Briefcase, GraduationCap, Calendar, Building2, BookOpen } from 'lucide-react';
-import data from '../data/portfolio.json';
+import data from '../lib/portfolio';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -182,14 +182,18 @@ const Experience = () => {
                         <h3 className="text-xl font-bold text-white mb-1">
                           {exp.position}
                         </h3>
-                        <a
-                          href={exp.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-indigo-400 hover:text-indigo-300 transition-colors"
-                        >
-                          {exp.company}
-                        </a>
+                        {exp.url ? (
+                          <a
+                            href={exp.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-indigo-400 hover:text-indigo-300 transition-colors"
+                          >
+                            {exp.company}
+                          </a>
+                        ) : (
+                          <p className="text-indigo-400">{exp.company}</p>
+                        )}
                       </div>
                     </div>
 

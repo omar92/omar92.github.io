@@ -2,15 +2,19 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Download, Gamepad2, Code2, Cpu, Layers, Zap, Trophy, Users } from 'lucide-react';
-import data from '../data/portfolio.json';
+import data from '../lib/portfolio';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
-  const [counters, setCounters] = useState<number[]>([0, 0, 0]);
+  const [counters, setCounters] = useState<number[]>(() => data.stats.map(() => 0));
   const hasAnimated = useRef(false);
+
+  useEffect(() => {
+    setCounters(data.stats.map(() => 0));
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {

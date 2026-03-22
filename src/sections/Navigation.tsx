@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { Menu, X, Code2 } from 'lucide-react';
-import data from '../data/portfolio.json';
+import data from '../lib/portfolio';
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const brandLastName = data.personal.lastName;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -92,8 +93,8 @@ const Navigation = () => {
               <div className="p-2 rounded-lg bg-gradient-to-br from-indigo-600 to-violet-600 group-hover:from-indigo-500 group-hover:to-violet-500 transition-all">
                 <Code2 size={20} className="text-white" />
               </div>
-              <span className="text-white">Omar</span>
-              <span className="text-gradient">Sleam</span>
+              <span className="text-white">{data.personal.firstName}</span>
+              {brandLastName ? <span className="text-gradient">{brandLastName}</span> : null}
             </a>
 
             {/* Desktop Navigation */}

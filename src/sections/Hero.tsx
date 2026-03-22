@@ -1,11 +1,12 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ChevronDown, Github, Linkedin, Twitter, Code2, Cpu, Sparkles } from 'lucide-react';
-import data from '../data/portfolio.json';
+import data from '../lib/portfolio';
 
 const Hero = () => {
   const heroRef = useRef<HTMLElement>(null);
   const codeRef = useRef<HTMLDivElement>(null);
+  const stats = data.stats.slice(0, 3);
 
   // Typing animation for code snippet
   useEffect(() => {
@@ -13,9 +14,9 @@ const Hero = () => {
     
     const codeLines = [
       { text: 'const developer = {', delay: 1000 },
-      { text: "  name: 'Omar Sleam',", delay: 1400 },
-      { text: "  role: 'Unity Developer',", delay: 1800 },
-      { text: "  passion: 'Creating Games',", delay: 2200 },
+      { text: `  name: '${data.personal.name}',`, delay: 1400 },
+      { text: `  role: '${data.personal.title}',`, delay: 1800 },
+      { text: `  focus: '${data.personal.subtitle || data.personal.tagline}',`, delay: 2200 },
       { text: "  status: 'Available for work'", delay: 2600 },
       { text: '};', delay: 3000 },
     ];
@@ -183,8 +184,8 @@ const Hero = () => {
                 className="hero-headline text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 leading-none"
                 style={{ fontFamily: "'Space Grotesk', sans-serif" }}
               >
-                <span className="text-white">Omar</span>
-                <span className="text-gradient">.</span>
+                <span className="text-white">{data.personal.firstName}</span>
+                <span className="text-gradient">{data.personal.lastName ? ` ${data.personal.lastName}` : '.'}</span>
               </h1>
 
               {/* Subtitle */}
@@ -309,18 +310,12 @@ const Hero = () => {
 
               {/* Floating Stats */}
               <div className="mt-8 grid grid-cols-3 gap-4 w-full max-w-md">
-                <div className="tech-icon text-center p-4 glass-card rounded-xl">
-                  <div className="text-2xl font-bold text-gradient">5+</div>
-                  <div className="text-xs text-slate-500 mt-1">Years Exp.</div>
-                </div>
-                <div className="tech-icon text-center p-4 glass-card rounded-xl">
-                  <div className="text-2xl font-bold text-gradient">20+</div>
-                  <div className="text-xs text-slate-500 mt-1">Projects</div>
-                </div>
-                <div className="tech-icon text-center p-4 glass-card rounded-xl">
-                  <div className="text-2xl font-bold text-gradient">10+</div>
-                  <div className="text-xs text-slate-500 mt-1">Games</div>
-                </div>
+                {stats.map((stat) => (
+                  <div key={stat.label} className="tech-icon text-center p-4 glass-card rounded-xl">
+                    <div className="text-2xl font-bold text-gradient">{stat.value}{stat.suffix}</div>
+                    <div className="text-xs text-slate-500 mt-1">{stat.label}</div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

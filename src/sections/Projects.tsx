@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ExternalLink, Github, Play, Star, GitFork, FolderGit2 } from 'lucide-react';
-import data from '../data/portfolio.json';
+import data, { type PortfolioProject } from '../lib/portfolio';
 import {
   Dialog,
   DialogContent,
@@ -13,28 +13,12 @@ import {
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface Project {
-  id: string;
-  name: string;
-  category: string;
-  image: string;
-  tags: string[];
-  filterTags: string[];
-  shortDescription: string;
-  description: string;
-  links: Array<{ text: string; url: string; type: string }>;
-  features?: string[];
-  videos?: string[];
-  subProjects?: Array<{ title: string; tags: string[]; description: string }>;
-  stats?: { stars?: number; forks?: number };
-}
-
 const Projects = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
   const [filter, setFilter] = useState('All');
 
-  const filters = ['All', 'Unity', 'VR', 'Mobile', 'AI', 'Web', 'Open Source'];
+  const filters = ['All', ...Array.from(new Set(data.projects.flatMap((project) => project.filterTags)))];
 
   const filteredProjects = filter === 'All'
     ? data.projects
@@ -131,7 +115,7 @@ const Projects = () => {
     return () => ctx.revert();
   }, []);
 
-  const getProjectImage = (project: Project) => {
+  const getProjectImage = (project: PortfolioProject) => {
     if (project.image.startsWith('http')) {
       return project.image;
     }
@@ -193,13 +177,13 @@ const Projects = () => {
             <div
               key={project.id}
               className="project-card group cursor-pointer"
-              onClick={() => setSelectedProject(project as Project)}
+              onClick={() => setSelectedProject(project)}
               style={{ perspective: '1000px' }}
             >
               {/* Image */}
               <div className="relative aspect-video overflow-hidden rounded-t-xl">
                 <img
-                  src={getProjectImage(project as Project)}
+                  src={getProjectImage(project)}
                   alt={project.name}
                   className="project-image w-full h-full object-cover"
                 />
@@ -207,16 +191,16 @@ const Projects = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
                 
                 {/* Stats badge */}
-                {(project as Project).stats?.stars && (
+                {project.stats?.stars && (
                   <div className="absolute top-3 right-3 flex items-center gap-3">
                     <span className="flex items-center gap-1 px-2 py-1 bg-slate-900/80 rounded-full text-xs text-amber-400">
                       <Star size={12} fill="currentColor" />
-                      {(project as Project).stats?.stars}
+                      {project.stats?.stars}
                     </span>
-                    {(project as Project).stats?.forks && (
+                    {project.stats?.forks && (
                       <span className="flex items-center gap-1 px-2 py-1 bg-slate-900/80 rounded-full text-xs text-slate-400">
                         <GitFork size={12} />
-                        {(project as Project).stats?.forks}
+                        {project.stats?.forks}
                       </span>
                     )}
                   </div>

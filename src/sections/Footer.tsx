@@ -2,12 +2,13 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Github, Linkedin, Twitter, Heart, Code2, ArrowUp } from 'lucide-react';
-import data from '../data/portfolio.json';
+import data from '../lib/portfolio';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Footer = () => {
   const footerRef = useRef<HTMLElement>(null);
+  const brandName = data.personal.name.replace(/\s+/g, '');
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -113,7 +114,7 @@ const Footer = () => {
         style={{ fontFamily: "'Space Grotesk', sans-serif" }}
       >
         <span className="text-[20vw] font-black text-white whitespace-nowrap">
-          OmarSleam
+          {brandName}
         </span>
       </div>
 
@@ -135,8 +136,8 @@ const Footer = () => {
                 <div className="p-2 rounded-lg bg-gradient-to-br from-indigo-600 to-violet-600 group-hover:from-indigo-500 group-hover:to-violet-500 transition-all">
                   <Code2 size={20} className="text-white" />
                 </div>
-                <span className="text-white">Omar</span>
-                <span className="text-gradient">Sleam</span>
+                <span className="text-white">{data.personal.firstName}</span>
+                {data.personal.lastName ? <span className="text-gradient">{data.personal.lastName}</span> : null}
               </a>
               <p className="text-slate-500 text-sm mt-1">{data.personal.title}</p>
             </div>
@@ -196,7 +197,7 @@ const Footer = () => {
           {/* Bottom Section */}
           <div className="footer-copyright flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-500">
             <p className="flex items-center gap-1">
-              &copy; {new Date().getFullYear()} Omar Sleam. Made with
+              &copy; {new Date().getFullYear()} {data.personal.name}. Made with
               <Heart size={14} className="text-indigo-500 fill-indigo-500" />
             </p>
             <div className="flex items-center gap-4">
