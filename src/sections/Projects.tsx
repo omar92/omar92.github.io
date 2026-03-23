@@ -334,9 +334,9 @@ const Projects = () => {
                       <div className="flex-1 h-px bg-slate-800" />
                       <span className="mono text-[10px] text-slate-600">{selectedProject.videos.length}</span>
                     </div>
-                    <div className="grid sm:grid-cols-2 gap-5">
+                    <div className="flex gap-4 overflow-x-auto pb-2">
                       {selectedProject.videos.map((v, i) => (
-                        <div key={i} className="space-y-2">
+                        <div key={i} className="shrink-0 space-y-2" style={{ width: '480px' }}>
                           <div className="mono text-[11px] text-slate-500 tracking-wider uppercase">{v.text}</div>
                           {v.type === 'local' ? (
                             // eslint-disable-next-line jsx-a11y/media-has-caption
@@ -361,17 +361,18 @@ const Projects = () => {
                       <div className="flex-1 h-px bg-slate-800" />
                       <span className="mono text-[10px] text-slate-600">{selectedProject.screenshots.length} — click to expand</span>
                     </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-2">
+                    <div className="flex gap-2 overflow-x-auto pb-2">
                       {selectedProject.screenshots.map((src, i) => (
                         <button
                           key={i}
                           onClick={() => setLightbox(src)}
-                          className="group relative overflow-hidden border border-slate-800 hover:border-cyan-400/50 transition-all duration-200"
+                          className="group relative shrink-0 overflow-hidden border border-slate-800 hover:border-cyan-400/50 transition-all duration-200"
+                          style={{ width: '280px', height: '158px' }}
                         >
                           <img
                             src={src}
                             alt={`Screenshot ${i + 1}`}
-                            className="w-full aspect-video object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
+                            className="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
                           />
                           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-slate-950/40">
                             <span className="mono text-[10px] text-white bg-slate-950/80 border border-slate-700 px-2 py-1">EXPAND</span>
