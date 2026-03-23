@@ -18,11 +18,11 @@ const Projects = () => {
   const [activeFilter, setActiveFilter] = useState('Showcase');
   const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
 
-  const categories = ['Showcase', 'All', ...Array.from(new Set(data.projects.map((p) => p.category)))];
+  const categories = ['Showcase', 'All', ...Array.from(new Set(data.projects.flatMap((p) => p.filterTags)))];
   const filtered =
     activeFilter === 'Showcase' ? data.projects.filter((p) => p.featured) :
     activeFilter === 'All' ? data.projects :
-    data.projects.filter((p) => p.category === activeFilter);
+    data.projects.filter((p) => p.filterTags.includes(activeFilter));
 
   useEffect(() => {
     const ctx = gsap.context(() => {
