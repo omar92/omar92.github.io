@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ExternalLink, Github, Play, Star, GitFork, FolderGit2 } from 'lucide-react';
+import { ExternalLink, Github, X, ChevronRight } from 'lucide-react';
 import data, { type PortfolioProject } from '../lib/portfolio';
 import {
   Dialog,
@@ -15,437 +15,177 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Projects = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const [activeFilter, setActiveFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
-  const [filter, setFilter] = useState('All');
 
-  const filters = ['All', ...Array.from(new Set(data.projects.flatMap((project) => project.filterTags)))];
-
-  const filteredProjects = filter === 'All'
-    ? data.projects
-    : data.projects.filter((p) => p.filterTags.includes(filter));
+  const categories = ['All', ...Array.from(new Set(data.projects.map((p) => p.category)))];
+  const filtered = activeFilter === 'All' ? data.projects : data.projects.filter((p) => p.category === activeFilter);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Section label
-      gsap.fromTo(
-        '.projects-label',
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 70%',
-          },
-        }
-      );
-
-      // Headline
-      gsap.fromTo(
-        '.projects-headline',
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 70%',
-          },
-          delay: 0.1,
-        }
-      );
-
-      // Description
-      gsap.fromTo(
-        '.projects-description',
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 70%',
-          },
-          delay: 0.3,
-        }
-      );
-
-      // Filter buttons
-      gsap.fromTo(
-        '.filter-btn',
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.4,
-          stagger: 0.05,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: '.filter-container',
-            start: 'top 80%',
-          },
-        }
-      );
-
-      // Project cards
-      gsap.fromTo(
-        '.project-card',
-        { opacity: 0, y: 50, rotateY: -15 },
-        {
-          opacity: 1,
-          y: 0,
-          rotateY: 0,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: '.projects-grid',
-            start: 'top 80%',
-          },
-        }
-      );
+      gsap.fromTo('.pj-header', { opacity: 0, y: 40 }, {
+        opacity: 1, y: 0, duration: 0.8, ease: 'expo.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 70%' },
+      });
+      gsap.fromTo('.pj-filter', { opacity: 0, y: 16 }, {
+        opacity: 1, y: 0, duration: 0.5, stagger: 0.06, ease: 'expo.out',
+        scrollTrigger: { trigger: '.pj-filters', start: 'top 76%' },
+      });
     }, sectionRef);
-
     return () => ctx.revert();
   }, []);
 
   useEffect(() => {
-    const handleOpenProject = (event: Event) => {
-      const customEvent = event as CustomEvent<{ projectId?: string }>;
-      const projectId = customEvent.detail?.projectId;
-      if (!projectId) return;
+    gsap.fromTo('.pj-card', { opacity: 0, y: 32 }, {
+      opacity: 1, y: 0, duration: 0.5, stagger: 0.08, ease: 'expo.out',
+    });
+  }, [filtered]);
 
-      const matchedProject = data.projects.find((project) => project.id === projectId);
-      if (!matchedProject) return;
-
-      setFilter('All');
-      setSelectedProject(matchedProject);
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const id = (e as CustomEvent).detail?.id;
+      if (id) { const p = data.projects.find((x) => x.id === id); if (p) setSelectedProject(p); }
     };
-
-    window.addEventListener('open-project', handleOpenProject);
-    return () => window.removeEventListener('open-project', handleOpenProject);
+    window.addEventListener('open-project', handler);
+    return () => window.removeEventListener('open-project', handler);
   }, []);
 
-  const getProjectImage = (project: PortfolioProject) => {
-    if (project.image.startsWith('http')) {
-      return project.image;
-    }
-    const fallbacks: Record<string, string> = {
-      '3ashara-talwa': 'https://images.unsplash.com/photo-1611996908543-160275cc2f11?w=800&q=80',
-      'estimation-kings': 'https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=800&q=80',
-      'rhythm-attack': 'https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?w=800&q=80',
-      'zinad-games': 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&q=80',
-      'unity-scroll': 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80',
-      'cityville': 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&q=80',
-    };
-    return fallbacks[project.id] || 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80';
-  };
-
   return (
-    <section
-      id="projects"
-      ref={sectionRef}
-      className="relative py-24 lg:py-32"
-    >
+    <section id="projects" ref={sectionRef} className="relative py-28 lg:py-36 reveal-section">
+      <div className="divider-cyan mb-24 mx-6 lg:mx-12" />
       <div className="w-full px-6 lg:px-12">
+
         {/* Header */}
-        <div className="text-center mb-12">
-          <div className="projects-label inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 mb-4">
-            <FolderGit2 size={16} className="text-indigo-400" />
-            <span className="text-sm text-indigo-300">Portfolio</span>
-          </div>
-          <h2
-            className="projects-headline text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4"
-            style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-          >
-            Featured <span className="text-gradient">Projects</span>
+        <div className="pj-header mb-12">
+          <div className="section-label mb-3">02 // PROJECTS</div>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white">
+            BUILT <span className="text-gradient-cyan">SYSTEMS</span>
           </h2>
-          <p className="projects-description text-slate-400 max-w-2xl mx-auto">
-            A selection of games and interactive experiences I&apos;ve crafted throughout my career
-          </p>
         </div>
 
-        {/* Filter Buttons */}
-        <div className="filter-container flex flex-wrap justify-center gap-2 mb-12">
-          {filters.map((f) => (
+        {/* Filters */}
+        <div className="pj-filters flex flex-wrap gap-2 mb-12">
+          {categories.map((cat) => (
             <button
-              key={f}
-              onClick={() => setFilter(f)}
-              className={`filter-btn px-4 py-2 text-sm font-medium rounded-full transition-all ${
-                filter === f
-                  ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white'
-                  : 'bg-slate-800/50 text-slate-400 hover:bg-slate-700/50 hover:text-white'
+              key={cat}
+              onClick={() => setActiveFilter(cat)}
+              className={`pj-filter mono text-xs px-4 py-2 border transition-all ${
+                activeFilter === cat
+                  ? 'border-cyan-400/60 bg-cyan-400/10 text-cyan-400'
+                  : 'border-slate-700 text-slate-500 hover:border-slate-500 hover:text-slate-300'
               }`}
             >
-              {f}
+              {cat}
             </button>
           ))}
         </div>
 
-        {/* Projects Grid */}
-        <div className="projects-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProjects.map((project) => (
-            <div
+        {/* Grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filtered.map((project) => (
+            <article
               key={project.id}
-              className="project-card group cursor-pointer"
+              className="pj-card game-card clip-tl group cursor-pointer flex flex-col"
               onClick={() => setSelectedProject(project)}
-              style={{ perspective: '1000px' }}
             >
               {/* Image */}
-              <div className="relative aspect-video overflow-hidden rounded-t-xl">
-                <img
-                  src={getProjectImage(project)}
-                  alt={project.name}
-                  className="project-image w-full h-full object-cover"
-                />
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
-                
-                {/* Stats badge */}
-                {project.stats?.stars && (
-                  <div className="absolute top-3 right-3 flex items-center gap-3">
-                    <span className="flex items-center gap-1 px-2 py-1 bg-slate-900/80 rounded-full text-xs text-amber-400">
-                      <Star size={12} fill="currentColor" />
-                      {project.stats?.stars}
-                    </span>
-                    {project.stats?.forks && (
-                      <span className="flex items-center gap-1 px-2 py-1 bg-slate-900/80 rounded-full text-xs text-slate-400">
-                        <GitFork size={12} />
-                        {project.stats?.forks}
-                      </span>
+              {project.image && (
+                <div className="relative overflow-hidden h-44 shrink-0">
+                  <img src={project.image} alt={project.name} className="w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+                  <span className="absolute top-3 right-3 tag-violet">{project.category}</span>
+                </div>
+              )}
+
+              {/* Body */}
+              <div className="p-5 flex flex-col flex-1 gap-3">
+                {!project.image && (
+                  <span className="tag-violet self-start">{project.category}</span>
+                )}
+                <h3 className="font-bold text-white group-hover:text-cyan-400 transition-colors leading-snug">{project.name}</h3>
+                <p className="text-sm text-slate-400 leading-relaxed flex-1 line-clamp-3">{project.description}</p>
+
+                {/* Tags */}
+                <div className="flex flex-wrap gap-1.5">
+                  {project.skills.slice(0, 4).map((t) => (
+                    <span key={t} className="tag-cyan text-[10px]">{t}</span>
+                  ))}
+                  {project.skills.length > 4 && (
+                    <span className="tag-cyan text-[10px]">+{project.skills.length - 4}</span>
+                  )}
+                </div>
+
+                {/* Footer */}
+                <div className="flex items-center justify-between pt-2 border-t border-slate-800">
+                  <div className="flex gap-3">
+                    {project.links.find(l => l.type === 'github' || l.icon === 'github') && (
+                      <a href={project.links.find(l => l.type === 'github' || l.icon === 'github')!.url} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-white transition-colors">
+                        <Github size={15} />
+                      </a>
+                    )}
+                    {project.links.find(l => l.type === 'demo' || l.type === 'live' || l.type === 'website') && (
+                      <a href={project.links.find(l => l.type === 'demo' || l.type === 'live' || l.type === 'website')!.url} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-cyan-400 transition-colors">
+                        <ExternalLink size={15} />
+                      </a>
                     )}
                   </div>
-                )}
-
-                {/* Category badge */}
-                <div className="absolute top-3 left-3">
-                  <span className="px-3 py-1 bg-gradient-to-r from-indigo-600/80 to-violet-600/80 backdrop-blur-sm rounded-full text-xs font-medium text-white">
-                    {project.category}
+                  <span className="flex items-center gap-1 text-slate-600 group-hover:text-cyan-400 transition-colors mono text-xs">
+                    VIEW <ChevronRight size={12} />
                   </span>
                 </div>
               </div>
-
-              {/* Content */}
-              <div className="p-5">
-                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors">
-                  {project.name}
-                </h3>
-                <p className="text-slate-400 text-sm line-clamp-2 mb-4">
-                  {project.shortDescription}
-                </p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.slice(0, 3).map((tag, index) => (
-                    <span
-                      key={index}
-                      className="px-2 py-1 bg-slate-800/50 rounded text-xs text-slate-500"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                  {project.tags.length > 3 && (
-                    <span className="px-2 py-1 bg-slate-800/50 rounded text-xs text-slate-500">
-                      +{project.tags.length - 3}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>
 
-      {/* Project Detail Dialog */}
-      <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto glass-card border-slate-700 text-white">
-          {selectedProject && (
-            <>
-              {/* Header Image */}
-              <div className="relative aspect-video -mx-6 -mt-6 mb-6 overflow-hidden rounded-t-lg">
-                <img
-                  src={getProjectImage(selectedProject)}
-                  alt={selectedProject.name}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent" />
+      {/* Detail dialog */}
+      <Dialog open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
+        <DialogContent className="max-w-2xl bg-slate-950 border border-slate-700 clip-tl p-0 gap-0">
+          <DialogHeader className="p-6 pb-4 border-b border-slate-800">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <span className="tag-violet mb-3 inline-block">{selectedProject?.category}</span>
+                <DialogTitle className="text-2xl font-black text-white">{selectedProject?.name}</DialogTitle>
+                <DialogDescription className="text-slate-400 mt-1 text-sm">{selectedProject?.shortDescription}</DialogDescription>
               </div>
-
-              <DialogHeader>
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="px-3 py-1 bg-indigo-500/20 border border-indigo-500/30 rounded-full text-xs font-medium text-indigo-400">
-                    {selectedProject.category}
-                  </span>
-                  {selectedProject.stats?.stars && (
-                    <span className="flex items-center gap-1 text-xs text-amber-400">
-                      <Star size={14} fill="currentColor" />
-                      {selectedProject.stats.stars} stars
-                    </span>
-                  )}
-                </div>
-                <DialogTitle
-                  className="text-3xl font-bold text-white"
-                  style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-                >
-                  {selectedProject.name}
-                </DialogTitle>
-                <DialogDescription className="text-slate-400">
-                  {selectedProject.description}
-                </DialogDescription>
-              </DialogHeader>
-
-              {/* Features */}
-              {selectedProject.features && (
-                <div className="mt-6">
-                  <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-3">
-                    Key Features
-                  </h4>
-                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {selectedProject.features.map((feature, index) => (
-                      <li
-                        key={index}
-                        className="flex items-start gap-2 text-sm text-slate-400"
-                      >
-                        <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full mt-1.5 flex-shrink-0" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {/* Videos */}
-              {selectedProject.videos && selectedProject.videos.length > 0 && (
-                <div className="mt-6">
-                  <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-3">
-                    Videos
-                  </h4>
-                  <div className="grid gap-4">
-                    {selectedProject.videos.map((video, index) => (
-                      <div key={index} className="aspect-video rounded-lg overflow-hidden">
-                        <iframe
-                          src={video}
-                          title={`Video ${index + 1}`}
-                          className="w-full h-full"
-                          allowFullScreen
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Screenshots */}
-              {selectedProject.screenshots.length > 0 && (
-                <div className="mt-6">
-                  <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-3">
-                    Screenshots
-                  </h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {selectedProject.screenshots.map((screenshot, index) => (
-                      <div key={index} className="aspect-video rounded-lg overflow-hidden border border-slate-700">
-                        <img
-                          src={screenshot}
-                          alt={`${selectedProject.name} screenshot ${index + 1}`}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Platform & Genre */}
-              {(selectedProject.platforms.length > 0 || selectedProject.genre.length > 0) && (
-                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {selectedProject.platforms.length > 0 && (
-                    <div>
-                      <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-2">
-                        Platforms
-                      </h4>
-                      <div className="flex flex-wrap gap-2">
-                        {selectedProject.platforms.map((platform, index) => (
-                          <span
-                            key={`${platform}-${index}`}
-                            className="px-3 py-1 bg-slate-800/50 border border-slate-700 rounded-full text-sm text-slate-400"
-                          >
-                            {platform}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {selectedProject.genre.length > 0 && (
-                    <div>
-                      <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-2">
-                        Genre
-                      </h4>
-                      <div className="flex flex-wrap gap-2">
-                        {selectedProject.genre.map((genre, index) => (
-                          <span
-                            key={`${genre}-${index}`}
-                            className="px-3 py-1 bg-slate-800/50 border border-slate-700 rounded-full text-sm text-slate-400"
-                          >
-                            {genre}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Tags */}
-              <div className="mt-6">
-                <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-3">
-                  Technologies
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {selectedProject.tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 bg-slate-800/50 border border-slate-700 rounded-full text-sm text-slate-400"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+              <button onClick={() => setSelectedProject(null)} className="shrink-0 text-slate-600 hover:text-white transition-colors mt-1">
+                <X size={18} />
+              </button>
+            </div>
+          </DialogHeader>
+          <div className="p-6 space-y-6 overflow-y-auto max-h-[60vh]">
+            {selectedProject?.image && (
+              <img src={selectedProject.image} alt={selectedProject.name} className="w-full h-48 object-cover opacity-80" />
+            )}
+            <p className="text-slate-300 leading-relaxed">{selectedProject?.description}</p>
+            {selectedProject?.features && selectedProject.features.length > 0 && (
+              <ul className="space-y-2">
+                {selectedProject.features.map((h, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm text-slate-400">
+                    <span className="text-cyan-400 mono shrink-0 mt-0.5">â–¸</span>{h}
+                  </li>
+                ))}
+              </ul>
+            )}
+            <div>
+              <div className="section-label mb-3">TECHNOLOGIES</div>
+              <div className="flex flex-wrap gap-2">
+                {selectedProject?.skills.map((t) => (
+                  <span key={t} className="tag-cyan">{t}</span>
+                ))}
               </div>
-
-              {/* Links */}
-              {selectedProject.links.length > 0 && (
-                <div className="mt-6 flex flex-wrap gap-3">
-                  {selectedProject.links.map((link, index) => (
-                    <a
-                      key={index}
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-medium transition-all ${
-                        link.type === 'github'
-                          ? 'bg-slate-800 text-white hover:bg-slate-700'
-                          : link.type === 'store'
-                          ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/30'
-                          : 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:from-indigo-500 hover:to-violet-500'
-                      }`}
-                    >
-                      {link.type === 'github' && <Github size={18} />}
-                      {link.type === 'store' && <Play size={18} />}
-                      {link.type !== 'github' && link.type !== 'store' && <ExternalLink size={18} />}
-                      {link.text}
-                    </a>
-                  ))}
-                </div>
-              )}
-            </>
-          )}
+            </div>
+            <div className="flex flex-wrap gap-3 pt-2">
+              {selectedProject?.links.map((link) => (
+                <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer"
+                  className={(link.type === 'github' || link.icon === 'github') ? 'btn-ghost flex items-center gap-2 text-sm' : 'btn-primary flex items-center gap-2 text-sm'}>
+                  {(link.type === 'github' || link.icon === 'github') ? <Github size={14} /> : <ExternalLink size={14} />}
+                  {link.label || link.text || 'VIEW'}
+                </a>
+              ))}
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </section>

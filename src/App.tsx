@@ -40,7 +40,7 @@ function App() {
   }, []);
 
   return (
-    <div className="relative min-h-screen text-slate-100 overflow-x-hidden">
+    <div className="relative min-h-screen overflow-x-hidden">
       {/* Animated 3D Background */}
       <AnimatedBackground />
       

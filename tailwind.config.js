@@ -49,6 +49,10 @@ module.exports = {
           ring: "hsl(var(--sidebar-ring))",
         },
       },
+      fontFamily: {
+        orbitron: ['Orbitron', 'monospace'],
+        jetbrains: ['JetBrains Mono', 'monospace'],
+      },
       borderRadius: {
         xl: "calc(var(--radius) + 4px)",
         lg: "var(--radius)",

@@ -1,352 +1,186 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, MapPin, Phone, Send, Github, Linkedin, Twitter, Youtube, Facebook, ExternalLink, Loader2, CheckCircle, MessageSquare } from 'lucide-react';
+import { Mail, MapPin, Send, Github, Linkedin, Twitter, Loader2, CheckCircle } from 'lucide-react';
 import data from '../lib/portfolio';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const getSocialIcon = (link: typeof data.personal.contacts.links[0]): typeof Github | null => {
+  const type = (link.type || link.icon || link.label).toLowerCase();
+  if (type.includes('github')) return Github;
+  if (type.includes('linkedin')) return Linkedin;
+  if (type.includes('twitter')) return Twitter;
+  return null;
+};
+
 const Contact = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const [formState, setFormState] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const socialLinks = data.personal.contacts.links;
-
-  const getSocialIcon = (icon?: string, label?: string) => {
-    const normalized = (icon || label || '').toLowerCase();
-
-    if (normalized.includes('github')) return <Github size={22} />;
-    if (normalized.includes('linkedin')) return <Linkedin size={22} />;
-    if (normalized === 'x' || normalized.includes('twitter')) return <Twitter size={22} />;
-    if (normalized.includes('youtube')) return <Youtube size={22} />;
-    if (normalized.includes('facebook')) return <Facebook size={22} />;
-
-    return <ExternalLink size={22} />;
-  };
+  const [formState, setFormState] = useState({ name: '', email: '', subject: '', message: '' });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Section label
-      gsap.fromTo(
-        '.contact-label',
-        { x: -30, opacity: 0, letterSpacing: '0.3em' },
-        {
-          x: 0,
-          opacity: 1,
-          letterSpacing: '0.2em',
-          duration: 0.5,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 70%',
-          },
-        }
-      );
-
-      // Headline
-      gsap.fromTo(
-        '.contact-headline',
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 70%',
-          },
-          delay: 0.1,
-        }
-      );
-
-      // Body
-      gsap.fromTo(
-        '.contact-body',
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 70%',
-          },
-          delay: 0.4,
-        }
-      );
-
-      // Social icons
-      gsap.fromTo(
-        '.contact-social',
-        { opacity: 0, scale: 0 },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 0.4,
-          stagger: 0.1,
-          ease: 'elastic.out(1, 0.5)',
-          scrollTrigger: {
-            trigger: '.contact-socials',
-            start: 'top 90%',
-          },
-          delay: 0.5,
-        }
-      );
-
-      // Form
-      gsap.fromTo(
-        '.contact-form',
-        { opacity: 0, x: 100 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.7,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: '.contact-form',
-            start: 'top 80%',
-          },
-          delay: 0.3,
-        }
-      );
-
-      // Form fields
-      gsap.fromTo(
-        '.form-field',
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.4,
-          stagger: 0.1,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: '.contact-form',
-            start: 'top 80%',
-          },
-          delay: 0.6,
-        }
-      );
+      gsap.fromTo('.ct-header', { opacity: 0, y: 40 }, {
+        opacity: 1, y: 0, duration: 0.8, ease: 'expo.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 70%' },
+      });
+      gsap.fromTo('.ct-info', { opacity: 0, x: -30 }, {
+        opacity: 1, x: 0, duration: 0.7, ease: 'expo.out',
+        scrollTrigger: { trigger: '.ct-content', start: 'top 75%' },
+      });
+      gsap.fromTo('.ct-form', { opacity: 0, x: 30 }, {
+        opacity: 1, x: 0, duration: 0.7, ease: 'expo.out',
+        scrollTrigger: { trigger: '.ct-content', start: 'top 75%' },
+      });
     }, sectionRef);
-
     return () => ctx.revert();
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    setFormState({ name: '', email: '', message: '' });
-
-    // Reset success message after 5 seconds
-    setTimeout(() => setIsSubmitted(false), 5000);
+    setStatus('loading');
+    await new Promise((r) => setTimeout(r, 1200));
+    setStatus('success');
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormState((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  const inputClass = 'w-full bg-slate-900/50 border border-slate-700 focus:border-cyan-400/50 focus:outline-none px-4 py-3 mono text-sm text-slate-200 placeholder-slate-600 transition-colors';
 
   return (
-    <section
-      id="contact"
-      ref={sectionRef}
-      className="relative py-24 lg:py-32"
-    >
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-indigo-500/5 to-transparent pointer-events-none" />
+    <section id="contact" ref={sectionRef} className="relative py-28 lg:py-36 reveal-section">
+      <div className="divider-cyan mb-24 mx-6 lg:mx-12" />
+      <div className="w-full px-6 lg:px-12">
 
-      <div className="relative w-full px-6 lg:px-12">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 max-w-6xl mx-auto">
-          {/* Left Column - Info */}
-          <div>
-            <div className="contact-label inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 mb-4">
-              <MessageSquare size={16} className="text-indigo-400" />
-              <span className="text-sm text-indigo-300">Get In Touch</span>
-            </div>
+        <div className="ct-header mb-16">
+          <div className="section-label mb-3">04 // CONTACT</div>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white">
+            INITIATE <span className="text-gradient-cyan">CONTACT</span>
+          </h2>
+        </div>
 
-            <h2
-              className="contact-headline text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6"
-              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-            >
-              Let&apos;s Create
-              <br />
-              <span className="text-gradient">Something Amazing</span>
-            </h2>
-
-            <p className="contact-body text-slate-400 text-base lg:text-lg mb-8 leading-relaxed">
-              Have a project in mind? Let&apos;s discuss how we can bring your vision
-              to life. I&apos;m always open to new opportunities and collaborations.
+        <div className="ct-content grid lg:grid-cols-2 gap-16 lg:gap-24">
+          {/* Info panel */}
+          <div className="ct-info space-y-10">
+            <p className="text-lg text-slate-300 leading-relaxed">
+              Available for contract work, full-time roles, and interesting collaborations. Reach out through any channel.
             </p>
 
-            {/* Contact Info */}
-            <div className="space-y-4 mb-8">
-              <a
-                href={`mailto:${data.personal.email}`}
-                className="flex items-center gap-4 p-4 glass-card rounded-xl hover:border-indigo-500/30 transition-all group"
-              >
-                <div className="p-3 bg-indigo-500/10 rounded-lg group-hover:bg-indigo-500/20 transition-colors">
-                  <Mail size={20} className="text-indigo-400" />
+            <div className="space-y-5">
+              <a href={`mailto:${data.personal.email}`} className="flex items-center gap-4 group">
+                <div className="w-10 h-10 flex items-center justify-center border border-slate-700 group-hover:border-cyan-400/50 group-hover:bg-cyan-400/5 transition-all">
+                  <Mail size={16} className="text-slate-600 group-hover:text-cyan-400 transition-colors" />
                 </div>
-                <div>
-                  <p className="text-sm text-slate-500 mb-1">Email</p>
-                  <p className="text-white group-hover:text-indigo-400 transition-colors">
-                    {data.personal.email}
-                  </p>
-                </div>
+                <span className="mono text-sm text-slate-400 group-hover:text-cyan-400 transition-colors">{data.personal.email}</span>
               </a>
-
-              {data.personal.phone && (
-                <a
-                  href={`tel:${data.personal.phone.replace(/\s+/g, '')}`}
-                  className="flex items-center gap-4 p-4 glass-card rounded-xl hover:border-indigo-500/30 transition-all group"
-                >
-                  <div className="p-3 bg-indigo-500/10 rounded-lg group-hover:bg-indigo-500/20 transition-colors">
-                    <Phone size={20} className="text-indigo-400" />
+              {data.personal.location && (
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 flex items-center justify-center border border-slate-700">
+                    <MapPin size={16} className="text-slate-600" />
                   </div>
-                  <div>
-                    <p className="text-sm text-slate-500 mb-1">Phone</p>
-                    <p className="text-white group-hover:text-indigo-400 transition-colors">
-                      {data.personal.phone}
-                    </p>
-                  </div>
-                </a>
+                  <span className="mono text-sm text-slate-400">{data.personal.location}</span>
+                </div>
               )}
+            </div>
 
-              <div className="flex items-center gap-4 p-4 glass-card rounded-xl">
-                <div className="p-3 bg-violet-500/10 rounded-lg">
-                  <MapPin size={20} className="text-violet-400" />
-                </div>
-                <div>
-                  <p className="text-sm text-slate-500 mb-1">Location</p>
-                  <p className="text-white">{data.personal.location}</p>
-                </div>
+            <div>
+              <div className="section-label mb-5">SOCIAL LINKS</div>
+              <div className="flex gap-3">
+                {data.personal.contacts.links.map((link) => {
+                  const Icon = getSocialIcon(link);
+                  if (!Icon) return null;
+                  return (
+                    <a
+                      key={link.url}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-10 h-10 flex items-center justify-center border border-slate-700 hover:border-cyan-400/50 hover:bg-cyan-400/5 transition-all"
+                    >
+                      <Icon size={15} className="text-slate-400 hover:text-cyan-400 transition-colors" />
+                    </a>
+                  );
+                })}
               </div>
             </div>
 
-            {/* Social Links */}
-            <div>
-              <p className="text-sm text-slate-500 mb-4">Follow me on</p>
-              <div className="contact-socials flex flex-wrap gap-3">
-                {socialLinks.map((link, index) => (
-                  <a
-                    key={`${link.url}-${index}`}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="contact-social p-4 glass-card rounded-xl text-slate-400 hover:text-white hover:bg-indigo-500/20 hover:border-indigo-500/30 transition-all hover:scale-110"
-                    aria-label={link.label || 'Social Link'}
-                    title={link.label || link.url}
-                  >
-                    {getSocialIcon(link.icon, link.label)}
-                  </a>
-                ))}
+            <div className="game-card p-6 clip-tl">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                <span className="mono text-xs text-green-400">AVAILABLE FOR WORK</span>
               </div>
+              <p className="text-sm text-slate-400">Open to new opportunities â€” game industry, simulation, or system-level engineering.</p>
             </div>
           </div>
 
-          {/* Right Column - Form */}
-          <div className="contact-form p-8 glass-card rounded-2xl">
-            <h3
-              className="text-2xl font-bold text-white mb-6"
-              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-            >
-              Send a Message
-            </h3>
+          {/* Terminal form */}
+          <div className="ct-form">
+            {/* Window chrome */}
+            <div className="flex items-center gap-2 px-4 py-2.5 bg-slate-900 border border-slate-700 border-b-0">
+              <span className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
+              <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
+              <span className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
+              <span className="mono text-xs text-slate-500 ml-3">SEND_MESSAGE.exe</span>
+            </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="form-field">
-                <label htmlFor="name" className="block text-sm text-slate-400 mb-2">
-                  Your Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formState.name}
-                  onChange={handleChange}
-                  required
-                  className="form-input"
-                  placeholder="John Doe"
-                />
+            {status === 'success' ? (
+              <div className="border border-slate-700 bg-slate-900/50 p-12 flex flex-col items-center justify-center gap-4">
+                <CheckCircle size={40} className="text-cyan-400" />
+                <div className="text-white font-bold text-lg">MESSAGE TRANSMITTED</div>
+                <p className="mono text-sm text-slate-400 text-center">Packet received. Expect a response within 24h.</p>
+                <button onClick={() => setStatus('idle')} className="btn-ghost text-sm mt-2">SEND ANOTHER</button>
               </div>
-
-              <div className="form-field">
-                <label htmlFor="email" className="block text-sm text-slate-400 mb-2">
-                  Your Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formState.email}
-                  onChange={handleChange}
-                  required
-                  className="form-input"
-                  placeholder="john@example.com"
-                />
-              </div>
-
-              <div className="form-field">
-                <label htmlFor="message" className="block text-sm text-slate-400 mb-2">
-                  Your Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formState.message}
-                  onChange={handleChange}
-                  required
-                  rows={5}
-                  className="form-input resize-none"
-                  placeholder="Tell me about your project..."
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting || isSubmitted}
-                className={`w-full py-4 px-6 rounded-xl font-medium flex items-center justify-center gap-2 transition-all ${
-                  isSubmitted
-                    ? 'bg-emerald-500 text-white'
-                    : 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:from-indigo-500 hover:to-violet-500'
-                } disabled:opacity-70 glow-indigo`}
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 size={20} className="animate-spin" />
-                    Sending...
-                  </>
-                ) : isSubmitted ? (
-                  <>
-                    <CheckCircle size={20} />
-                    Message Sent!
-                  </>
-                ) : (
-                  <>
-                    <Send size={20} />
-                    Send Message
-                  </>
-                )}
-              </button>
-            </form>
+            ) : (
+              <form onSubmit={handleSubmit} className="border border-slate-700 bg-slate-900/30 p-6 space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="section-label block mb-1.5">NAME *</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Your name"
+                      value={formState.name}
+                      onChange={(e) => setFormState((s) => ({ ...s, name: e.target.value }))}
+                      className={inputClass}
+                    />
+                  </div>
+                  <div>
+                    <label className="section-label block mb-1.5">EMAIL *</label>
+                    <input
+                      type="email"
+                      required
+                      placeholder="you@example.com"
+                      value={formState.email}
+                      onChange={(e) => setFormState((s) => ({ ...s, email: e.target.value }))}
+                      className={inputClass}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="section-label block mb-1.5">SUBJECT</label>
+                  <input
+                    type="text"
+                    placeholder="What's this about?"
+                    value={formState.subject}
+                    onChange={(e) => setFormState((s) => ({ ...s, subject: e.target.value }))}
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label className="section-label block mb-1.5">MESSAGE *</label>
+                  <textarea
+                    required
+                    rows={6}
+                    placeholder="Type your message..."
+                    value={formState.message}
+                    onChange={(e) => setFormState((s) => ({ ...s, message: e.target.value }))}
+                    className={`${inputClass} resize-none`}
+                  />
+                </div>
+                <button type="submit" disabled={status === 'loading'} className="btn-primary w-full flex items-center justify-center gap-2">
+                  {status === 'loading' ? <><Loader2 size={14} className="animate-spin" />TRANSMITTING...</> : <><Send size={14} />SEND MESSAGE</>}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </div>

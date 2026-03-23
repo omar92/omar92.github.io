@@ -1,330 +1,140 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Download, Gamepad2, Code2, Cpu, Layers, Zap, Trophy, Users } from 'lucide-react';
+import { Download, Shield, Cpu, Layers, Globe, Network, Zap } from 'lucide-react';
 import data from '../lib/portfolio';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const SPEC_ICONS = [Shield, Cpu, Layers, Globe, Network, Zap];
+
 const About = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const statsRef = useRef<HTMLDivElement>(null);
   const [counters, setCounters] = useState<number[]>(() => data.stats.map(() => 0));
   const hasAnimated = useRef(false);
 
-  useEffect(() => {
-    setCounters(data.stats.map(() => 0));
-  }, []);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Section label animation
-      gsap.fromTo(
-        '.about-label',
-        { x: -50, opacity: 0, letterSpacing: '0.5em' },
-        {
-          x: 0,
-          opacity: 1,
-          letterSpacing: '0.2em',
-          duration: 0.6,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 70%',
-          },
-        }
-      );
-
-      // Headline animation
-      gsap.fromTo(
-        '.about-headline',
-        { y: 50, opacity: 0, rotateX: -45 },
-        {
-          y: 0,
-          opacity: 1,
-          rotateX: 0,
-          duration: 0.8,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 70%',
-          },
-          delay: 0.1,
-        }
-      );
-
-      // Body text animation
-      gsap.fromTo(
-        '.about-body',
-        { y: 30, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.6,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 60%',
-          },
-          delay: 0.3,
-        }
-      );
-
-      // Skills animation
-      gsap.fromTo(
-        '.skill-category',
-        { y: 30, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.5,
-          stagger: 0.1,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: '.skills-container',
-            start: 'top 80%',
-          },
-        }
-      );
-
-      // Image reveal
-      gsap.fromTo(
-        '.about-image',
-        { clipPath: 'inset(0 100% 0 0)' },
-        {
-          clipPath: 'inset(0 0% 0 0)',
-          duration: 1,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: '.about-image-container',
-            start: 'top 70%',
-          },
-          delay: 0.2,
-        }
-      );
-
-      // Stats counter animation
-      ScrollTrigger.create({
-        trigger: statsRef.current,
-        start: 'top 80%',
-        onEnter: () => {
-          if (!hasAnimated.current) {
-            hasAnimated.current = true;
-            animateCounters();
-          }
-        },
-      });
-
-      // Stats cards animation
-      gsap.fromTo(
-        '.stat-card',
-        { y: 100, opacity: 0, rotate: (i: number) => (i - 1) * 5 },
-        {
-          y: 0,
-          opacity: 1,
-          rotate: (i: number) => (i - 1) * 2,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: statsRef.current,
-            start: 'top 85%',
-          },
-        }
-      );
-
-      ScrollTrigger.matchMedia({
-        '(min-width: 1024px)': () => {
-          const imageContainer = sectionRef.current?.querySelector('.about-image-container') as HTMLElement | null;
-          const contentGrid = sectionRef.current?.querySelector('.about-content-grid') as HTMLElement | null;
-          if (!imageContainer || !contentGrid) return;
-
-          gsap.to(imageContainer, {
-            y: () => {
-              const gridHeight = contentGrid.offsetHeight;
-              const imageHeight = imageContainer.offsetHeight;
-              const maxLayoutTravel = Math.max(0, gridHeight - imageHeight - 24);
-              return maxLayoutTravel;
-            },
-            ease: 'none',
-            scrollTrigger: {
-              trigger: contentGrid,
-              start: 'top top+=100',
-              end: 'bottom bottom-=100',
-              scrub: true,
-              invalidateOnRefresh: true,
-            },
+  function animateCounters() {
+    data.stats.forEach((stat, i) => {
+      const obj = { value: 0 };
+      gsap.to(obj, {
+        value: stat.value,
+        duration: 1.8,
+        ease: 'expo.out',
+        onUpdate: () => {
+          setCounters((prev) => {
+            const next = [...prev];
+            next[i] = Math.round(obj.value);
+            return next;
           });
         },
       });
-    }, sectionRef);
+    });
+  }
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo('.ab-header', { opacity: 0, y: 40 }, {
+        opacity: 1, y: 0, duration: 0.8, ease: 'expo.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 70%' },
+      });
+      gsap.fromTo('.ab-text', { opacity: 0, x: -30 }, {
+        opacity: 1, x: 0, duration: 0.7, ease: 'expo.out',
+        scrollTrigger: { trigger: '.ab-content', start: 'top 75%' },
+      });
+      gsap.fromTo('.ab-spec', { opacity: 0, y: 20 }, {
+        opacity: 1, y: 0, duration: 0.4, stagger: 0.07, ease: 'expo.out',
+        scrollTrigger: { trigger: '.ab-specs', start: 'top 80%' },
+      });
+      gsap.fromTo('.ab-skill', { opacity: 0, scale: 0.7 }, {
+        opacity: 1, scale: 1, duration: 0.4, stagger: 0.03, ease: 'elastic.out(1,0.5)',
+        scrollTrigger: { trigger: '.ab-skills', start: 'top 82%' },
+      });
+      ScrollTrigger.create({
+        trigger: '.ab-stats',
+        start: 'top 82%',
+        onEnter: () => {
+          if (!hasAnimated.current) { hasAnimated.current = true; animateCounters(); }
+        },
+      });
+      gsap.fromTo('.ab-stat', { opacity: 0, y: 28 }, {
+        opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'expo.out',
+        scrollTrigger: { trigger: '.ab-stats', start: 'top 82%' },
+      });
+    }, sectionRef);
     return () => ctx.revert();
   }, []);
 
-  const animateCounters = () => {
-    data.stats.forEach((stat, index) => {
-      const duration = 2000;
-      const startTime = Date.now();
-      const endValue = stat.value;
-
-      const updateCounter = () => {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        const current = Math.floor(eased * endValue);
-
-        setCounters((prev) => {
-          const newCounters = [...prev];
-          newCounters[index] = current;
-          return newCounters;
-        });
-
-        if (progress < 1) {
-          requestAnimationFrame(updateCounter);
-        }
-      };
-
-      requestAnimationFrame(updateCounter);
-    });
-  };
-
-  const getSkillIcon = (category: string) => {
-    switch (category) {
-      case 'Game Engines':
-        return <Gamepad2 size={20} className="text-indigo-400" />;
-      case 'Programming':
-        return <Code2 size={20} className="text-violet-400" />;
-      case 'Technologies':
-        return <Cpu size={20} className="text-blue-400" />;
-      case 'AI & Tools':
-        return <Layers size={20} className="text-purple-400" />;
-      default:
-        return <Code2 size={20} className="text-indigo-400" />;
-    }
-  };
-
-  const getStatIcon = (index: number) => {
-    switch (index) {
-      case 0:
-        return <Zap size={24} className="text-amber-400" />;
-      case 1:
-        return <Trophy size={24} className="text-emerald-400" />;
-      case 2:
-        return <Users size={24} className="text-blue-400" />;
-      default:
-        return <Zap size={24} className="text-indigo-400" />;
-    }
-  };
-
   return (
-    <section
-      id="about"
-      ref={sectionRef}
-      className="relative py-24 lg:py-32"
-    >
+    <section id="about" ref={sectionRef} className="relative py-28 lg:py-36 reveal-section">
+      <div className="divider-cyan mb-24 mx-6 lg:mx-12" />
       <div className="w-full px-6 lg:px-12">
-        {/* Main Content Grid */}
-        <div className="about-content-grid grid lg:grid-cols-2 gap-12 lg:gap-20 items-center lg:items-start mb-20">
-          {/* Image */}
-          <div className="about-image-container relative order-2 lg:order-1">
-            <div className="relative aspect-[4/5] max-w-md mx-auto lg:mx-0 overflow-hidden rounded-2xl">
-              <div
-                className="about-image absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url('${data.personal.avatar}')` }}
-              />
-              {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent" />
+
+        {/* Header */}
+        <div className="ab-header mb-16">
+          <div className="section-label mb-3">01 // ABOUT ME</div>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white">
+            WHO I <span className="text-gradient-cyan">AM</span>
+          </h2>
+        </div>
+
+        <div className="ab-content grid lg:grid-cols-2 gap-16 lg:gap-24">
+          {/* Left */}
+          <div className="ab-text space-y-8">
+            <p className="text-lg text-slate-300 leading-relaxed">{data.personal.about}</p>
+
+            {/* Specializations */}
+            <div className="ab-specs space-y-3">
+              {data.skills.slice(0, 5).map((sg, i) => {
+                const Icon = SPEC_ICONS[i % SPEC_ICONS.length];
+                return (
+                  <div key={sg.category} className="ab-spec flex items-start gap-4 group">
+                    <div className="shrink-0 w-9 h-9 flex items-center justify-center border border-slate-700 group-hover:border-cyan-400/50 group-hover:bg-cyan-400/5 transition-all">
+                      <Icon size={16} className="text-slate-600 group-hover:text-cyan-400 transition-colors" />
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-slate-200 mb-0.5">{sg.category}</div>
+                      <div className="mono text-xs text-slate-500">{sg.items.join(' Â· ')}</div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-            {/* Decorative elements */}
-            <div className="absolute -bottom-4 -right-4 w-32 h-32 border-2 border-indigo-500/30 rounded-2xl -z-10" />
-            <div className="absolute -top-4 -left-4 w-24 h-24 bg-gradient-to-br from-indigo-500/20 to-violet-500/20 rounded-2xl -z-10" />
+
+            <a
+              href={data.personal.resume}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary inline-flex items-center gap-2"
+            >
+              <Download size={14} />
+              DOWNLOAD RESUME
+            </a>
           </div>
 
-          {/* Content */}
-          <div className="order-1 lg:order-2">
-            {/* Section Label */}
-            <p className="about-label text-sm text-indigo-400 tracking-[0.2em] uppercase mb-4">
-              About Me
-            </p>
+          {/* Right */}
+          <div className="space-y-10">
+            {/* Skill tags */}
+            <div className="ab-skills">
+              <div className="section-label mb-5">TECH STACK</div>
+              <div className="flex flex-wrap gap-2">
+                {data.skills.flatMap((sg) => sg.items).map((skill) => (
+                  <span key={skill} className="ab-skill tag-cyan hover:bg-cyan-400/15 transition-colors cursor-default">{skill}</span>
+                ))}
+              </div>
+            </div>
 
-            {/* Headline */}
-            <h2
-              className="about-headline text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6"
-              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-            >
-              Crafting Digital
-              <br />
-              <span className="text-gradient">Experiences</span>
-            </h2>
-
-            {/* Body */}
-            <p className="about-body text-slate-400 text-base lg:text-lg leading-relaxed mb-8">
-              {data.personal.about}
-            </p>
-
-            {/* Skills */}
-            <div className="skills-container space-y-6 mb-8">
-              {data.skills.map((skillGroup, index) => (
-                <div key={index} className="skill-category">
-                  <div className="flex items-center gap-2 mb-3">
-                    {getSkillIcon(skillGroup.category)}
-                    <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider">
-                      {skillGroup.category}
-                    </h4>
+            {/* Stats */}
+            <div className="ab-stats grid grid-cols-2 gap-4">
+              {data.stats.map((stat, i) => (
+                <div key={i} className="ab-stat game-card clip-tl hud-corners p-5 group hover:border-cyan-400/25 transition-all">
+                  <div className="text-4xl font-black mono text-white mb-1 group-hover:text-cyan-400 transition-colors">
+                    {counters[i]}<span className="text-cyan-400 text-3xl">{stat.suffix}</span>
                   </div>
-                  <div className="flex flex-wrap gap-2">
-                    {skillGroup.items.map((skill, skillIndex) => (
-                      <span key={skillIndex} className="skill-tag">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
+                  <div className="section-label text-[10px]">{stat.label}</div>
                 </div>
               ))}
             </div>
-
-            {/* CTA */}
-            <a
-              href={data.personal.resume}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-slate-800/50 border border-slate-700 text-white font-medium rounded-full hover:bg-indigo-500/20 hover:border-indigo-500/30 transition-all group"
-            >
-              <Download size={18} className="group-hover:animate-bounce" />
-              Download Resume
-            </a>
           </div>
-        </div>
-
-        {/* Stats */}
-        <div
-          ref={statsRef}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
-        >
-          {data.stats.map((stat, index) => (
-            <div
-              key={index}
-              className="stat-card relative p-8 glass-card rounded-2xl overflow-hidden group hover:border-indigo-500/30 transition-all card-lift"
-              style={{ transform: `rotate(${(index - 1) * 2}deg)` }}
-            >
-              {/* Background glow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              
-              <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="p-3 rounded-xl bg-slate-800/50">
-                    {getStatIcon(index)}
-                  </div>
-                </div>
-                <div className="stat-value text-white mb-2">
-                  {counters[index]}
-                  <span className="text-gradient">{stat.suffix}</span>
-                </div>
-                <p className="text-slate-500 text-sm uppercase tracking-wider">
-                  {stat.label}
-                </p>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </section>
