@@ -141,7 +141,8 @@
       ],
       "projects_ids": [
         "highstreet-clamity"
-      ]
+      ],
+      "id": "highstreet-architect"
     },
     {
       "company": "HighStreet Market",
@@ -166,7 +167,8 @@
         "highstreet-campus",
         "highstreet-homes",
         "highstreet-island"
-      ]
+      ],
+      "id": "highstreet-senior"
     },
     {
       "company": "Zinad IT Solutions",
@@ -200,7 +202,8 @@
         "zinad-emoji",
         "zinad-awarness",
         "zinad-interactiveVideoPlayer"
-      ]
+      ],
+      "id": "zinad"
     },
     {
       "company": "Information Technology Institute (ITI)",
@@ -224,7 +227,8 @@
       ],
       "projects_ids": [
         "iti-rhythm-attack"
-      ]
+      ],
+      "id": "iti"
     },
     {
       "company": "A15 / El3ab.com",
@@ -248,7 +252,8 @@
       ],
       "projects_ids": [
         "el3ab-estimation-kings"
-      ]
+      ],
+      "id": "a15"
     },
     {
       "company": "SkyTech",
@@ -263,9 +268,12 @@
       "skills": [
         "VP.NET",
         "CSS",
-        "Web Apps"
+        "Web Apps",
+        "JavaScript",
+        "HTML5"
       ],
-      "projects_ids": []
+      "projects_ids": [],
+      "id": "skytech"
     },
     {
       "company": "Egyptian Army",
@@ -282,7 +290,8 @@
         "CSS",
         "Web Apps"
       ],
-      "projects_ids": []
+      "projects_ids": [],
+      "id": "army"
     }
   ],
   "education": [
@@ -296,7 +305,9 @@
       "details": "9-month intensive game development program with focus on game programming, VR development, Unity3D, design patterns, and game optimization.",
       "projects_ids": [
         "iti-rhythm-attack"
-      ]
+      ],
+      "id": "iti-diploma",
+      "project": "Rhythm Attack VR"
     },
     {
       "name": "Misr Higher Institute for Engineering and Technology",
@@ -306,7 +317,9 @@
       "endYear": 2013,
       "grade": "Very Good",
       "details": "Focus areas: software engineering, computer graphics, artificial intelligence, and systems architecture.",
-      "projects_ids": []
+      "projects_ids": [],
+      "id": "computer-engineer",
+      "project": ""
     }
   ],
   "projects": [
@@ -404,6 +417,1408 @@
           "type": "website"
         }
       ]
+    },
+    {
+      "id": "comfyui-qol",
+      "name": "ComfyUI Quality of Life Suit",
+      "category": "AI Tools",
+      "cover-image": "https://opengraph.githubassets.com/1/omar92/ComfyUI-QualityOfLifeSuit_Omar92",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "Python",
+        "AI",
+        "ComfyUI",
+        "Open Source"
+      ],
+      "skills": [
+        "Python",
+        "AI",
+        "ComfyUI",
+        "Open Source"
+      ],
+      "filterTags": [
+        "AI",
+        "Open Source",
+        "Python"
+      ],
+      "features": [
+        "Custom nodes for workflow optimization",
+        "Quality-of-life improvements for AI pipelines",
+        "Community-driven feature additions",
+        "Active open-source maintenance"
+      ],
+      "shortDescription": "Popular ComfyUI extension with 176+ GitHub stars providing quality of life improvements for AI image generation workflows.",
+      "description": "A comprehensive suite of custom nodes for ComfyUI that enhances the AI image generation workflow. Features include prompt enhancement, workflow utilities, and community-driven improvements.",
+      "links": [
+        {
+          "text": "View on GitHub",
+          "url": "https://github.com/omar92/ComfyUI-QualityOfLifeSuit_Omar92",
+          "type": "github"
+        }
+      ],
+      "stats": {
+        "stars": 176,
+        "forks": 23
+      }
+    },
+    {
+      "id": "highstreet-metaverse",
+      "name": "HighStreet Metaverse",
+      "category": "Metaverse / MMO",
+      "cover-image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [
+        "Web",
+        "VR"
+      ],
+      "genre": [
+        "Unity",
+        "DOTS",
+        "Multiplayer",
+        "VR/XR",
+        "Web"
+      ],
+      "skills": [
+        "Unity",
+        "DOTS",
+        "Multiplayer",
+        "VR/XR",
+        "Web"
+      ],
+      "filterTags": [
+        "Unity",
+        "VR",
+        "Web"
+      ],
+      "features": [
+        "MMO-scale multiplayer architecture",
+        "Cross-platform web and VR support",
+        "Matchmaking and lobby systems",
+        "Unity DOTS optimization",
+        "Backend integration for live services"
+      ],
+      "shortDescription": "MMO metaverse platform with cross-platform web and VR support. Led architecture and systems design for large-scale multiplayer.",
+      "description": "Led the architecture team for HighStreet's metaverse initiative. Designed and implemented networking infrastructure, matchmaking, and backend systems to support MMO-scale experiences. Built Unity DOTS-focused systems optimized for performance and cross-platform delivery.",
+      "links": [
+        {
+          "text": "Visit HighStreet",
+          "url": "https://www.highstreet.market",
+          "type": "website"
+        }
+      ]
+    },
+    {
+      "id": "omar-game-server",
+      "name": "Omar Game Server",
+      "category": "Multiplayer Backend",
+      "cover-image": "https://opengraph.githubassets.com/1/omar92/omarGameServer",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [
+        "Web"
+      ],
+      "genre": [
+        "Node.js",
+        "Socket.io",
+        "Multiplayer",
+        "Backend"
+      ],
+      "skills": [
+        "Node.js",
+        "Socket.io",
+        "Multiplayer",
+        "Backend"
+      ],
+      "filterTags": [
+        "Web",
+        "Open Source"
+      ],
+      "features": [
+        "Room-based multiplayer architecture",
+        "User management and authentication",
+        "Real-time bidirectional communication",
+        "Scalable server design"
+      ],
+      "shortDescription": "Socket.io-based real-time multiplayer game server with room management and user handling.",
+      "description": "A scalable game server built with Node.js and Socket.io, supporting real-time multiplayer games with room management, user handling, and seamless client-server communication.",
+      "links": [
+        {
+          "text": "View on GitHub",
+          "url": "https://github.com/omar92/omarGameServer",
+          "type": "github"
+        }
+      ]
+    },
+    {
+      "id": "online-game-socket",
+      "name": "Online Game Socket.io",
+      "category": "Multiplayer Framework",
+      "cover-image": "https://opengraph.githubassets.com/1/omar92/onlineGameSocket.io",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [
+        "Web"
+      ],
+      "genre": [
+        "Unity",
+        "C#",
+        "Socket.io",
+        "Node.js"
+      ],
+      "skills": [
+        "Unity",
+        "C#",
+        "Socket.io",
+        "Node.js"
+      ],
+      "filterTags": [
+        "Web",
+        "Open Source"
+      ],
+      "features": [
+        "Unity client + Socket.io server integration",
+        "Real-time player synchronization",
+        "Authoritative server architecture",
+        "Sample implementations for rapid prototyping"
+      ],
+      "shortDescription": "Real-time multiplayer game framework with Unity client integration and authoritative server architecture.",
+      "description": "A complete multiplayer framework featuring Unity client integration with Socket.io server. Includes examples of real-time synchronization, player interpolation, and authoritative server design.",
+      "links": [
+        {
+          "text": "View on GitHub",
+          "url": "https://github.com/omar92/onlineGameSocket.io",
+          "type": "github"
+        }
+      ]
+    },
+    {
+      "id": "unity-development-tools",
+      "name": "Unity Development Tools",
+      "category": "Unity Tooling",
+      "cover-image": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "Unity",
+        "C#",
+        "Tools",
+        "Open Source"
+      ],
+      "skills": [
+        "Unity",
+        "C#",
+        "Tools",
+        "Open Source"
+      ],
+      "filterTags": [
+        "Unity",
+        "Open Source"
+      ],
+      "features": [],
+      "shortDescription": "Professional Unity tools and frameworks including state machines, ScriptableObject systems, and UI optimization utilities.",
+      "description": "A collection of Unity development tools designed to streamline game workflows. Includes ScriptableObject architecture, state machines, events/variables, and performance-focused UI utilities.",
+      "links": [
+        {
+          "text": "SO State Machine",
+          "url": "https://github.com/omar92/so_statemachine",
+          "type": "github"
+        },
+        {
+          "text": "SO Events & Variables",
+          "url": "https://github.com/omar92/SOEventsVariables",
+          "type": "github"
+        },
+        {
+          "text": "SO System",
+          "url": "https://github.com/omar92/SO_System",
+          "type": "github"
+        }
+      ]
+    },
+    {
+      "id": "unreal-game-collection",
+      "name": "Unreal Engine Game Collection",
+      "category": "Unreal Engine",
+      "cover-image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "Unreal Engine 5",
+        "C++",
+        "Multiplayer",
+        "AI"
+      ],
+      "skills": [
+        "Unreal Engine 5",
+        "C++",
+        "Multiplayer",
+        "AI"
+      ],
+      "filterTags": [
+        "Open Source"
+      ],
+      "features": [],
+      "shortDescription": "A collection of Unreal Engine projects showcasing multiplayer systems, combat mechanics, and modern C++ game development practices.",
+      "description": "A comprehensive portfolio of Unreal Engine projects demonstrating modern game development practices, including networked multiplayer, advanced combat systems, and level design.",
+      "links": [
+        {
+          "text": "Battle Blaster",
+          "url": "https://github.com/omar92/BattleBlaster_Unreal",
+          "type": "github"
+        },
+        {
+          "text": "ShooterSam",
+          "url": "https://github.com/omar92/ShooterSam_Unreal",
+          "type": "github"
+        },
+        {
+          "text": "Dungeon Escape",
+          "url": "https://github.com/omar92/DungeonEscape_Unreal",
+          "type": "github"
+        }
+      ]
+    },
+    {
+      "id": "3ashara-talwa",
+      "name": "3ashara Talwa",
+      "category": "Mobile Game",
+      "cover-image": "/projects/3ashara-talwa.jpg",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [
+        "Mobile"
+      ],
+      "genre": [
+        "Mobile",
+        "Multiplayer",
+        "Unity",
+        "Backgammon"
+      ],
+      "skills": [
+        "Mobile",
+        "Multiplayer",
+        "Unity",
+        "Backgammon"
+      ],
+      "filterTags": [
+        "Mobile",
+        "Unity",
+        "Multiplayer"
+      ],
+      "features": [
+        "Online multiplayer gameplay",
+        "Strong AI opponents",
+        "Character customization system",
+        "Multiple game modes",
+        "Middle Eastern Backgammon rules"
+      ],
+      "shortDescription": "Online multiplayer Backgammon game with strong AI, character customization, and multiple game modes.",
+      "description": "3ashara Talwa is an online multiplayer game based on the rules of Backgammon popular in the Middle East. The game features two game modes 'ma7bosa' and 'therteen', strong AI opponents, character customization, and many more features.",
+      "links": []
+    },
+    {
+      "id": "estimation-kings",
+      "name": "Estimation Kings",
+      "category": "Mobile Game",
+      "cover-image": "/projects/estimation-kings.jpg",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [
+        "Mobile",
+        "Web"
+      ],
+      "genre": [
+        "Mobile",
+        "Multiplayer",
+        "Phaser",
+        "JavaScript",
+        "Published"
+      ],
+      "skills": [
+        "Mobile",
+        "Multiplayer",
+        "Phaser",
+        "JavaScript",
+        "Published"
+      ],
+      "filterTags": [
+        "Mobile",
+        "Web",
+        "Published",
+        "JavaScript"
+      ],
+      "features": [
+        "Challenge online players worldwide",
+        "Progress through multiple levels",
+        "Create your own profile",
+        "Make new friends and chat",
+        "Challenge Facebook friends",
+        "Different game environments",
+        "Free to play without gambling"
+      ],
+      "shortDescription": "Published four-player trick-taking card game available on Google Play Store.",
+      "description": "Are you a pro Estimation Player? If you are familiar with Tarneeb, Spades, Trix, Hearts and Balot, you will extremely enjoy playing Estimation. Estimation Kings is a four players trick-taking card game where only kings survive.",
+      "links": [
+        {
+          "text": "Google Play",
+          "url": "https://play.google.com/store/apps/details?id=com.el3ab.Estimation",
+          "type": "store"
+        }
+      ]
+    },
+    {
+      "id": "rhythm-attack",
+      "name": "Rhythm Attack VR",
+      "category": "VR Game",
+      "cover-image": "/projects/rhythm-attack.jpg",
+      "screenshots": [],
+      "videos": [
+        "https://www.youtube.com/embed/C-O4k4yMaR8",
+        "https://www.youtube.com/embed/ElA8NzXpk4E"
+      ],
+      "platforms": [
+        "PC",
+        "VR"
+      ],
+      "genre": [
+        "PC",
+        "VR",
+        "Unity",
+        "Graduation Project"
+      ],
+      "skills": [
+        "PC",
+        "VR",
+        "Unity",
+        "Graduation Project"
+      ],
+      "filterTags": [
+        "PC",
+        "VR",
+        "Unity"
+      ],
+      "features": [
+        "Immersive VR gameplay",
+        "Rhythm-based combat mechanics",
+        "Dynamic difficulty scaling",
+        "Original art and music",
+        "Custom VFX system"
+      ],
+      "shortDescription": "Hyper-casual VR rhythm game - ITI graduation project with 100% original coding, art, music, and VFX.",
+      "description": "Rhythm Attack is a hyper-casual VR game where you defeat rhythm monsters by cutting the minions they throw at you until they get tired, then attack them with your gun to drain their health. Every time you fail to kill the enemy, he gets mad and level difficulty increases. This game was a graduation project from ITI game development diploma.",
+      "links": [
+        {
+          "text": "Source Code",
+          "url": "https://github.com/omar92/RhythmAttack-VR",
+          "type": "github"
+        }
+      ],
+      "stats": {
+        "stars": 8
+      }
+    },
+    {
+      "id": "vr-training",
+      "name": "VR Training Simulator",
+      "category": "VR Game",
+      "cover-image": "https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [
+        "VR"
+      ],
+      "genre": [
+        "VR",
+        "Unity",
+        "Training"
+      ],
+      "skills": [
+        "VR",
+        "Unity",
+        "Training"
+      ],
+      "filterTags": [
+        "VR",
+        "Unity"
+      ],
+      "features": [
+        "Industrial training scenarios",
+        "Immersive VR experience",
+        "Safe learning environment",
+        "Progress tracking"
+      ],
+      "shortDescription": "Professional VR training application for industrial scenarios.",
+      "description": "A professional VR training application designed for industrial training scenarios. Provides immersive, hands-on training experiences in a safe virtual environment.",
+      "links": [
+        {
+          "text": "View on GitHub",
+          "url": "https://github.com/omar92/VR-Training",
+          "type": "github"
+        }
+      ]
+    },
+    {
+      "id": "vr-hackathon",
+      "name": "VR Hackathon Project",
+      "category": "VR Game",
+      "cover-image": "https://images.unsplash.com/photo-1517232115160-ff93364542dd?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [
+        "VR"
+      ],
+      "genre": [
+        "VR",
+        "Unity",
+        "Hackathon"
+      ],
+      "skills": [
+        "VR",
+        "Unity",
+        "Hackathon"
+      ],
+      "filterTags": [
+        "VR",
+        "Unity"
+      ],
+      "features": [
+        "Rapid VR prototyping",
+        "Creative gameplay mechanics",
+        "Hackathon-winning design",
+        "Time-constrained development"
+      ],
+      "shortDescription": "Award-winning VR experience developed during a hackathon event.",
+      "description": "An award-winning VR experience developed during a hackathon event, showcasing rapid prototyping and creative problem-solving in a time-constrained environment.",
+      "links": [
+        {
+          "text": "View on GitHub",
+          "url": "https://github.com/omar92/VR-Hackathon",
+          "type": "github"
+        }
+      ]
+    },
+    {
+      "id": "zinad-games",
+      "name": "Zinad Security Games",
+      "category": "Serious Games",
+      "cover-image": "/projects/zinad-games.jpg",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [
+        "PC",
+        "Web",
+        "VR"
+      ],
+      "genre": [
+        "PC",
+        "Web",
+        "VR",
+        "Unity",
+        "Kinect",
+        "Serious Games"
+      ],
+      "skills": [
+        "PC",
+        "Web",
+        "VR",
+        "Unity",
+        "Kinect",
+        "Serious Games"
+      ],
+      "filterTags": [
+        "PC",
+        "Web",
+        "VR",
+        "Unity",
+        "Kinect"
+      ],
+      "features": [],
+      "shortDescription": "Six serious games for security awareness training including Phishing Mania, Millionaire, and VR experiences.",
+      "description": "Zinad is a security solutions company that uses serious games to enhance employee security training. Developed 6 interactive games covering various security topics.",
+      "links": []
+    },
+    {
+      "id": "js-native-engine",
+      "name": "JS Native Game Engine",
+      "category": "Web Tools",
+      "cover-image": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [
+        "Web"
+      ],
+      "genre": [
+        "JavaScript",
+        "WebGL",
+        "Canvas",
+        "Game Engine"
+      ],
+      "skills": [
+        "JavaScript",
+        "WebGL",
+        "Canvas",
+        "Game Engine"
+      ],
+      "filterTags": [
+        "Web",
+        "Open Source"
+      ],
+      "features": [
+        "Custom game loop implementation",
+        "Entity-component system",
+        "Input handling",
+        "Rendering pipeline"
+      ],
+      "shortDescription": "Lightweight game engine built from scratch in vanilla JavaScript.",
+      "description": "A lightweight game engine demonstrating core concepts like the game loop, rendering, input handling, and entity management without external dependencies.",
+      "links": [
+        {
+          "text": "View on GitHub",
+          "url": "https://github.com/omar92/JS_native_gameEngine",
+          "type": "github"
+        }
+      ],
+      "stats": {
+        "stars": 3
+      }
+    },
+    {
+      "id": "webgl-demo",
+      "name": "WebGL Demo",
+      "category": "Web Tools",
+      "cover-image": "https://images.unsplash.com/photo-1522252234503-e356532cafd5?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [
+        "Web"
+      ],
+      "genre": [
+        "JavaScript",
+        "Three.js",
+        "WebGL",
+        "3D Graphics"
+      ],
+      "skills": [
+        "JavaScript",
+        "Three.js",
+        "WebGL",
+        "3D Graphics"
+      ],
+      "filterTags": [
+        "Web",
+        "Open Source"
+      ],
+      "features": [
+        "Three.js integration",
+        "Custom shaders",
+        "Interactive 3D scenes",
+        "WebGL rendering techniques"
+      ],
+      "shortDescription": "Interactive 3D graphics experiments using Three.js and WebGL.",
+      "description": "Interactive 3D graphics experiments using Three.js and WebGL. Demonstrates rendering techniques, shaders, and scene composition.",
+      "links": [
+        {
+          "text": "View on GitHub",
+          "url": "https://github.com/omar92/WebGL_demo",
+          "type": "github"
+        }
+      ]
+    },
+    {
+      "id": "unity-scroll-list",
+      "name": "Optimized Unity Scroll List",
+      "category": "Unity Tool",
+      "cover-image": "/projects/unity-scroll.jpg",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "Unity",
+        "C#",
+        "Optimization",
+        "Open Source"
+      ],
+      "skills": [
+        "Unity",
+        "C#",
+        "Optimization",
+        "Open Source"
+      ],
+      "filterTags": [
+        "Unity",
+        "C#",
+        "Open Source"
+      ],
+      "features": [
+        "Object pooling for performance",
+        "Dynamic item recycling",
+        "Mobile-optimized",
+        "Easy integration",
+        "Customizable item templates"
+      ],
+      "shortDescription": "Performance-optimized scroll list for Unity with object pooling and dynamic item recycling.",
+      "description": "A highly optimized scroll list implementation for Unity that uses object pooling and dynamic item recycling to handle large datasets efficiently. Perfect for mobile and desktop applications.",
+      "links": [
+        {
+          "text": "View on GitHub",
+          "url": "https://github.com/omar92/Optmized-unity-scroll-list",
+          "type": "github"
+        }
+      ]
+    },
+    {
+      "id": "cityville-structure",
+      "name": "CityVille Game Structure",
+      "category": "Unity Framework",
+      "cover-image": "/projects/cityville.jpg",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "Unity",
+        "C#",
+        "Architecture",
+        "Open Source"
+      ],
+      "skills": [
+        "Unity",
+        "C#",
+        "Architecture",
+        "Open Source"
+      ],
+      "filterTags": [
+        "Unity",
+        "C#",
+        "Open Source"
+      ],
+      "features": [
+        "Modular architecture",
+        "Resource management system",
+        "Building placement grid",
+        "Save/Load system",
+        "Event-driven design"
+      ],
+      "shortDescription": "Modular game architecture framework for city-building games in Unity.",
+      "description": "A comprehensive game structure and architecture framework designed for city-building games. Features modular systems for resource management, building placement, and save/load functionality.",
+      "links": [
+        {
+          "text": "View on GitHub",
+          "url": "https://github.com/omar92/CityVille-GameStructure-",
+          "type": "github"
+        }
+      ]
+    },
+    {
+      "id": "unity-development-tools-so-state-machine",
+      "name": "SO State Machine",
+      "category": "Unity Tooling",
+      "cover-image": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "Unity",
+        "C#",
+        "Architecture"
+      ],
+      "skills": [
+        "Unity",
+        "C#",
+        "Architecture"
+      ],
+      "filterTags": [
+        "Unity",
+        "C#",
+        "Architecture"
+      ],
+      "features": [
+        "Project details coming soon."
+      ],
+      "shortDescription": "Scriptable Object-based state machine system with modular, debuggable game logic.",
+      "description": "Scriptable Object-based state machine system with modular, debuggable game logic.",
+      "links": []
+    },
+    {
+      "id": "unity-development-tools-so-events-variables",
+      "name": "SO Events & Variables",
+      "category": "Unity Tooling",
+      "cover-image": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "Unity",
+        "C#",
+        "Framework"
+      ],
+      "skills": [
+        "Unity",
+        "C#",
+        "Framework"
+      ],
+      "filterTags": [
+        "Unity",
+        "C#",
+        "Framework"
+      ],
+      "features": [
+        "Project details coming soon."
+      ],
+      "shortDescription": "Event-driven architecture system using Scriptable Objects for decoupled communication.",
+      "description": "Event-driven architecture system using Scriptable Objects for decoupled communication.",
+      "links": []
+    },
+    {
+      "id": "unity-development-tools-so-system",
+      "name": "SO System",
+      "category": "Unity Tooling",
+      "cover-image": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "Unity",
+        "C#",
+        "Framework"
+      ],
+      "skills": [
+        "Unity",
+        "C#",
+        "Framework"
+      ],
+      "filterTags": [
+        "Unity",
+        "C#",
+        "Framework"
+      ],
+      "features": [
+        "Project details coming soon."
+      ],
+      "shortDescription": "Comprehensive ScriptableObject framework for data-driven game development.",
+      "description": "Comprehensive ScriptableObject framework for data-driven game development.",
+      "links": []
+    },
+    {
+      "id": "unity-development-tools-optimized-unity-scroll-list",
+      "name": "Optimized Unity Scroll List",
+      "category": "Unity Tooling",
+      "cover-image": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "Unity",
+        "C#",
+        "UI",
+        "Performance"
+      ],
+      "skills": [
+        "Unity",
+        "C#",
+        "UI",
+        "Performance"
+      ],
+      "filterTags": [
+        "Unity",
+        "C#",
+        "UI",
+        "Performance"
+      ],
+      "features": [
+        "Project details coming soon."
+      ],
+      "shortDescription": "High-performance scroll list implementation with object pooling.",
+      "description": "High-performance scroll list implementation with object pooling.",
+      "links": []
+    },
+    {
+      "id": "unreal-game-collection-battle-blaster",
+      "name": "Battle Blaster",
+      "category": "Unreal Engine",
+      "cover-image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "Unreal",
+        "C++",
+        "Multiplayer"
+      ],
+      "skills": [
+        "Unreal",
+        "C++",
+        "Multiplayer"
+      ],
+      "filterTags": [
+        "Unreal",
+        "C++",
+        "Multiplayer"
+      ],
+      "features": [
+        "Project details coming soon."
+      ],
+      "shortDescription": "Arena shooter with AI bots and multiplayer support.",
+      "description": "Arena shooter with AI bots and multiplayer support.",
+      "links": []
+    },
+    {
+      "id": "unreal-game-collection-shootersam",
+      "name": "ShooterSam",
+      "category": "Unreal Engine",
+      "cover-image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "Unreal",
+        "C++",
+        "AI"
+      ],
+      "skills": [
+        "Unreal",
+        "C++",
+        "AI"
+      ],
+      "filterTags": [
+        "Unreal",
+        "C++",
+        "AI"
+      ],
+      "features": [
+        "Project details coming soon."
+      ],
+      "shortDescription": "Cover-based tactical shooter with advanced AI behaviors.",
+      "description": "Cover-based tactical shooter with advanced AI behaviors.",
+      "links": []
+    },
+    {
+      "id": "unreal-game-collection-dungeon-escape",
+      "name": "Dungeon Escape",
+      "category": "Unreal Engine",
+      "cover-image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "Unreal",
+        "C++",
+        "Adventure"
+      ],
+      "skills": [
+        "Unreal",
+        "C++",
+        "Adventure"
+      ],
+      "filterTags": [
+        "Unreal",
+        "C++",
+        "Adventure"
+      ],
+      "features": [
+        "Project details coming soon."
+      ],
+      "shortDescription": "Third-person adventure prototype with combat and exploration.",
+      "description": "Third-person adventure prototype with combat and exploration.",
+      "links": []
+    },
+    {
+      "id": "zinad-games-phishing-mania",
+      "name": "Phishing Mania",
+      "category": "Serious Games",
+      "cover-image": "/projects/zinad-games.jpg",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [
+        "PC",
+        "Web",
+        "VR"
+      ],
+      "genre": [
+        "Web",
+        "Unity"
+      ],
+      "skills": [
+        "Web",
+        "Unity"
+      ],
+      "filterTags": [
+        "Web",
+        "Unity"
+      ],
+      "features": [
+        "Project details coming soon."
+      ],
+      "shortDescription": "Game that teaches players how to identify phishing emails from real emails",
+      "description": "Game that teaches players how to identify phishing emails from real emails",
+      "links": []
+    },
+    {
+      "id": "zinad-games-who-will-be-millionaire",
+      "name": "Who Will Be Millionaire",
+      "category": "Serious Games",
+      "cover-image": "/projects/zinad-games.jpg",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [
+        "PC",
+        "Web",
+        "VR"
+      ],
+      "genre": [
+        "Web",
+        "Unity"
+      ],
+      "skills": [
+        "Web",
+        "Unity"
+      ],
+      "filterTags": [
+        "Web",
+        "Unity"
+      ],
+      "features": [
+        "Project details coming soon."
+      ],
+      "shortDescription": "Adaptation from the famous TV show focused on security field",
+      "description": "Adaptation from the famous TV show focused on security field",
+      "links": []
+    },
+    {
+      "id": "zinad-games-the-office-vr",
+      "name": "The Office VR",
+      "category": "Serious Games",
+      "cover-image": "/projects/zinad-games.jpg",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [
+        "PC",
+        "Web",
+        "VR"
+      ],
+      "genre": [
+        "VR",
+        "Web",
+        "Unity"
+      ],
+      "skills": [
+        "VR",
+        "Web",
+        "Unity"
+      ],
+      "filterTags": [
+        "VR",
+        "Web",
+        "Unity"
+      ],
+      "features": [
+        "Project details coming soon."
+      ],
+      "shortDescription": "Users eliminate clean desk policy violations before time runs out",
+      "description": "Users eliminate clean desk policy violations before time runs out",
+      "links": []
+    },
+    {
+      "id": "zinad-games-password-ninja-url-punk",
+      "name": "Password Ninja / URL Punk",
+      "category": "Serious Games",
+      "cover-image": "/projects/zinad-games.jpg",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [
+        "PC",
+        "Web",
+        "VR"
+      ],
+      "genre": [
+        "Web",
+        "Unity"
+      ],
+      "skills": [
+        "Web",
+        "Unity"
+      ],
+      "filterTags": [
+        "Web",
+        "Unity"
+      ],
+      "features": [
+        "Project details coming soon."
+      ],
+      "shortDescription": "Users cut weak passwords and fake URLs to win",
+      "description": "Users cut weak passwords and fake URLs to win",
+      "links": []
+    },
+    {
+      "id": "zinad-games-archery-vr",
+      "name": "Archery VR",
+      "category": "Serious Games",
+      "cover-image": "/projects/zinad-games.jpg",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [
+        "PC",
+        "Web",
+        "VR"
+      ],
+      "genre": [
+        "VR",
+        "Unity"
+      ],
+      "skills": [
+        "VR",
+        "Unity"
+      ],
+      "filterTags": [
+        "VR",
+        "Unity"
+      ],
+      "features": [
+        "Project details coming soon."
+      ],
+      "shortDescription": "Users answer questions by throwing arrows at correct answers",
+      "description": "Users answer questions by throwing arrows at correct answers",
+      "links": []
+    },
+    {
+      "id": "highstreet-homes",
+      "name": "Highstreet Homes",
+      "category": "Project",
+      "cover-image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "TBD"
+      ],
+      "skills": [
+        "TBD"
+      ],
+      "filterTags": [
+        "TBD"
+      ],
+      "features": [
+        "Details coming soon."
+      ],
+      "shortDescription": "Placeholder project entry pending full details.",
+      "description": "This placeholder project was created so each referenced project has its own standalone page entry.",
+      "links": []
+    },
+    {
+      "id": "highstreet-island",
+      "name": "Highstreet Island",
+      "category": "Project",
+      "cover-image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "TBD"
+      ],
+      "skills": [
+        "TBD"
+      ],
+      "filterTags": [
+        "TBD"
+      ],
+      "features": [
+        "Details coming soon."
+      ],
+      "shortDescription": "Placeholder project entry pending full details.",
+      "description": "This placeholder project was created so each referenced project has its own standalone page entry.",
+      "links": []
+    },
+    {
+      "id": "zinad-office",
+      "name": "Zinad Office",
+      "category": "Project",
+      "cover-image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "TBD"
+      ],
+      "skills": [
+        "TBD"
+      ],
+      "filterTags": [
+        "TBD"
+      ],
+      "features": [
+        "Details coming soon."
+      ],
+      "shortDescription": "Placeholder project entry pending full details.",
+      "description": "This placeholder project was created so each referenced project has its own standalone page entry.",
+      "links": []
+    },
+    {
+      "id": "zinad-phishing",
+      "name": "Zinad Phishing",
+      "category": "Project",
+      "cover-image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "TBD"
+      ],
+      "skills": [
+        "TBD"
+      ],
+      "filterTags": [
+        "TBD"
+      ],
+      "features": [
+        "Details coming soon."
+      ],
+      "shortDescription": "Placeholder project entry pending full details.",
+      "description": "This placeholder project was created so each referenced project has its own standalone page entry.",
+      "links": []
+    },
+    {
+      "id": "zinad-millionaire",
+      "name": "Zinad Millionaire",
+      "category": "Project",
+      "cover-image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "TBD"
+      ],
+      "skills": [
+        "TBD"
+      ],
+      "filterTags": [
+        "TBD"
+      ],
+      "features": [
+        "Details coming soon."
+      ],
+      "shortDescription": "Placeholder project entry pending full details.",
+      "description": "This placeholder project was created so each referenced project has its own standalone page entry.",
+      "links": []
+    },
+    {
+      "id": "zinad-password-ninja",
+      "name": "Zinad Password Ninja",
+      "category": "Project",
+      "cover-image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "TBD"
+      ],
+      "skills": [
+        "TBD"
+      ],
+      "filterTags": [
+        "TBD"
+      ],
+      "features": [
+        "Details coming soon."
+      ],
+      "shortDescription": "Placeholder project entry pending full details.",
+      "description": "This placeholder project was created so each referenced project has its own standalone page entry.",
+      "links": []
+    },
+    {
+      "id": "zinad-url-punk",
+      "name": "Zinad Url Punk",
+      "category": "Project",
+      "cover-image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "TBD"
+      ],
+      "skills": [
+        "TBD"
+      ],
+      "filterTags": [
+        "TBD"
+      ],
+      "features": [
+        "Details coming soon."
+      ],
+      "shortDescription": "Placeholder project entry pending full details.",
+      "description": "This placeholder project was created so each referenced project has its own standalone page entry.",
+      "links": []
+    },
+    {
+      "id": "zinad-archery-vr",
+      "name": "Zinad Archery Vr",
+      "category": "Project",
+      "cover-image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "TBD"
+      ],
+      "skills": [
+        "TBD"
+      ],
+      "filterTags": [
+        "TBD"
+      ],
+      "features": [
+        "Details coming soon."
+      ],
+      "shortDescription": "Placeholder project entry pending full details.",
+      "description": "This placeholder project was created so each referenced project has its own standalone page entry.",
+      "links": []
+    },
+    {
+      "id": "zinad-clean-desk-policy",
+      "name": "Zinad Clean Desk Policy",
+      "category": "Project",
+      "cover-image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "TBD"
+      ],
+      "skills": [
+        "TBD"
+      ],
+      "filterTags": [
+        "TBD"
+      ],
+      "features": [
+        "Details coming soon."
+      ],
+      "shortDescription": "Placeholder project entry pending full details.",
+      "description": "This placeholder project was created so each referenced project has its own standalone page entry.",
+      "links": []
+    },
+    {
+      "id": "zinad-emoji",
+      "name": "Zinad Emoji",
+      "category": "Project",
+      "cover-image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "TBD"
+      ],
+      "skills": [
+        "TBD"
+      ],
+      "filterTags": [
+        "TBD"
+      ],
+      "features": [
+        "Details coming soon."
+      ],
+      "shortDescription": "Placeholder project entry pending full details.",
+      "description": "This placeholder project was created so each referenced project has its own standalone page entry.",
+      "links": []
+    },
+    {
+      "id": "zinad-awarness",
+      "name": "Zinad Awarness",
+      "category": "Project",
+      "cover-image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "TBD"
+      ],
+      "skills": [
+        "TBD"
+      ],
+      "filterTags": [
+        "TBD"
+      ],
+      "features": [
+        "Details coming soon."
+      ],
+      "shortDescription": "Placeholder project entry pending full details.",
+      "description": "This placeholder project was created so each referenced project has its own standalone page entry.",
+      "links": []
+    },
+    {
+      "id": "zinad-interactiveVideoPlayer",
+      "name": "Zinad InteractiveVideoPlayer",
+      "category": "Project",
+      "cover-image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "TBD"
+      ],
+      "skills": [
+        "TBD"
+      ],
+      "filterTags": [
+        "TBD"
+      ],
+      "features": [
+        "Details coming soon."
+      ],
+      "shortDescription": "Placeholder project entry pending full details.",
+      "description": "This placeholder project was created so each referenced project has its own standalone page entry.",
+      "links": []
+    },
+    {
+      "id": "iti-rhythm-attack",
+      "name": "Iti Rhythm Attack",
+      "category": "Project",
+      "cover-image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "TBD"
+      ],
+      "skills": [
+        "TBD"
+      ],
+      "filterTags": [
+        "TBD"
+      ],
+      "features": [
+        "Details coming soon."
+      ],
+      "shortDescription": "Placeholder project entry pending full details.",
+      "description": "This placeholder project was created so each referenced project has its own standalone page entry.",
+      "links": []
+    },
+    {
+      "id": "el3ab-estimation-kings",
+      "name": "El3ab Estimation Kings",
+      "category": "Project",
+      "cover-image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&q=80",
+      "screenshots": [],
+      "videos": [],
+      "platforms": [],
+      "genre": [
+        "TBD"
+      ],
+      "skills": [
+        "TBD"
+      ],
+      "filterTags": [
+        "TBD"
+      ],
+      "features": [
+        "Details coming soon."
+      ],
+      "shortDescription": "Placeholder project entry pending full details.",
+      "description": "This placeholder project was created so each referenced project has its own standalone page entry.",
+      "links": []
     }
   ]
 }

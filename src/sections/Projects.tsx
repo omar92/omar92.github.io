@@ -320,26 +320,6 @@ const Projects = () => {
                 </div>
               )}
 
-              {/* Sub-projects */}
-              {selectedProject.subProjects && (
-                <div className="mt-6">
-                  <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-3">
-                    Included Games
-                  </h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {selectedProject.subProjects.map((sub, index) => (
-                      <div
-                        key={index}
-                        className="p-3 bg-slate-800/50 rounded-lg border border-slate-700"
-                      >
-                        <h5 className="font-medium text-white mb-1">{sub.title}</h5>
-                        <p className="text-xs text-slate-500">{sub.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
               {/* Videos */}
               {selectedProject.videos && selectedProject.videos.length > 0 && (
                 <div className="mt-6">

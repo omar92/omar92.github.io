@@ -59,7 +59,6 @@ export interface PortfolioProject {
   features: string[];
   videos: string[];
   screenshots: string[];
-  subProjects: Array<{ title: string; tags: string[]; description: string }>;
   stats?: { stars?: number; forks?: number };
   platforms: string[];
   genre: string[];
@@ -270,11 +269,6 @@ const data: PortfolioData = {
       features: asStringArray(project.features),
       videos: asStringArray(project.videos),
       screenshots,
-      subProjects: asRecordArray(project.subProjects).map((subProject) => ({
-        title: asString(subProject.title),
-        tags: asStringArray(subProject.tags),
-        description: asString(subProject.description),
-      })),
       stats,
       platforms,
       genre,
