@@ -115,6 +115,23 @@ const Projects = () => {
     return () => ctx.revert();
   }, []);
 
+  useEffect(() => {
+    const handleOpenProject = (event: Event) => {
+      const customEvent = event as CustomEvent<{ projectId?: string }>;
+      const projectId = customEvent.detail?.projectId;
+      if (!projectId) return;
+
+      const matchedProject = data.projects.find((project) => project.id === projectId);
+      if (!matchedProject) return;
+
+      setFilter('All');
+      setSelectedProject(matchedProject);
+    };
+
+    window.addEventListener('open-project', handleOpenProject);
+    return () => window.removeEventListener('open-project', handleOpenProject);
+  }, []);
+
   const getProjectImage = (project: PortfolioProject) => {
     if (project.image.startsWith('http')) {
       return project.image;
@@ -341,6 +358,67 @@ const Projects = () => {
                       </div>
                     ))}
                   </div>
+                </div>
+              )}
+
+              {/* Screenshots */}
+              {selectedProject.screenshots.length > 0 && (
+                <div className="mt-6">
+                  <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-3">
+                    Screenshots
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {selectedProject.screenshots.map((screenshot, index) => (
+                      <div key={index} className="aspect-video rounded-lg overflow-hidden border border-slate-700">
+                        <img
+                          src={screenshot}
+                          alt={`${selectedProject.name} screenshot ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Platform & Genre */}
+              {(selectedProject.platforms.length > 0 || selectedProject.genre.length > 0) && (
+                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {selectedProject.platforms.length > 0 && (
+                    <div>
+                      <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                        Platforms
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedProject.platforms.map((platform, index) => (
+                          <span
+                            key={`${platform}-${index}`}
+                            className="px-3 py-1 bg-slate-800/50 border border-slate-700 rounded-full text-sm text-slate-400"
+                          >
+                            {platform}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {selectedProject.genre.length > 0 && (
+                    <div>
+                      <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                        Genre
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedProject.genre.map((genre, index) => (
+                          <span
+                            key={`${genre}-${index}`}
+                            className="px-3 py-1 bg-slate-800/50 border border-slate-700 rounded-full text-sm text-slate-400"
+                          >
+                            {genre}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 

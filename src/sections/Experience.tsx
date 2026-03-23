@@ -9,6 +9,17 @@ gsap.registerPlugin(ScrollTrigger);
 const Experience = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
+  const projectNameById = new Map(data.projects.map((project) => [project.id, project.name]));
+  const knownProjectIds = new Set(data.projects.map((project) => project.id));
+
+  const getProjectNames = (projectIds: string[]) =>
+    projectIds.map((projectId) => projectNameById.get(projectId) || projectId);
+
+  const openProjectFromExperience = (projectId: string) => {
+    if (!knownProjectIds.has(projectId)) return;
+
+    window.dispatchEvent(new CustomEvent('open-project', { detail: { projectId } }));
+  };
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -225,6 +236,24 @@ const Experience = () => {
                         </span>
                       ))}
                     </div>
+
+                    {exp.projectIds.length > 0 && (
+                      <div className={`mt-4 ${index % 2 === 0 ? '' : 'md:text-right'}`}>
+                        <p className="text-xs uppercase tracking-wider text-slate-500 mb-2">Related Projects</p>
+                        <div className={`flex flex-wrap gap-2 ${index % 2 === 0 ? '' : 'md:justify-end'}`}>
+                          {exp.projectIds.map((projectId, i) => (
+                            <button
+                              key={`${exp.id}-project-${i}`}
+                              type="button"
+                              onClick={() => openProjectFromExperience(projectId)}
+                              className="px-2 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded text-xs text-indigo-300 hover:bg-indigo-500/20 transition-colors"
+                            >
+                              {projectNameById.get(projectId) || projectId}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -274,7 +303,7 @@ const Experience = () => {
                   </span>
                   {edu.grade && (
                     <span className="text-slate-500">
-                      GPA: {edu.grade}
+                      Grade: {edu.grade}
                     </span>
                   )}
                 </div>
@@ -288,6 +317,24 @@ const Experience = () => {
 
                 {edu.details && (
                   <p className="text-slate-500 text-sm mt-2">{edu.details}</p>
+                )}
+
+                {edu.projectIds.length > 0 && (
+                  <div className="mt-3">
+                    <p className="text-xs uppercase tracking-wider text-slate-500 mb-2">Related Projects</p>
+                    <div className="flex flex-wrap gap-2">
+                      {edu.projectIds.map((projectId, i) => (
+                        <button
+                          key={`${edu.id}-project-${i}`}
+                          type="button"
+                          onClick={() => openProjectFromExperience(projectId)}
+                          className="px-2 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded text-xs text-indigo-300 hover:bg-indigo-500/20 transition-colors"
+                        >
+                          {projectNameById.get(projectId) || projectId}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
             ))}

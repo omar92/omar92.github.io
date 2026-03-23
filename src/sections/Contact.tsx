@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, MapPin, Send, Github, Linkedin, Twitter, Loader2, CheckCircle, MessageSquare } from 'lucide-react';
+import { Mail, MapPin, Phone, Send, Github, Linkedin, Twitter, Youtube, Facebook, ExternalLink, Loader2, CheckCircle, MessageSquare } from 'lucide-react';
 import data from '../lib/portfolio';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -15,6 +15,20 @@ const Contact = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const socialLinks = data.personal.contacts.links;
+
+  const getSocialIcon = (icon?: string, label?: string) => {
+    const normalized = (icon || label || '').toLowerCase();
+
+    if (normalized.includes('github')) return <Github size={22} />;
+    if (normalized.includes('linkedin')) return <Linkedin size={22} />;
+    if (normalized === 'x' || normalized.includes('twitter')) return <Twitter size={22} />;
+    if (normalized.includes('youtube')) return <Youtube size={22} />;
+    if (normalized.includes('facebook')) return <Facebook size={22} />;
+
+    return <ExternalLink size={22} />;
+  };
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -199,6 +213,23 @@ const Contact = () => {
                 </div>
               </a>
 
+              {data.personal.phone && (
+                <a
+                  href={`tel:${data.personal.phone.replace(/\s+/g, '')}`}
+                  className="flex items-center gap-4 p-4 glass-card rounded-xl hover:border-indigo-500/30 transition-all group"
+                >
+                  <div className="p-3 bg-indigo-500/10 rounded-lg group-hover:bg-indigo-500/20 transition-colors">
+                    <Phone size={20} className="text-indigo-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-slate-500 mb-1">Phone</p>
+                    <p className="text-white group-hover:text-indigo-400 transition-colors">
+                      {data.personal.phone}
+                    </p>
+                  </div>
+                </a>
+              )}
+
               <div className="flex items-center gap-4 p-4 glass-card rounded-xl">
                 <div className="p-3 bg-violet-500/10 rounded-lg">
                   <MapPin size={20} className="text-violet-400" />
@@ -213,34 +244,20 @@ const Contact = () => {
             {/* Social Links */}
             <div>
               <p className="text-sm text-slate-500 mb-4">Follow me on</p>
-              <div className="contact-socials flex gap-3">
-                <a
-                  href={data.personal.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="contact-social p-4 glass-card rounded-xl text-slate-400 hover:text-white hover:bg-indigo-500/20 hover:border-indigo-500/30 transition-all hover:scale-110"
-                  aria-label="GitHub"
-                >
-                  <Github size={22} />
-                </a>
-                <a
-                  href={data.personal.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="contact-social p-4 glass-card rounded-xl text-slate-400 hover:text-white hover:bg-indigo-500/20 hover:border-indigo-500/30 transition-all hover:scale-110"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin size={22} />
-                </a>
-                <a
-                  href={data.personal.twitter}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="contact-social p-4 glass-card rounded-xl text-slate-400 hover:text-white hover:bg-indigo-500/20 hover:border-indigo-500/30 transition-all hover:scale-110"
-                  aria-label="Twitter"
-                >
-                  <Twitter size={22} />
-                </a>
+              <div className="contact-socials flex flex-wrap gap-3">
+                {socialLinks.map((link, index) => (
+                  <a
+                    key={`${link.url}-${index}`}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="contact-social p-4 glass-card rounded-xl text-slate-400 hover:text-white hover:bg-indigo-500/20 hover:border-indigo-500/30 transition-all hover:scale-110"
+                    aria-label={link.label || 'Social Link'}
+                    title={link.label || link.url}
+                  >
+                    {getSocialIcon(link.icon, link.label)}
+                  </a>
+                ))}
               </div>
             </div>
           </div>

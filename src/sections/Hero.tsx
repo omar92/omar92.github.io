@@ -196,6 +196,12 @@ const Hero = () => {
                 {data.personal.title}
               </p>
 
+              {data.personal.subtitle && data.personal.subtitle !== data.personal.title && (
+                <p className="hero-subtitle text-base md:text-lg text-slate-400 mb-4">
+                  {data.personal.subtitle}
+                </p>
+              )}
+
               {/* Tagline */}
               <p className="hero-tagline text-base md:text-lg text-slate-400 max-w-xl mb-8 leading-relaxed">
                 {data.personal.tagline}
