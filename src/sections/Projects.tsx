@@ -15,11 +15,14 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Projects = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const [activeFilter, setActiveFilter] = useState('All');
+  const [activeFilter, setActiveFilter] = useState('Showcase');
   const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
 
-  const categories = ['All', ...Array.from(new Set(data.projects.map((p) => p.category)))];
-  const filtered = activeFilter === 'All' ? data.projects : data.projects.filter((p) => p.category === activeFilter);
+  const categories = ['Showcase', 'All', ...Array.from(new Set(data.projects.map((p) => p.category)))];
+  const filtered =
+    activeFilter === 'Showcase' ? data.projects.filter((p) => p.featured) :
+    activeFilter === 'All' ? data.projects :
+    data.projects.filter((p) => p.category === activeFilter);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -141,7 +144,7 @@ const Projects = () => {
 
       {/* Detail dialog */}
       <Dialog open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
-        <DialogContent className="max-w-2xl bg-slate-950 border border-slate-700 clip-tl p-0 gap-0">
+        <DialogContent showCloseButton={false} className="max-w-2xl bg-slate-950 border border-slate-700 clip-tl p-0 gap-0">
           <DialogHeader className="p-6 pb-4 border-b border-slate-800">
             <div className="flex items-start justify-between gap-4">
               <div>
@@ -193,4 +196,5 @@ const Projects = () => {
 };
 
 export default Projects;
+
 

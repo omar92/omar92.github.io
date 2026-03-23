@@ -82,7 +82,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-10 pt-6 border-t border-slate-800/40 mono text-xs text-slate-600 text-center">
-          &copy; {new Date().getFullYear()} {data.personal.name} â€” All rights reserved
+          &copy; {new Date().getFullYear()} {data.personal.name} -- All rights reserved
         </div>
       </div>
     </footer>
@@ -90,3 +90,5 @@ const Footer = () => {
 };
 
 export default Footer;
+
+

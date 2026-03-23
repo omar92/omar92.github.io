@@ -55,7 +55,7 @@ const Hero = () => {
         </div>
 
         <div className="grid lg:grid-cols-5 gap-10 lg:gap-16 items-center">
-          {/* Left â€” 3 cols: Name + info */}
+          {/* Left -- 3 cols: Name + info */}
           <div className="lg:col-span-3">
             <div className="overflow-hidden mb-1">
               <h1
@@ -119,7 +119,7 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Right â€” 2 cols: Stats + Panel */}
+          {/* Right -- 2 cols: Stats + Panel */}
           <div className="lg:col-span-2 space-y-4">
             {/* Stats grid */}
             <div className="grid grid-cols-2 gap-3">
@@ -168,4 +168,6 @@ const Hero = () => {
 };
 
 export default Hero;
+
+
 

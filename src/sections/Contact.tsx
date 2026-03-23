@@ -108,7 +108,7 @@ const Contact = () => {
                 <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
                 <span className="mono text-xs text-green-400">AVAILABLE FOR WORK</span>
               </div>
-              <p className="text-sm text-slate-400">Open to new opportunities â€” game industry, simulation, or system-level engineering.</p>
+              <p className="text-sm text-slate-400">Open to new opportunities -- game industry, simulation, or system-level engineering.</p>
             </div>
           </div>
 
@@ -189,3 +189,5 @@ const Contact = () => {
 };
 
 export default Contact;
+
+

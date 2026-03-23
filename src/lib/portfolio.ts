@@ -51,6 +51,7 @@ export interface PortfolioProject {
   name: string;
   category: string;
   image: string;
+  featured: boolean;
   tags: string[];
   filterTags: string[];
   shortDescription: string;
@@ -261,6 +262,7 @@ const data: PortfolioData = {
       name: asString(project.name),
       category: asString(project.category) || platforms[0] || genre[0] || 'Project',
       image: asString(project.image || project['cover-image']) || screenshots[0] || '',
+      featured: project.featured === true,
       tags: uniqueStrings([...legacyTags, ...platforms, ...genre, ...skills]),
       filterTags,
       shortDescription: asString(project.shortDescription),
