@@ -59,15 +59,20 @@ const Projects = () => {
       <div className="w-full px-6 lg:px-12">
 
         {/* Header */}
-        <div className="pj-header mb-12">
-          <div className="section-label mb-3">02 // PROJECTS</div>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white">
-            BUILT <span className="text-gradient-cyan">SYSTEMS</span>
-          </h2>
+        <div className="pj-header mb-12 flex items-end justify-between flex-wrap gap-4">
+          <div>
+            <div className="section-label mb-3">02 // PROJECTS</div>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white">
+              BUILT <span className="text-gradient-cyan">SYSTEMS</span>
+            </h2>
+          </div>
+          <div className="mono text-xs text-slate-500 pb-2">
+            SHOWING <span className="text-cyan-400">{filtered.length}</span> / {data.projects.length} PROJECTS
+          </div>
         </div>
 
         {/* Filters */}
-        <div className="pj-filters flex flex-wrap gap-2 mb-12">
+        <div className="pj-filters flex flex-wrap gap-2 mb-4">
           {categories.map((cat) => (
             <button
               key={cat}
@@ -82,6 +87,8 @@ const Projects = () => {
             </button>
           ))}
         </div>
+
+
 
         {/* Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
