@@ -261,16 +261,12 @@ const Projects = () => {
                     <a href="#pd-about" className="flex items-center gap-2 text-xs text-slate-500 hover:text-cyan-400 transition-colors py-0.5">
                       <span className="w-1 h-1 bg-slate-600 rounded-full shrink-0" /> About
                     </a>
-                    {selectedProject?.videos && selectedProject.videos.length > 0 && (
-                      <a href="#pd-videos" className="flex items-center gap-2 text-xs text-slate-500 hover:text-cyan-400 transition-colors py-0.5">
-                        <span className="w-1 h-1 bg-slate-600 rounded-full shrink-0" /> Videos
-                        <span className="ml-auto mono text-[10px] text-slate-600">{selectedProject.videos.length}</span>
-                      </a>
-                    )}
-                    {selectedProject?.screenshots && selectedProject.screenshots.length > 0 && (
-                      <a href="#pd-screenshots" className="flex items-center gap-2 text-xs text-slate-500 hover:text-cyan-400 transition-colors py-0.5">
-                        <span className="w-1 h-1 bg-slate-600 rounded-full shrink-0" /> Screenshots
-                        <span className="ml-auto mono text-[10px] text-slate-600">{selectedProject.screenshots.length}</span>
+                    {(selectedProject?.videos?.length ?? 0) + (selectedProject?.screenshots?.length ?? 0) > 0 && (
+                      <a href="#pd-media" className="flex items-center gap-2 text-xs text-slate-500 hover:text-cyan-400 transition-colors py-0.5">
+                        <span className="w-1 h-1 bg-slate-600 rounded-full shrink-0" /> Media
+                        <span className="ml-auto mono text-[10px] text-slate-600">
+                          {(selectedProject?.videos?.length ?? 0) + (selectedProject?.screenshots?.length ?? 0)}
+                        </span>
                       </a>
                     )}
                     {selectedProject?.contributions && selectedProject.contributions.length > 0 && (
@@ -325,59 +321,55 @@ const Projects = () => {
                   )}
                 </section>
 
-                {/* ── Videos ── */}
-                {selectedProject?.videos && selectedProject.videos.length > 0 && (
-                  <section id="pd-videos">
+                {/* ── Media (videos + screenshots) ── */}
+                {((selectedProject?.videos?.length ?? 0) + (selectedProject?.screenshots?.length ?? 0)) > 0 && (
+                  <section id="pd-media">
                     <div className="flex items-center gap-3 mb-5">
                       <Play size={14} className="text-cyan-400 shrink-0" />
-                      <div className="section-label">VIDEOS</div>
+                      <div className="section-label">MEDIA</div>
                       <div className="flex-1 h-px bg-slate-800" />
-                      <span className="mono text-[10px] text-slate-600">{selectedProject.videos.length}</span>
+                      <span className="mono text-[10px] text-slate-600">
+                        {(selectedProject?.videos?.length ?? 0) + (selectedProject?.screenshots?.length ?? 0)} items — click screenshots to expand
+                      </span>
                     </div>
-                    <div className="flex gap-4 overflow-x-auto pb-2">
-                      {selectedProject.videos.map((v, i) => (
-                        <div key={i} className="shrink-0 space-y-2" style={{ width: '480px' }}>
-                          <div className="mono text-[11px] text-slate-500 tracking-wider uppercase">{v.text}</div>
+                    <div className="flex gap-3 overflow-x-auto pb-2 items-start">
+                      {/* Videos first */}
+                      {selectedProject?.videos?.map((v, i) => (
+                        <div key={`v-${i}`} className="shrink-0 space-y-1.5" style={{ width: '320px' }}>
+                          <div className="mono text-[10px] text-slate-500 tracking-wider uppercase flex items-center gap-1.5">
+                            <Play size={9} className="text-cyan-400/70" />{v.text}
+                          </div>
                           {v.type === 'local' ? (
                             // eslint-disable-next-line jsx-a11y/media-has-caption
-                            <video src={v.url} controls className="w-full border border-slate-800 bg-slate-900" />
+                            <video src={v.url} controls className="w-full border border-slate-800 bg-slate-900" style={{ height: '180px', objectFit: 'contain' }} />
                           ) : v.type === 'youtube' ? (
-                            <div className="aspect-video border border-slate-800 bg-slate-900">
+                            <div className="border border-slate-800 bg-slate-900" style={{ height: '180px' }}>
                               <iframe src={v.url} className="w-full h-full" allowFullScreen title={v.text} />
                             </div>
                           ) : null}
                         </div>
                       ))}
-                    </div>
-                  </section>
-                )}
-
-                {/* ── Screenshots ── */}
-                {selectedProject?.screenshots && selectedProject.screenshots.length > 0 && (
-                  <section id="pd-screenshots">
-                    <div className="flex items-center gap-3 mb-5">
-                      <Monitor size={14} className="text-cyan-400 shrink-0" />
-                      <div className="section-label">SCREENSHOTS</div>
-                      <div className="flex-1 h-px bg-slate-800" />
-                      <span className="mono text-[10px] text-slate-600">{selectedProject.screenshots.length} — click to expand</span>
-                    </div>
-                    <div className="flex gap-2 overflow-x-auto pb-2">
-                      {selectedProject.screenshots.map((src, i) => (
-                        <button
-                          key={i}
-                          onClick={() => setLightbox(src)}
-                          className="group relative shrink-0 overflow-hidden border border-slate-800 hover:border-cyan-400/50 transition-all duration-200"
-                          style={{ width: '280px', height: '158px' }}
-                        >
-                          <img
-                            src={src}
-                            alt={`Screenshot ${i + 1}`}
-                            className="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
-                          />
-                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-slate-950/40">
-                            <span className="mono text-[10px] text-white bg-slate-950/80 border border-slate-700 px-2 py-1">EXPAND</span>
+                      {/* Screenshots */}
+                      {selectedProject?.screenshots?.map((src, i) => (
+                        <div key={`s-${i}`} className="shrink-0 space-y-1.5" style={{ width: '320px' }}>
+                          <div className="mono text-[10px] text-slate-500 tracking-wider uppercase flex items-center gap-1.5">
+                            <Monitor size={9} className="text-cyan-400/70" />Screenshot {i + 1} / {selectedProject.screenshots.length}
                           </div>
-                        </button>
+                          <button
+                            onClick={() => setLightbox(src)}
+                            className="group relative w-full overflow-hidden border border-slate-800 hover:border-cyan-400/50 transition-all duration-200"
+                            style={{ height: '180px' }}
+                          >
+                            <img
+                              src={src}
+                              alt={`Screenshot ${i + 1}`}
+                              className="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-slate-950/40">
+                              <span className="mono text-[10px] text-white bg-slate-950/80 border border-slate-700 px-2 py-1">EXPAND</span>
+                            </div>
+                          </button>
+                        </div>
                       ))}
                     </div>
                   </section>
