@@ -58,13 +58,13 @@ export interface PortfolioProject {
   description: string;
   links: PortfolioLink[];
   features: string[];
-  videos: string[];
+  videos: { text: string; type: string; url: string }[];
   screenshots: string[];
   stats?: { stars?: number; forks?: number };
   platforms: string[];
   genre: string[];
   skills: string[];
-  contributions?: { title: string; description: string }[];
+  contributions?: { title: string; description: string; screenshot: string[] }[];
 }
 
 export interface PortfolioData {
@@ -270,12 +270,21 @@ const data: PortfolioData = {
       description: asString(project.description || project.shortDescription),
       links,
       features: asStringArray(project.features),
-      videos: asStringArray(project.videos),
+      videos: asRecordArray(project.videos).map((v) => ({
+        text: asString(v.text),
+        type: asString(v.type),
+        url: asString(v.url),
+      })).filter((v) => Boolean(v.url)),
       screenshots,
       stats,
       platforms,
       genre,
       skills,
+      contributions: asRecordArray(project.contributions).map((c) => ({
+        title: asString(c.title),
+        description: asString(c.description),
+        screenshot: asStringArray(c.screenshot),
+      })),
     } satisfies PortfolioProject;
   }),
 };

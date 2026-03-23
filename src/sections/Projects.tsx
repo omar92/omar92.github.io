@@ -1,7 +1,7 @@
 ﻿import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ExternalLink, Github, X, ChevronRight } from 'lucide-react';
+import { ExternalLink, Github, X, ChevronRight, Play, Monitor, Gamepad2 } from 'lucide-react';
 import data, { type PortfolioProject } from '../lib/portfolio';
 import {
   Dialog,
@@ -17,6 +17,7 @@ const Projects = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const [activeFilter, setActiveFilter] = useState('Showcase');
   const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
+  const [lightbox, setLightbox] = useState<string | null>(null);
 
   const categories = ['Showcase', 'All', ...Array.from(new Set(data.projects.flatMap((p) => p.filterTags)))];
   const filtered =
@@ -151,64 +152,247 @@ const Projects = () => {
 
       {/* Detail dialog */}
       <Dialog open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
-        <DialogContent showCloseButton={false} className="max-w-2xl bg-slate-950 border border-slate-700 clip-tl p-0 gap-0">
-          <DialogHeader className="p-6 pb-4 border-b border-slate-800">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <span className="tag-violet mb-3 inline-block">{selectedProject?.category}</span>
-                <DialogTitle className="text-2xl font-black text-white">{selectedProject?.name}</DialogTitle>
-                <DialogDescription className="text-slate-400 mt-1 text-sm">{selectedProject?.shortDescription}</DialogDescription>
-              </div>
-              <button onClick={() => setSelectedProject(null)} className="shrink-0 text-slate-600 hover:text-white transition-colors mt-1">
-                <X size={18} />
-              </button>
-            </div>
-          </DialogHeader>
-          <div className="p-6 space-y-6 overflow-y-auto max-h-[60vh]">
-            {selectedProject?.image && (
-              <img src={selectedProject.image} alt={selectedProject.name} className="w-full h-48 object-cover opacity-80" />
+        <DialogContent
+          showCloseButton={false}
+          className="w-[98vw] max-w-[1600px] max-h-[94vh] h-[94vh] bg-slate-950 border border-slate-700/60 p-0 gap-0 flex flex-col overflow-hidden"
+          onPointerDownOutside={(e) => { if (lightbox) e.preventDefault(); }}
+          onInteractOutside={(e) => { if (lightbox) e.preventDefault(); }}
+          onEscapeKeyDown={(e) => { if (lightbox) { e.preventDefault(); setLightbox(null); } }}
+        >
+
+          {/* Hero banner */}
+          <div className="relative h-52 sm:h-64 shrink-0 overflow-hidden">
+            {selectedProject?.image ? (
+              <img
+                src={selectedProject.image}
+                alt={selectedProject.name}
+                className="w-full h-full object-cover opacity-50"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-slate-900 to-slate-800" />
             )}
-            <p className="text-slate-300 leading-relaxed">{selectedProject?.description}</p>
-            {selectedProject?.features && selectedProject.features.length > 0 && (
-              <ul className="space-y-2">
-                {selectedProject.features.map((h, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm text-slate-400">
-                    <span className="text-cyan-400 mono shrink-0 mt-0.5">&#9656;</span>{h}
-                  </li>
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/60 to-transparent" />
+
+            {/* Close */}
+            <button
+              onClick={() => setSelectedProject(null)}
+              className="absolute top-4 right-4 z-10 text-slate-400 hover:text-white transition-colors bg-slate-900/80 border border-slate-700 p-1.5 backdrop-blur-sm"
+            >
+              <X size={16} />
+            </button>
+
+            {/* Info overlay */}
+            <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6">
+              <div className="flex flex-wrap gap-1.5 mb-2">
+                {selectedProject?.genre?.map((g) => (
+                  <span key={g} className="tag-violet text-[10px]">{g}</span>
                 ))}
-              </ul>
-            )}
-            {selectedProject?.contributions && selectedProject.contributions.length > 0 && (
-              <div>
-                <div className="section-label mb-3">MY CONTRIBUTIONS</div>
-                <ul className="space-y-3">
-                  {selectedProject.contributions.map((c, i) => (
-                    <li key={i} className="border-l-2 border-cyan-400/40 pl-4">
-                      <div className="text-sm font-semibold text-cyan-300 mb-0.5">{c.title}</div>
-                      <div className="text-sm text-slate-400 leading-relaxed">{c.description}</div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            <div>
-              <div className="section-label mb-3">TECHNOLOGIES</div>
-              <div className="flex flex-wrap gap-2">
-                {selectedProject?.skills.map((t) => (
-                  <span key={t} className="tag-cyan">{t}</span>
+                {selectedProject?.platforms?.map((p) => (
+                  <span key={p} className="tag-cyan text-[10px]">{p}</span>
                 ))}
               </div>
-            </div>
-            <div className="flex flex-wrap gap-3 pt-2">
-              {selectedProject?.links.map((link) => (
-                <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer"
-                  className={(link.type === 'github' || link.icon === 'github') ? 'btn-ghost flex items-center gap-2 text-sm' : 'btn-primary flex items-center gap-2 text-sm'}>
-                  {(link.type === 'github' || link.icon === 'github') ? <Github size={14} /> : <ExternalLink size={14} />}
-                  {link.label || link.text || 'VIEW'}
-                </a>
-              ))}
+              {/* VisuallyHidden header for a11y */}
+              <DialogHeader className="p-0 m-0">
+                <DialogTitle className="text-2xl sm:text-3xl font-black text-white leading-tight">
+                  {selectedProject?.name}
+                </DialogTitle>
+                <DialogDescription className="text-slate-400 text-sm mt-1 line-clamp-2">
+                  {selectedProject?.shortDescription}
+                </DialogDescription>
+              </DialogHeader>
             </div>
           </div>
+
+          {/* Scrollable body */}
+          <div className="flex-1 overflow-y-auto">
+            <div className="p-5 sm:p-7 space-y-8">
+
+              {/* Description */}
+              <p className="text-slate-300 leading-relaxed text-sm sm:text-base">{selectedProject?.description}</p>
+
+              {/* Videos */}
+              {selectedProject?.videos && selectedProject.videos.length > 0 && (
+                <div>
+                  <div className="section-label mb-4 flex items-center gap-2">
+                    <Play size={11} className="text-cyan-400" />
+                    VIDEOS
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {selectedProject.videos.map((v, i) => (
+                      v.type === 'local' ? (
+                        <div key={i} className="space-y-2">
+                          <div className="mono text-xs text-slate-500">{v.text}</div>
+                          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+                          <video
+                            src={v.url}
+                            controls
+                            className="w-full border border-slate-800 bg-slate-900"
+                          />
+                        </div>
+                      ) : v.type === 'youtube' ? (
+                        <div key={i} className="space-y-2">
+                          <div className="mono text-xs text-slate-500">{v.text}</div>
+                          <div className="aspect-video border border-slate-800">
+                            <iframe
+                              src={v.url}
+                              className="w-full h-full"
+                              allowFullScreen
+                              title={v.text}
+                            />
+                          </div>
+                        </div>
+                      ) : null
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Screenshots */}
+              {selectedProject?.screenshots && selectedProject.screenshots.length > 0 && (
+                <div>
+                  <div className="section-label mb-4 flex items-center gap-2">
+                    <Monitor size={11} className="text-cyan-400" />
+                    SCREENSHOTS
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {selectedProject.screenshots.map((src, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setLightbox(src)}
+                        className="group relative overflow-hidden border border-slate-800 hover:border-cyan-400/40 transition-colors"
+                      >
+                        <img
+                          src={src}
+                          alt={`Screenshot ${i + 1}`}
+                          className="w-full aspect-video object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <span className="mono text-[10px] text-cyan-400 bg-slate-950/80 px-2 py-1">EXPAND</span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Key Features */}
+              {selectedProject?.features && selectedProject.features.length > 0 && (
+                <div>
+                  <div className="section-label mb-4 flex items-center gap-2">
+                    <Gamepad2 size={11} className="text-cyan-400" />
+                    KEY FEATURES
+                  </div>
+                  <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-2">
+                    {selectedProject.features.map((h, i) => (
+                      <li key={i} className="flex items-start gap-3 text-sm text-slate-400">
+                        <span className="text-cyan-400 mono shrink-0 mt-0.5">&#9656;</span>
+                        {h}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* My Contributions */}
+              {selectedProject?.contributions && selectedProject.contributions.length > 0 && (
+                <div>
+                  <div className="section-label mb-5">MY CONTRIBUTIONS</div>
+                  <div className="space-y-5">
+                    {selectedProject.contributions.map((c, i) => (
+                      <div key={i} className="border border-slate-800 bg-slate-900/30 p-5 hover:border-slate-700 transition-colors">
+                        <div className="flex items-start gap-3 mb-3">
+                          <span className="mono text-[11px] text-cyan-400/70 shrink-0 pt-0.5 tabular-nums">
+                            {String(i + 1).padStart(2, '0')}
+                          </span>
+                          <h4 className="font-bold text-cyan-300 text-sm sm:text-base leading-snug">{c.title}</h4>
+                        </div>
+                        <p className="text-sm text-slate-400 leading-relaxed mb-4 pl-7">{c.description}</p>
+                        {c.screenshot && c.screenshot.length > 0 && (
+                          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 pl-7">
+                            {c.screenshot.map((src, si) => (
+                              <button
+                                key={si}
+                                onClick={() => setLightbox(src)}
+                                className="group relative overflow-hidden border border-slate-800 hover:border-cyan-400/40 transition-colors"
+                              >
+                                <img
+                                  src={src}
+                                  alt={`${c.title} ${si + 1}`}
+                                  className="w-full aspect-video object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
+                                />
+                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                  <span className="mono text-[10px] text-cyan-400 bg-slate-950/80 px-2 py-1">EXPAND</span>
+                                </div>
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Technologies */}
+              <div>
+                <div className="section-label mb-3">TECHNOLOGIES</div>
+                <div className="flex flex-wrap gap-2">
+                  {selectedProject?.skills.map((t) => (
+                    <span key={t} className="tag-cyan">{t}</span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Links */}
+              {selectedProject?.links && selectedProject.links.length > 0 && (
+                <div className="flex flex-wrap gap-3 pb-2 border-t border-slate-800 pt-6">
+                  {selectedProject.links.map((link) => (
+                    <a
+                      key={link.url}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={
+                        (link.type === 'github' || link.icon === 'github')
+                          ? 'btn-ghost flex items-center gap-2 text-sm'
+                          : 'btn-primary flex items-center gap-2 text-sm'
+                      }
+                    >
+                      {(link.type === 'github' || link.icon === 'github')
+                        ? <Github size={14} />
+                        : <ExternalLink size={14} />
+                      }
+                      {link.label || link.text || 'VIEW'}
+                    </a>
+                  ))}
+                </div>
+              )}
+
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Lightbox Dialog – separate Radix Dialog so it manages its own dismiss/stack */}
+      <Dialog open={!!lightbox} onOpenChange={(open) => !open && setLightbox(null)}>
+        <DialogContent
+          showCloseButton={false}
+          className="max-w-[98vw] max-h-[98vh] w-auto h-auto bg-transparent border-0 shadow-none p-0 flex items-center justify-center"
+        >
+          <button
+            className="absolute top-3 right-3 z-10 text-slate-400 hover:text-white transition-colors bg-slate-900/90 border border-slate-700 p-2"
+            onClick={() => setLightbox(null)}
+          >
+            <X size={18} />
+          </button>
+          {lightbox && (
+            <img
+              src={lightbox}
+              alt="Preview"
+              className="max-w-[95vw] max-h-[95vh] object-contain border border-slate-700"
+            />
+          )}
         </DialogContent>
       </Dialog>
     </section>
