@@ -12,9 +12,6 @@ const Experience = () => {
   const projectNameById = new Map(data.projects.map((project) => [project.id, project.name]));
   const knownProjectIds = new Set(data.projects.map((project) => project.id));
 
-  const getProjectNames = (projectIds: string[]) =>
-    projectIds.map((projectId) => projectNameById.get(projectId) || projectId);
-
   const openProjectFromExperience = (projectId: string) => {
     if (!knownProjectIds.has(projectId)) return;
 
