@@ -132,6 +132,31 @@ const About = () => {
           },
         }
       );
+
+      ScrollTrigger.matchMedia({
+        '(min-width: 1024px)': () => {
+          const imageContainer = sectionRef.current?.querySelector('.about-image-container') as HTMLElement | null;
+          const contentGrid = sectionRef.current?.querySelector('.about-content-grid') as HTMLElement | null;
+          if (!imageContainer || !contentGrid) return;
+
+          gsap.to(imageContainer, {
+            y: () => {
+              const gridHeight = contentGrid.offsetHeight;
+              const imageHeight = imageContainer.offsetHeight;
+              const maxLayoutTravel = Math.max(0, gridHeight - imageHeight - 24);
+              return maxLayoutTravel;
+            },
+            ease: 'none',
+            scrollTrigger: {
+              trigger: contentGrid,
+              start: 'top top+=100',
+              end: 'bottom bottom-=100',
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
+          });
+        },
+      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -200,7 +225,7 @@ const About = () => {
     >
       <div className="w-full px-6 lg:px-12">
         {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-20">
+        <div className="about-content-grid grid lg:grid-cols-2 gap-12 lg:gap-20 items-center lg:items-start mb-20">
           {/* Image */}
           <div className="about-image-container relative order-2 lg:order-1">
             <div className="relative aspect-[4/5] max-w-md mx-auto lg:mx-0 overflow-hidden rounded-2xl">
