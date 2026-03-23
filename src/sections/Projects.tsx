@@ -178,6 +178,19 @@ const Projects = () => {
                 ))}
               </ul>
             )}
+            {selectedProject?.contributions && selectedProject.contributions.length > 0 && (
+              <div>
+                <div className="section-label mb-3">MY CONTRIBUTIONS</div>
+                <ul className="space-y-3">
+                  {selectedProject.contributions.map((c, i) => (
+                    <li key={i} className="border-l-2 border-cyan-400/40 pl-4">
+                      <div className="text-sm font-semibold text-cyan-300 mb-0.5">{c.title}</div>
+                      <div className="text-sm text-slate-400 leading-relaxed">{c.description}</div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
             <div>
               <div className="section-label mb-3">TECHNOLOGIES</div>
               <div className="flex flex-wrap gap-2">

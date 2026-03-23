@@ -64,6 +64,7 @@ export interface PortfolioProject {
   platforms: string[];
   genre: string[];
   skills: string[];
+  contributions?: { title: string; description: string }[];
 }
 
 export interface PortfolioData {
