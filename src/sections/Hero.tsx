@@ -142,7 +142,7 @@ const Hero = () => {
               <div className="space-y-2">
                 {data.skills.slice(0, 5).map((sg) => (
                   <div key={sg.category} className="flex items-start gap-2">
-                    <span className="text-cyan-400/50 text-xs mt-0.5">â–¸</span>
+                    <span className="text-cyan-400/50 text-xs mt-0.5">&#9656;</span>
                     <div>
                       <span className="mono text-xs text-slate-500 mr-2">{sg.category}:</span>
                       <span className="mono text-xs text-slate-400">{sg.items.slice(0, 3).join(', ')}</span>
@@ -168,3 +168,4 @@ const Hero = () => {
 };
 
 export default Hero;
+

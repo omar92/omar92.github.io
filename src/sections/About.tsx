@@ -93,7 +93,7 @@ const About = () => {
                     </div>
                     <div>
                       <div className="text-sm font-semibold text-slate-200 mb-0.5">{sg.category}</div>
-                      <div className="mono text-xs text-slate-500">{sg.items.join(' Â· ')}</div>
+                      <div className="mono text-xs text-slate-500">{sg.items.join(' / ')}</div>
                     </div>
                   </div>
                 );

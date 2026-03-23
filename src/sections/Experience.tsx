@@ -71,7 +71,7 @@ const Experience = () => {
                           )}
                         </div>
                         <div className="mono text-xs text-slate-500 shrink-0 pt-1">
-                          {job.startDate} â€” {job.endDate ?? 'PRESENT'}
+                          {job.startDate} -- {job.endDate ?? 'PRESENT'}
                         </div>
                       </div>
 
@@ -85,7 +85,7 @@ const Experience = () => {
                         <ul className="space-y-2 mb-4">
                           {job.description.map((d, j) => (
                             <li key={j} className="flex items-start gap-2.5 text-sm text-slate-400">
-                              <span className="text-cyan-400/60 shrink-0 mt-0.5">â–¸</span>{d}
+                              <span className="text-cyan-400/60 shrink-0 mt-0.5">&#9656;</span>{d}
                             </li>
                           ))}
                         </ul>
@@ -152,3 +152,5 @@ const Experience = () => {
 };
 
 export default Experience;
+
+

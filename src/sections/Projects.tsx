@@ -163,7 +163,7 @@ const Projects = () => {
               <ul className="space-y-2">
                 {selectedProject.features.map((h, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-slate-400">
-                    <span className="text-cyan-400 mono shrink-0 mt-0.5">â–¸</span>{h}
+                    <span className="text-cyan-400 mono shrink-0 mt-0.5">&#9656;</span>{h}
                   </li>
                 ))}
               </ul>
@@ -193,3 +193,4 @@ const Projects = () => {
 };
 
 export default Projects;
+

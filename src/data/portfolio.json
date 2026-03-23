@@ -60,6 +60,11 @@
       "value": 30,
       "suffix": "+",
       "label": "Total Forks"
+    },
+    {
+      "value": 25,
+      "suffix": "+",
+      "label": "Projects"
     }
   ],
   "skills": [
