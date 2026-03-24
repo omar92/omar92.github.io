@@ -469,6 +469,101 @@
           "type": "website"
         }
       ]
+    },
+    {
+      "id": "highstreet-campus",
+      "featured": true,
+      "name": "Highstreet Campus",
+      "platforms": [
+        "webGl"
+      ],
+      "cover-image": "https://www.highstreet.market/images/highstreet_campus.png",
+      "screenshots": [
+        "src\\Assets\\Images\\highstreet-campus\\1.png",
+        "src\\Assets\\Images\\highstreet-campus\\2.png",
+        "src\\Assets\\Images\\highstreet-campus\\3.png",
+        "src\\Assets\\Images\\highstreet-campus\\4.png",
+        "src\\Assets\\Images\\highstreet-campus\\5.png",
+        "src\\Assets\\Images\\highstreet-campus\\6.png"
+      ],
+      "videos": [
+        {
+          "text": "Clamity Trailer",
+          "type": "local",
+          "url": "src\\Assets\\Videos\\highstreet-campus\\trailer.mp4"
+        }
+      ],
+      "genre": [
+        "Multiplayer",
+        "social"
+      ],
+      "skills": [
+        "Unity",
+        "C#",
+        "WebGL",
+        "Multiplayer",
+        "Networking"
+      ],
+      "filterTags": [
+        "Unity",
+        "Multiplayer",
+        "Released",
+        "WEbGl"
+      ],
+      "features": [
+        "Explore a vibrant virtual campus with friends",
+        "Attend live events and socialize in real-time",
+        "Customizable avatars and interactive environments",
+        "Scalable WebGL experience supporting large player counts"
+      ],
+      "shortDescription": "Highstreet Campus is a social multiplayer experience where players can explore a vibrant virtual campus, attend events, and connect with friends. The project involved building a scalable WebGL experience with real-time multiplayer features, including matchmaking, chat systems, and interactive environments.",
+      "description": "Highstreet Campus is a social multiplayer experience where players can explore a vibrant virtual campus, attend events, and connect with friends. The project involved building a scalable WebGL experience with real-time multiplayer features, including matchmaking, chat systems, and interactive environments. Players can customize their avatars, participate in campus activities, and socialize in a dynamic online world.",
+      "contributions": [
+        {
+          "title": "WebGL Multiplayer Experience Development",
+          "description": "Led the development of Highstreet Campus, a WebGL-based social multiplayer experience. Implemented core systems including matchmaking, real-time chat, and interactive environments using Unity and C#. Worked closely with designers and artists to create a vibrant virtual campus that supports large numbers of concurrent players while maintaining performance and stability.",
+          "screenshot": [
+            ""
+          ]
+        }
+      ],
+      "links": [
+        {
+          "text": "Play Now",
+          "url": "https://www.highstreet.market/metaverse",
+          "type": "website"
+        }
+      ]
+    },
+    {
+      "id": "highstreet-homes",
+      "featured": true,
+      "name": "Highstreet Homes",
+      "category": "",
+      "image": "",
+      "shortDescription": "",
+      "description": "",
+      "platforms": [
+        "MetaQuest",
+        "WebGl"
+      ],
+      "cover-image": "",
+      "screenshots": [],
+      "videos": [],
+      "genre": [],
+      "skills": [],
+      "filterTags": [
+        "Unity",
+        "Multiplayer",
+        "Released",
+        "WebGl",
+        "VR"
+      ],
+      "tags": [],
+      "features": [],
+      "links": [],
+      "tech": [],
+      "contributions": []
     }
   ]
 }

@@ -9,11 +9,19 @@ import Experience from './sections/Experience';
 import Contact from './sections/Contact';
 import Footer from './sections/Footer';
 import AnimatedBackground from './components/AnimatedBackground';
+import PortfolioEditor from './pages/PortfolioEditor';
 
 gsap.registerPlugin(ScrollTrigger);
 
 function App() {
+  const normalizedPath = window.location.pathname.replace(/\/+$/, '');
+  const isEditorRoute = normalizedPath.endsWith('/editor');
+
   useEffect(() => {
+    if (isEditorRoute) {
+      return;
+    }
+
     // Initialize scroll-triggered animations
     const ctx = gsap.context(() => {
       // Reveal animations for sections
@@ -37,7 +45,11 @@ function App() {
     });
 
     return () => ctx.revert();
-  }, []);
+  }, [isEditorRoute]);
+
+  if (isEditorRoute) {
+    return <PortfolioEditor />;
+  }
 
   return (
     <div className="relative min-h-screen overflow-x-hidden">
