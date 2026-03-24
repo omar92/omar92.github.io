@@ -486,7 +486,8 @@
         "src\\Assets\\Images\\highstreet-campus\\3.png",
         "src\\Assets\\Images\\highstreet-campus\\4.png",
         "src\\Assets\\Images\\highstreet-campus\\5.png",
-        "src\\Assets\\Images\\highstreet-campus\\6.png"
+        "src\\Assets\\Images\\highstreet-campus\\6.png",
+        "src\\Assets\\Images\\highstreet-campus\\7.png"
       ],
       "videos": [
         {
@@ -556,8 +557,17 @@
         },
         {
           "title": "Interaction Sync, UI, and Delivery Support",
-          "description": "Owned synchronization of campus interactions (elevators, seats, and other shared actions), and contributed across bug fixing, UI implementation, and multiple feature deliveries required to keep releases stable.",
-          "screenshot": []
+          "description": "Owned synchronization of campus interactions (elevators, seats, player clothes, emotes, and other shared actions), and contributed across bug fixing, UI implementation, and multiple feature deliveries required to keep releases stable.",
+          "screenshot": [
+            "src\\Assets\\Images\\highstreet-campus\\interaction-sync\\1.png",
+            "src\\Assets\\Images\\highstreet-campus\\interaction-sync\\2.png",
+            "src\\Assets\\Images\\highstreet-campus\\interaction-sync\\3.png",
+            "src\\Assets\\Images\\highstreet-campus\\interaction-sync\\4.png",
+            "src\\Assets\\Images\\highstreet-campus\\ui\\1.png",
+            "src\\Assets\\Images\\highstreet-campus\\ui\\2.png",
+            "src\\Assets\\Images\\highstreet-campus\\ui\\3.png",
+            "src\\Assets\\Images\\highstreet-campus\\ui\\4.png"
+          ]
         }
       ],
       "links": [
