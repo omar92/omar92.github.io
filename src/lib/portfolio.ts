@@ -26,6 +26,7 @@ export interface PortfolioExperience {
   company: string;
   url: string;
   position: string;
+  location?: string;
   startDate: string;
   endDate: string;
   description: string[];
@@ -215,6 +216,7 @@ const data: PortfolioData = {
     company: asString(experience.company),
     url: asString(experience.url),
     position: asString(experience.position),
+    location: asString(experience.location),
     startDate: asString(experience.startDate),
     endDate: asString(experience.endDate),
     description: asStringArray(experience.description),

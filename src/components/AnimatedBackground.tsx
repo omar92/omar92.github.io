@@ -31,8 +31,9 @@ const AnimatedBackground = () => {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    const context = canvas.getContext('2d');
+    if (!context) return;
+    const ctx: CanvasRenderingContext2D = context;
 
     let width = window.innerWidth;
     let height = window.innerHeight;
@@ -88,7 +89,7 @@ const AnimatedBackground = () => {
     let animId = 0;
 
     function render(ts: number) {
-      const dt = Math.min(ts - lastTime, 32);
+      Math.min(ts - lastTime, 32);
       lastTime = ts;
       frameRef.current++;
       const t = ts * 0.001;
