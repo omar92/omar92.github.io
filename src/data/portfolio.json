@@ -525,7 +525,8 @@
         "VIP rooftop area with outdoor garden and social spaces",
         "Salon shop and interactive interior spaces inside the campus",
         "Dynamic lab system where players can swap lab interiors from an in-world console",
-        "Real-time synchronized interactions for shared systems like elevators and seats"
+        "Real-time synchronized interactions for shared systems like elevators and seats",
+        "Dynamic environment changes based on in-game events"
       ],
       "shortDescription": "Highstreet Campus was built as the company's metaverse entry point: a large-scale WebGL social hub with MMO-oriented networking, NFT commerce, and connected world travel into Highstreet Homes.",
       "description": "Highstreet Campus started as a social metaverse hub and strategic entry point for the company, with an early goal of building networking and infrastructure that could scale toward MMO requirements. The world combined social interaction spaces with NFT purchasing experiences, then expanded to include travel pods linking players to their homes in the previous Highstreet Homes project. The campus later introduced a VIP rooftop section with an outdoor garden, additional social activities, and a salon shop. One notable multiplayer challenge was a dynamic lab feature where players could switch lab interiors from an in-world console, requiring synchronized environment swaps while correctly handling other users already inside the affected area.",
@@ -582,30 +583,90 @@
       "id": "highstreet-homes",
       "featured": true,
       "name": "Highstreet Homes",
-      "image": "",
-      "shortDescription": "",
-      "description": "",
       "platforms": [
         "MetaQuest",
         "WebGL"
       ],
-      "cover-image": "",
-      "screenshots": [],
+      "cover-image": "src\\Assets\\Images\\highstreet-homes\\1.jpg",
+      "screenshots": [
+        "src\\Assets\\Images\\highstreet-homes\\1.jpg",
+        "src\\Assets\\Images\\highstreet-homes\\2.jpg",
+        "src\\Assets\\Images\\highstreet-homes\\3.jpg",
+        "src\\Assets\\Images\\highstreet-homes\\4.jpg",
+        "src\\Assets\\Images\\highstreet-homes\\5.jpg",
+        "src\\Assets\\Images\\highstreet-homes\\6.jpg"
+      ],
       "videos": [],
-      "genre": [],
-      "skills": [],
+      "genre": [
+        "VR",
+        "Multiplayer",
+        "social"
+      ],
+      "skills": [
+        "Unity",
+        "C#",
+        "JavaScript",
+        "VR",
+        "WebGL",
+        "cross-platform development",
+        "Multiplayer",
+        "Networking",
+        "Server Architecture",
+        "Mirror",
+        "Web3 Integration"
+      ],
       "filterTags": [
         "Unity",
         "Multiplayer",
         "WebGL",
         "VR",
+        "cross-platform",
         "Released"
       ],
-      "tags": [],
-      "features": [],
-      "links": [],
-      "tech": [],
-      "contributions": []
+      "features": [
+        "Player homes with customizable furniture and decorations",
+        "NFT integration for purchasable items and homes access",
+        "Cross-platform social interactions between web and VR users",
+        "Interactive activities within player homes",
+        "Travel pods connecting homes to the main campus",
+        "Player pets with interactive behaviors"
+      ],
+      "shortDescription": "Highstreet Homes was designed as a social experience where players could purchase and customize their own homes with NFTs, interact with friends, and connect to the main campus through travel pods.",
+      "description": "Highstreet Homes was designed as a social experience where players could purchase and customize their own homes with NFTs, interact with friends, and connect to the main campus through travel pods. The project presented significant challenges in adapting Unity's native network system, which required extensive custom work to meet the experience's needs. The game supported cross-platform interactions between web and VR users, allowing them to socialize together regardless of their chosen platform. Players could decorate their homes with furniture and items purchased as NFTs, and also had interactive pets that added life to their virtual spaces.",
+      "contributions": [
+        {
+          "title": "[AI generated] Cross-Platform Multiplayer Architecture",
+          "description": "[AI generated] Adapted the existing multiplayer architecture to support both WebGL and VR clients in the same shared world, implementing platform-specific optimizations while maintaining a unified codebase.",
+          "screenshot": []
+        },
+        {
+          "title": "[AI generated] NFT Integration for Customization",
+          "description": "[AI generated] Implemented NFT-based item purchasing and ownership systems that allowed players to buy, sell, and display unique items in their homes, integrating with external marketplaces and ensuring secure ownership verification.",
+          "screenshot": []
+        },
+        {
+          "title": "[AI generated] Social Interaction Systems",
+          "description": "[AI generated] Built robust social features including friend lists, chat systems, and shared activities that worked seamlessly across platforms, fostering a vibrant community within player homes.",
+          "screenshot": []
+        },
+        {
+          "title": "[AI generated] Cross-Project Connectivity",
+          "description": "[AI generated] Developed the travel pod system that allowed players to seamlessly transition between Highstreet Homes and the main campus experience, synchronizing player data and state across both projects.",
+          "screenshot": []
+        }
+      ],
+      "links": [
+        {
+          "text": "In Campus `Web Version`",
+          "url": "https://www.meta.com/en-gb/experiences/highstreet-homes/9352017631510878/",
+          "type": "website"
+        },
+        {
+          "text": "SideQuest `VR Version`",
+          "url": "https://sidequestvr.com/app/8343/highstreet-homes",
+          "type": "website"
+        }
+      ]
     }
   ]
 }
