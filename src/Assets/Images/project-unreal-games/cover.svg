@@ -1,0 +1,13 @@
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff006e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8338ec;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="#050816"/>
+  <polygon points="200,80 280,150 260,250 140,250 120,150" fill="url(#grad2)" opacity="0.3"/>
+  <text x="200" y="180" font-family="Arial, sans-serif" font-size="42" font-weight="bold" fill="url(#grad2)" text-anchor="middle">UNREAL</text>
+  <text x="200" y="220" font-family="Arial, sans-serif" font-size="28" fill="#ff006e" text-anchor="middle">GAMES</text>
+  <text x="200" y="250" font-family="Arial, sans-serif" font-size="18" fill="#8338ec" text-anchor="middle">C++ • Multiplayer</text>
+</svg>
