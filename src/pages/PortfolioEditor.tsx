@@ -1,5 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, Save, RotateCcw, CheckCircle2, Plus, Trash2, ChevronDown, ChevronRight } from 'lucide-react';
+import {
+  ArrowLeft,
+  Save,
+  RotateCcw,
+  CheckCircle2,
+  Plus,
+  Trash2,
+  ChevronDown,
+  ChevronRight,
+  ExternalLink,
+  ImageIcon,
+} from 'lucide-react';
 import { portfolioSchema, createTemplateFromSchema, type FieldSchema } from '@/lib/editorSchema';
 
 const ENDPOINT = '/__portfolio-json';
@@ -9,8 +20,45 @@ type JsonPrimitive = string | number | boolean | null;
 type JsonValue = JsonPrimitive | JsonValue[] | { [key: string]: JsonValue };
 type JsonPath = Array<string | number>;
 
+const IMAGE_FIELD_REGEX = /(image|images|avatar|screenshot|screenshots|cover)/i;
+const IMAGE_EXT_REGEX = /\.(png|jpe?g|gif|webp|bmp|svg|avif|ico)(\?.*)?$/i;
+
 function isObjectValue(value: JsonValue): value is { [key: string]: JsonValue } {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function normalizeMediaSrc(value: string): string {
+  const trimmed = value.trim();
+
+  if (!trimmed) {
+    return '';
+  }
+
+  const normalized = trimmed.replace(/\\/g, '/');
+
+  if (
+    normalized.startsWith('http://') ||
+    normalized.startsWith('https://') ||
+    normalized.startsWith('data:') ||
+    normalized.startsWith('blob:')
+  ) {
+    return normalized;
+  }
+
+  if (normalized.startsWith('/')) {
+    return normalized;
+  }
+
+  return `/${normalized}`;
+}
+
+function isLikelyImageSource(value: string): boolean {
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return false;
+  }
+
+  return IMAGE_EXT_REGEX.test(trimmed) || trimmed.startsWith('data:image/');
 }
 
 function setAtPath(root: JsonValue, path: JsonPath, nextValue: JsonValue): JsonValue {
@@ -116,6 +164,9 @@ function FieldEditor({
   const isBoolean = typeof value === 'boolean';
   const isNumber = typeof value === 'number';
   const isLongString = typeof value === 'string' && (value.length > 60 || value.includes('\n'));
+  const isImageField = typeof value === 'string' && IMAGE_FIELD_REGEX.test(label);
+  const imageSrc = typeof value === 'string' ? normalizeMediaSrc(value) : '';
+  const canPreviewImage = typeof value === 'string' && isLikelyImageSource(value);
 
   // For arrays of objects
   if (isArray && schema?.itemSchema) {
@@ -215,6 +266,8 @@ function FieldEditor({
 
   // For arrays of primitives
   if (isArray && schema?.itemType === 'string') {
+    const isImageArrayField = IMAGE_FIELD_REGEX.test(label);
+
     return (
       <div className="border border-slate-800 bg-slate-900/40 p-3">
         <div className="mb-3 flex items-center justify-between gap-2">
@@ -238,31 +291,65 @@ function FieldEditor({
 
         {isExpanded && (
           <div className="space-y-1.5">
-            {value.map((item, index) => (
-              <div key={`${path.join('.')}.${index}`} className="flex gap-2">
-                <input
-                  type="text"
-                  value={String(item)}
-                  onChange={(event) => {
-                    const newArray = [...value];
-                    newArray[index] = event.target.value;
-                    onChangeAtPath(path, newArray);
-                  }}
-                  className="flex-1 border border-slate-700 bg-slate-950 px-2 py-1 text-xs text-slate-100 outline-none focus:border-cyan-500"
-                />
-                <button
-                  type="button"
-                  onClick={() => {
-                    const newArray = [...value];
-                    newArray.splice(index, 1);
-                    onChangeAtPath(path, newArray);
-                  }}
-                  className="inline-flex items-center border border-rose-500/40 px-2 py-1 text-[11px] text-rose-200 hover:bg-rose-500/10"
+            {value.map((item, index) => {
+              const itemValue = String(item ?? '');
+              const itemImageSrc = normalizeMediaSrc(itemValue);
+              const canPreviewItemImage = isImageArrayField && isLikelyImageSource(itemValue);
+
+              return (
+                <div
+                  key={`${path.join('.')}.${index}`}
+                  className={isImageArrayField ? 'border border-slate-700 bg-slate-950/60 p-2' : 'flex gap-2'}
                 >
-                  <Trash2 size={12} />
-                </button>
-              </div>
-            ))}
+                  {isImageArrayField && (
+                    <div className="mb-2 h-28 w-full overflow-hidden border border-slate-700 bg-slate-900/60">
+                      {canPreviewItemImage && itemImageSrc ? (
+                        <img src={itemImageSrc} alt={`Preview ${index + 1}`} className="h-full w-full object-cover" />
+                      ) : (
+                        <div className="flex h-full items-center justify-center gap-2 text-xs text-slate-500">
+                          <ImageIcon size={14} /> No preview
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={itemValue}
+                      placeholder={isImageArrayField ? 'Image URL or path' : ''}
+                      onChange={(event) => {
+                        const newArray = [...value];
+                        newArray[index] = event.target.value;
+                        onChangeAtPath(path, newArray);
+                      }}
+                      className="flex-1 border border-slate-700 bg-slate-950 px-2 py-1 text-xs text-slate-100 outline-none focus:border-cyan-500"
+                    />
+                    {isImageArrayField && itemImageSrc && (
+                      <a
+                        href={itemImageSrc}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1 border border-slate-700 px-2 py-1 text-[11px] text-slate-300 hover:border-cyan-500/40 hover:text-cyan-200"
+                      >
+                        <ExternalLink size={12} /> Open
+                      </a>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const newArray = [...value];
+                        newArray.splice(index, 1);
+                        onChangeAtPath(path, newArray);
+                      }}
+                      className="inline-flex items-center border border-rose-500/40 px-2 py-1 text-[11px] text-rose-200 hover:bg-rose-500/10"
+                    >
+                      <Trash2 size={12} />
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
             {value.length === 0 && <div className="text-xs text-slate-500">No items</div>}
           </div>
         )}
@@ -326,6 +413,37 @@ function FieldEditor({
           />
           {value ? 'True' : 'False'}
         </label>
+      ) : isImageField ? (
+        <div className="space-y-2">
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={String(value)}
+              placeholder="Image URL or path"
+              onChange={(event) => onChangeAtPath(path, event.target.value)}
+              className="w-full border border-slate-700 bg-slate-950 px-2 py-1.5 text-xs text-slate-100 outline-none focus:border-cyan-500"
+            />
+            {imageSrc && (
+              <a
+                href={imageSrc}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1 border border-slate-700 px-2 py-1 text-[11px] text-slate-300 hover:border-cyan-500/40 hover:text-cyan-200"
+              >
+                <ExternalLink size={12} /> Open
+              </a>
+            )}
+          </div>
+          <div className="h-32 w-full overflow-hidden border border-slate-700 bg-slate-900/60">
+            {canPreviewImage && imageSrc ? (
+              <img src={imageSrc} alt={`${label} preview`} className="h-full w-full object-cover" />
+            ) : (
+              <div className="flex h-full items-center justify-center gap-2 text-xs text-slate-500">
+                <ImageIcon size={14} /> No preview
+              </div>
+            )}
+          </div>
+        </div>
       ) : isLongString ? (
         <textarea
           value={String(value)}
