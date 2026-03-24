@@ -29,7 +29,6 @@ const Experience = () => {
 
   const openProject = (id: string) => {
     window.dispatchEvent(new CustomEvent('open-project', { detail: { id } }));
-    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
