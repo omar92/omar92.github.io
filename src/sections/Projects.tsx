@@ -103,15 +103,28 @@ const Projects = () => {
               {project.image && (
                 <div className="relative overflow-hidden h-44 shrink-0">
                   <img src={project.image} alt={project.name} className="w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-500" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-                  <span className="absolute top-3 right-3 tag-violet">{project.category}</span>
+                  <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-transparent to-slate-950/80" />
+                  <div className="absolute top-3 right-3 flex flex-wrap justify-end gap-1 max-w-[80%]">
+                    {project.platforms.map((platform) => (
+                      <span
+                        key={platform}
+                        className="tag-violet bg-slate-950/90 text-violet-200 border-violet-300/45 backdrop-blur-sm shadow-sm"
+                      >
+                        {platform}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               )}
 
               {/* Body */}
               <div className="p-5 flex flex-col flex-1 gap-3">
                 {!project.image && (
-                  <span className="tag-violet self-start">{project.category}</span>
+                  <div className="flex flex-wrap gap-1.5 self-start">
+                    {project.platforms.map((platform) => (
+                      <span key={platform} className="tag-violet">{platform}</span>
+                    ))}
+                  </div>
                 )}
                 <h3 className="font-bold text-white group-hover:text-cyan-400 transition-colors leading-snug">{project.name}</h3>
                 <p className="text-sm text-slate-400 leading-relaxed flex-1 line-clamp-3">{project.description}</p>

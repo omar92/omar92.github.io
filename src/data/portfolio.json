@@ -515,7 +515,7 @@
       "filterTags": [
         "Unity",
         "Multiplayer",
-        "WebGL",
+        "Web",
         "Released"
       ],
       "features": [
@@ -618,7 +618,7 @@
       "filterTags": [
         "Unity",
         "Multiplayer",
-        "WebGL",
+        "Web",
         "VR",
         "cross-platform",
         "Released"
