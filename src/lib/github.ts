@@ -60,6 +60,52 @@ export const parseGitHubRepoFromUrl = (url: string): GitHubRepoIdentifier | null
   }
 };
 
+export interface GitHubUserStats {
+  public_repos: number;
+  total_stars: number;
+  total_forks: number;
+}
+
+export const fetchGitHubUserStats = async (username: string): Promise<GitHubUserStats | null> => {
+  try {
+    const userResponse = await fetch(`https://api.github.com/users/${username}`);
+    if (!userResponse.ok) return null;
+
+    const userJson = (await userResponse.json()) as { public_repos?: number };
+    const public_repos = Number(userJson.public_repos) || 0;
+
+    let total_stars = 0;
+    let total_forks = 0;
+    let page = 1;
+
+    while (true) {
+      const reposResponse = await fetch(
+        `https://api.github.com/users/${username}/repos?per_page=100&page=${page}&sort=updated`,
+      );
+      if (!reposResponse.ok) break;
+
+      const repos = (await reposResponse.json()) as {
+        stargazers_count?: number;
+        forks_count?: number;
+      }[];
+      if (!Array.isArray(repos) || repos.length === 0) break;
+
+      for (const repo of repos) {
+        total_stars += Number(repo.stargazers_count) || 0;
+        total_forks += Number(repo.forks_count) || 0;
+      }
+
+      const linkHeader = reposResponse.headers.get('link');
+      if (repos.length < 100 || !linkHeader?.includes('rel="next"')) break;
+      page++;
+    }
+
+    return { public_repos, total_stars, total_forks };
+  } catch {
+    return null;
+  }
+};
+
 export const fetchGitHubRepoStats = async (
   identifier: GitHubRepoIdentifier,
 ): Promise<GitHubRepoStats | null> => {

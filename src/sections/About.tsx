@@ -1,8 +1,9 @@
-﻿import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Download, Shield, Cpu, Layers, Globe, Network, Zap } from 'lucide-react';
 import data from '../lib/portfolio';
+import { fetchGitHubUserStats, type GitHubUserStats } from '../lib/github';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,11 +11,61 @@ const SPEC_ICONS = [Shield, Cpu, Layers, Globe, Network, Zap];
 
 const About = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const [counters, setCounters] = useState<number[]>(() => data.stats.map(() => 0));
   const hasAnimated = useRef(false);
 
+  // ── Compute years of experience from earliest job start date ──────────
+  const yearsExperience = useMemo(() => {
+    const dates = data.experience
+      .map((e) => new Date(e.startDate))
+      .filter((d) => !isNaN(d.getTime()));
+    if (!dates.length) return 0;
+    const earliest = new Date(Math.min(...dates.map((d) => d.getTime())));
+    return Math.floor((Date.now() - earliest.getTime()) / (1000 * 60 * 60 * 24 * 365.25));
+  }, []);
+
+  // ── Live GitHub user stats (stars, forks, public repos) ───────────────
+  const [githubUserStats, setGithubUserStats] = useState<GitHubUserStats | null>(null);
+
+  useEffect(() => {
+    const githubUrl = data.personal.contacts.links.find(
+      (l) => l.icon?.toLowerCase() === 'github' || l.label?.toLowerCase() === 'github',
+    )?.url;
+    if (!githubUrl) return;
+    let cancelled = false;
+    try {
+      const username = new URL(githubUrl).pathname.split('/').filter(Boolean)[0];
+      if (username) {
+        fetchGitHubUserStats(username).then((stats) => {
+          if (!cancelled && stats) setGithubUserStats(stats);
+        });
+      }
+    } catch { /* ignore invalid URL */ }
+    return () => { cancelled = true; };
+  }, []);
+
+  // ── Build live stats array overriding hardcoded values ────────────────
+  const liveStats = useMemo(() => {
+    return data.stats.map((stat) => {
+      const label = stat.label.toLowerCase();
+      if (label.includes('year')) return { ...stat, value: yearsExperience };
+      if (label.includes('project')) return { ...stat, value: data.projects.length };
+      if (githubUserStats) {
+        if (label.includes('repo')) return { ...stat, value: githubUserStats.public_repos };
+        if (label.includes('star')) return { ...stat, value: githubUserStats.total_stars };
+        if (label.includes('fork')) return { ...stat, value: githubUserStats.total_forks };
+      }
+      return stat;
+    });
+  }, [yearsExperience, githubUserStats]);
+
+  // Keep a ref so the GSAP closure (created once on mount) always reads the latest values
+  const liveStatsRef = useRef(liveStats);
+  liveStatsRef.current = liveStats;
+
+  const [counters, setCounters] = useState<number[]>(() => data.stats.map(() => 0));
+
   function animateCounters() {
-    data.stats.forEach((stat, i) => {
+    liveStatsRef.current.forEach((stat, i) => {
       const obj = { value: 0 };
       gsap.to(obj, {
         value: stat.value,
@@ -30,6 +81,13 @@ const About = () => {
       });
     });
   }
+
+  // If GitHub data arrives after the animation already played, update counters directly
+  useEffect(() => {
+    if (hasAnimated.current) {
+      setCounters(liveStats.map((s) => s.value));
+    }
+  }, [liveStats]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -125,7 +183,7 @@ const About = () => {
 
             {/* Stats */}
             <div className="ab-stats grid grid-cols-2 gap-4">
-              {data.stats.map((stat, i) => (
+              {liveStats.map((stat, i) => (
                 <div key={i} className="ab-stat game-card clip-tl hud-corners p-5 group hover:border-cyan-400/25 transition-all">
                   <div className="text-4xl font-black mono text-white mb-1 group-hover:text-cyan-400 transition-colors">
                     {counters[i]}<span className="text-cyan-400 text-3xl">{stat.suffix}</span>

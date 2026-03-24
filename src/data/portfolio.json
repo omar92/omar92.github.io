@@ -53,12 +53,12 @@
     },
     {
       "value": 200,
-      "suffix": "+",
+      "suffix": "",
       "label": "GitHub Stars"
     },
     {
       "value": 30,
-      "suffix": "+",
+      "suffix": "",
       "label": "Total Forks"
     },
     {
