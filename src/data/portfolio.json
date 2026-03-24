@@ -1179,6 +1179,72 @@
       ]
     },
     {
+      "id": "optimized-unity-scroll-list",
+      "featured": false,
+      "name": "Optimized Unity Scroll List",
+      "category": "Unity Tooling",
+      "platforms": [
+        "Unity"
+      ],
+      "cover-image": "https://opengraph.githubassets.com/1/omar92/Optmized-unity-scroll-list",
+      "screenshots": [
+        "https://opengraph.githubassets.com/1/omar92/Optmized-unity-scroll-list"
+      ],
+      "videos": [],
+      "genre": [
+        "Tools",
+        "UI",
+        "Performance",
+        "Open Source"
+      ],
+      "skills": [
+        "Unity",
+        "C#",
+        "UGUI",
+        "Object Pooling",
+        "Performance Optimization",
+        "ScriptableObject Architecture"
+      ],
+      "filterTags": [
+        "Unity",
+        "Tools"
+      ],
+      "features": [
+        "Virtual scrolling with object pooling so only visible items are instantiated",
+        "Smooth handling of 1000+ items with low draw calls and mobile-friendly performance",
+        "Supports both horizontal and vertical ScrollRect layouts",
+        "Responsive rebuilding when the viewport size changes",
+        "OnItemShow and OnItemHide callbacks for clean data binding on recycled items",
+        "Includes a decoupled ScriptableObject-based demo architecture"
+      ],
+      "shortDescription": "High-performance Unity scroll list system with pooled, virtualized items for large datasets and smooth scrolling.",
+      "description": "Optimized Unity Scroll List is a Unity UI tooling project focused on rendering very large ScrollRect datasets efficiently by recycling a fixed pool of item views instead of instantiating one object per entry. The repo includes a working inventory demo, lifecycle callbacks for rebinding pooled items, support for horizontal and vertical lists, and a lightweight ScriptableObject-driven architecture for decoupled UI communication.",
+      "contributions": [
+        {
+          "title": "Virtualized ScrollRect Pooling System",
+          "description": "Built the core ListOptmizer component to calculate visible ranges, recycle pooled UI items, and maintain front and rear filler elements so large lists scroll smoothly without the cost of thousands of instantiated objects.",
+          "screenshot": []
+        },
+        {
+          "title": "Inspector-Friendly Item Lifecycle Hooks",
+          "description": "Implemented OnItemShow and OnItemHide callback flows, plus OptmizedListItem UnityEvent hooks, so recycled cells can be rebound cleanly from code or directly through the Unity Inspector.",
+          "screenshot": []
+        },
+        {
+          "title": "ScriptableObject Demo Integration",
+          "description": "Structured the demo around ScriptableObject variables and event channels to keep inventory data, selection state, and UI updates decoupled while still being easy to wire up in-editor.",
+          "screenshot": []
+        }
+      ],
+      "links": [
+        {
+          "text": "View on GitHub",
+          "url": "https://github.com/omar92/Optmized-unity-scroll-list",
+          "type": "github"
+        }
+      ]
+    },
+    {
       "id": "zinad-training-games",
       "featured": false,
       "name": "Zinad Security Training Games",
@@ -1229,7 +1295,7 @@
     },
     {
       "id": "project-tawla",
-      "featured": false,
+      "featured": true,
       "name": "3ashara Tawla",
       "platforms": [
         "Mobile"

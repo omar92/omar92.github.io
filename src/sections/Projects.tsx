@@ -300,7 +300,7 @@ const Projects = () => {
                 {/* ── About ── */}
                 <section id="pd-about">
                   <div className="section-label mb-3">ABOUT</div>
-                  <p className="text-slate-300 leading-relaxed text-sm sm:text-base max-w-3xl">{selectedProject?.description}</p>
+                  <p className="text-slate-300 leading-relaxed text-sm sm:text-base">{selectedProject?.description}</p>
 
                   {/* Mobile-only: features + tech + links */}
                   {selectedProject?.features && selectedProject.features.length > 0 && (
