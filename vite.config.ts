@@ -86,6 +86,23 @@ function createPortfolioJsonEditorPlugin(): Plugin {
   };
 }
 
+function copyAssetsToOutputPlugin(outDir: string): Plugin {
+  const assetsSourceDir = path.resolve(__dirname, "./src/Assets")
+  const assetsTargetDir = path.resolve(__dirname, `./${outDir}/src/Assets`)
+
+  return {
+    name: "copy-assets-to-output",
+    async writeBundle() {
+      try {
+        await fs.mkdir(path.dirname(assetsTargetDir), { recursive: true })
+        await fs.cp(assetsSourceDir, assetsTargetDir, { recursive: true, force: true })
+      } catch (error) {
+        console.error("Failed to copy src/Assets to build output:", error)
+      }
+    },
+  }
+}
+
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const base = process.env.VITE_BASE ?? (mode === "production" ? "/portfolio/" : "/");
@@ -93,7 +110,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     base,
-    plugins: [inspectAttr(), react(), createPortfolioJsonEditorPlugin()],
+    plugins: [inspectAttr(), react(), createPortfolioJsonEditorPlugin(), copyAssetsToOutputPlugin(outDir)],
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
