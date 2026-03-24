@@ -667,6 +667,73 @@
           "type": "website"
         }
       ]
+    },
+    {
+      "id": "portfolio-vibe-coded",
+      "featured": false,
+      "name": "Portfolio & JSON Visual Editor",
+      "platforms": [
+        "Web"
+      ],
+      "cover-image": "",
+      "screenshots": [],
+      "videos": [],
+      "genre": [
+        "Web",
+        "Developer Tools"
+      ],
+      "skills": [
+        "React",
+        "TypeScript",
+        "Vite",
+        "Tailwind CSS",
+        "JSON Schema",
+        "UI/UX"
+      ],
+      "filterTags": [
+        "Web",
+        "React",
+        "TypeScript",
+        "Vibe Coded"
+      ],
+      "features": [
+        "Vibe coded portfolio website with a clean, responsive UI",
+        "Built-in visual editor for portfolio.json (no manual raw JSON editing required)",
+        "Schema-aware add/remove flows to protect data structure integrity",
+        "Section and item focus mode for fast content editing",
+        "Media preview support for images and screenshots during editing"
+      ],
+      "shortDescription": "A vibe coded portfolio project built with React and TypeScript, featuring a full visual editor for managing portfolio content safely.",
+      "description": "This portfolio is a vibe coded project focused on both presentation quality and practical content management. Beyond the public-facing portfolio pages, it includes an integrated visual editor that lets content be updated through structured UI controls instead of manual JSON text editing. The editor is schema-aware, supports nested sections, and helps prevent structural mistakes while editing projects, experience, education, and media fields.",
+      "contributions": [
+        {
+          "title": "Vibe Coded UX and Frontend Architecture",
+          "description": "Designed and implemented the portfolio UI and interaction model using React, TypeScript, and Tailwind CSS, with an emphasis on readability, speed, and modern visual style.",
+          "screenshot": []
+        },
+        {
+          "title": "Visual JSON Editor",
+          "description": "Built a schema-driven editor for portfolio.json with nested field editing, array item management, and focused editing workflows that reduce content update friction.",
+          "screenshot": []
+        },
+        {
+          "title": "Data Safety and Media Editing Enhancements",
+          "description": "Implemented structure-safe creation flows, section/item navigation behavior, and media editing improvements including preview-first UX for image-related fields.",
+          "screenshot": []
+        }
+      ],
+      "links": [
+        {
+          "text": "Live Site",
+          "url": "https://omar92.github.io/portfolio/",
+          "type": "website"
+        },
+        {
+          "text": "GitHub Repository",
+          "url": "https://github.com/omar92/portfolio",
+          "type": "github"
+        }
+      ]
     }
   ]
 }
