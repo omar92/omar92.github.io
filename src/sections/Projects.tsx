@@ -1,8 +1,9 @@
 ﻿import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ExternalLink, Github, X, ChevronRight, Play, Monitor, Wrench } from 'lucide-react';
+import { ExternalLink, Github, X, ChevronRight, Play, Monitor, Wrench, Star, GitFork, Users } from 'lucide-react';
 import data, { type PortfolioProject } from '../lib/portfolio';
+import { fetchGitHubRepoStats, parseGitHubRepoFromUrl, type GitHubRepoStats } from '@/lib/github';
 import {
   Dialog,
   DialogContent,
@@ -18,12 +19,14 @@ const Projects = () => {
   const [activeFilter, setActiveFilter] = useState('Showcase');
   const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
   const [lightbox, setLightbox] = useState<string | null>(null);
+  const [projectGitHubStats, setProjectGitHubStats] = useState<Record<string, GitHubRepoStats>>({});
 
   const categories = ['Showcase', 'All', ...Array.from(new Set(data.projects.flatMap((p) => p.filterTags)))];
   const filtered =
     activeFilter === 'Showcase' ? data.projects.filter((p) => p.featured) :
     activeFilter === 'All' ? data.projects :
     data.projects.filter((p) => p.filterTags.includes(activeFilter));
+  const selectedProjectGitHubStats = selectedProject ? projectGitHubStats[selectedProject.id] : undefined;
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -52,6 +55,80 @@ const Projects = () => {
     };
     window.addEventListener('open-project', handler);
     return () => window.removeEventListener('open-project', handler);
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadStats = async () => {
+      const projectsWithGitHub = data.projects
+        .map((project) => {
+          const githubLink = project.links.find(
+            (link) =>
+              link.type?.toLowerCase() === 'github' ||
+              link.icon?.toLowerCase() === 'github' ||
+              link.url.toLowerCase().includes('github.com/'),
+          );
+
+          if (!githubLink) {
+            return null;
+          }
+
+          const repo = parseGitHubRepoFromUrl(githubLink.url);
+
+          if (!repo) {
+            return null;
+          }
+
+          return {
+            projectId: project.id,
+            repoKey: `${repo.owner}/${repo.repo}`.toLowerCase(),
+            repo,
+          };
+        })
+        .filter((item): item is { projectId: string; repoKey: string; repo: { owner: string; repo: string } } => Boolean(item));
+
+      const uniqueRepos = new Map<string, { owner: string; repo: string }>();
+      projectsWithGitHub.forEach((item) => {
+        if (!uniqueRepos.has(item.repoKey)) {
+          uniqueRepos.set(item.repoKey, item.repo);
+        }
+      });
+
+      const repoStatsEntries = await Promise.all(
+        Array.from(uniqueRepos.entries()).map(async ([repoKey, repo]) => {
+          const stats = await fetchGitHubRepoStats(repo);
+          return [repoKey, stats] as const;
+        }),
+      );
+
+      if (cancelled) {
+        return;
+      }
+
+      const statsByRepo = new Map<string, GitHubRepoStats>();
+      repoStatsEntries.forEach(([repoKey, stats]) => {
+        if (stats) {
+          statsByRepo.set(repoKey, stats);
+        }
+      });
+
+      const statsByProject: Record<string, GitHubRepoStats> = {};
+      projectsWithGitHub.forEach((item) => {
+        const repoStats = statsByRepo.get(item.repoKey);
+        if (repoStats) {
+          statsByProject[item.projectId] = repoStats;
+        }
+      });
+
+      setProjectGitHubStats(statsByProject);
+    };
+
+    void loadStats();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   return (
@@ -93,7 +170,22 @@ const Projects = () => {
 
         {/* Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((project) => (
+          {filtered.map((project) => {
+            const githubLink = project.links.find(
+              (link) =>
+                link.type?.toLowerCase() === 'github' ||
+                link.icon?.toLowerCase() === 'github' ||
+                link.url.toLowerCase().includes('github.com/'),
+            );
+            const websiteLink = project.links.find(
+              (link) =>
+                link.type?.toLowerCase() === 'demo' ||
+                link.type?.toLowerCase() === 'live' ||
+                link.type?.toLowerCase() === 'website',
+            );
+            const githubStats = projectGitHubStats[project.id];
+
+            return (
             <article
               key={project.id}
               className="pj-card game-card clip-tl group cursor-pointer flex flex-col"
@@ -118,7 +210,23 @@ const Projects = () => {
               )}
 
               {/* Body */}
-              <div className="p-5 flex flex-col flex-1 gap-3">
+              <div className="p-5 flex flex-col flex-1 gap-3 relative">
+                {githubStats && (
+                  <div className="absolute top-4 right-4 flex items-center gap-2 text-[10px] mono text-slate-400 bg-slate-950/70 border border-slate-800 px-2 py-1 rounded-sm">
+                    <span className="flex items-center gap-1">
+                      <Star size={10} className="text-slate-400" />
+                      {githubStats.stars.toLocaleString()}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <GitFork size={10} className="text-slate-400" />
+                      {githubStats.forks.toLocaleString()}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Users size={10} className="text-slate-400" />
+                      {githubStats.contributors.toLocaleString()}
+                    </span>
+                  </div>
+                )}
                 {!project.image && (
                   <div className="flex flex-wrap gap-1.5 self-start">
                     {project.platforms.map((platform) => (
@@ -126,7 +234,7 @@ const Projects = () => {
                     ))}
                   </div>
                 )}
-                <h3 className="font-bold text-white group-hover:text-cyan-400 transition-colors leading-snug">{project.name}</h3>
+                <h3 className={`font-bold text-white group-hover:text-cyan-400 transition-colors leading-snug ${githubStats ? 'pr-28' : ''}`}>{project.name}</h3>
                 <p className="text-sm text-slate-400 leading-relaxed flex-1 line-clamp-3">{project.description}</p>
 
                 {/* Tags */}
@@ -142,13 +250,13 @@ const Projects = () => {
                 {/* Footer */}
                 <div className="flex items-center justify-between pt-2 border-t border-slate-800">
                   <div className="flex gap-3">
-                    {project.links.find(l => l.type === 'github' || l.icon === 'github') && (
-                      <a href={project.links.find(l => l.type === 'github' || l.icon === 'github')!.url} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-white transition-colors">
+                    {githubLink && (
+                      <a href={githubLink.url} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-white transition-colors">
                         <Github size={15} />
                       </a>
                     )}
-                    {project.links.find(l => l.type === 'demo' || l.type === 'live' || l.type === 'website') && (
-                      <a href={project.links.find(l => l.type === 'demo' || l.type === 'live' || l.type === 'website')!.url} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-cyan-400 transition-colors">
+                    {websiteLink && (
+                      <a href={websiteLink.url} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-cyan-400 transition-colors">
                         <ExternalLink size={15} />
                       </a>
                     )}
@@ -159,7 +267,8 @@ const Projects = () => {
                 </div>
               </div>
             </article>
-          ))}
+            );
+          })}
         </div>
       </div>
 
@@ -193,12 +302,14 @@ const Projects = () => {
                 {selectedProject?.shortDescription}
               </DialogDescription>
             </DialogHeader>
-            <button
-              onClick={() => setSelectedProject(null)}
-              className="shrink-0 mt-1 text-slate-500 hover:text-white transition-colors border border-slate-800 hover:border-slate-600 p-1.5"
-            >
-              <X size={16} />
-            </button>
+            <div className="shrink-0 mt-1">
+              <button
+                onClick={() => setSelectedProject(null)}
+                className="shrink-0 text-slate-500 hover:text-white transition-colors border border-slate-800 hover:border-slate-600 p-1.5"
+              >
+                <X size={16} />
+              </button>
+            </div>
           </div>
 
           {/* ── Two-panel body ── */}
@@ -301,6 +412,23 @@ const Projects = () => {
                 <section id="pd-about">
                   <div className="section-label mb-3">ABOUT</div>
                   <p className="text-slate-300 leading-relaxed text-sm sm:text-base">{selectedProject?.description}</p>
+
+                  {selectedProjectGitHubStats && (
+                    <div className="mt-4 flex flex-wrap items-center gap-4 text-xs mono text-slate-400">
+                      <span className="flex items-center gap-1.5">
+                        <Star size={12} className="text-slate-400" />
+                        {selectedProjectGitHubStats.stars.toLocaleString()} STARS
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <GitFork size={12} className="text-slate-400" />
+                        {selectedProjectGitHubStats.forks.toLocaleString()} FORKS
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <Users size={12} className="text-slate-400" />
+                        {selectedProjectGitHubStats.contributors.toLocaleString()} CONTRIBUTORS
+                      </span>
+                    </div>
+                  )}
 
                   {/* Mobile-only: features + tech + links */}
                   {selectedProject?.features && selectedProject.features.length > 0 && (
