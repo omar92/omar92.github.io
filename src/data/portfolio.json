@@ -451,7 +451,7 @@
           ]
         },
         {
-          "title": "GameLift Fleet Management Tool",
+          "title": "GameLift Fleet Management Tool [Vibe Coding]",
           "description": "Built a Python CLI tool to streamline GameLift server and fleet deployment and management, supporting saved fleet configurations to make deployments fast and repeatable.",
           "screenshot": [
             "src\\Assets\\Images\\highstreet-calamity\\gamelift-tool\\1.png",
