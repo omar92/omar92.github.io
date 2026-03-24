@@ -494,6 +494,11 @@
           "text": "Trailer",
           "type": "local",
           "url": "src\\Assets\\Videos\\highstreet-campus\\trailer.mp4"
+        },
+        {
+          "text": "Campus Gameplay",
+          "type": "youtube",
+          "url": "https://www.youtube.com/embed/652a-CFEBiU"
         }
       ],
       "genre": [
@@ -1012,7 +1017,8 @@
       "featured": true,
       "name": "Estimation Kings",
       "platforms": [
-        "Mobile",
+        "Android",
+        "iOS",
         "Web"
       ],
       "cover-image": "src\\Assets\\Images\\el3ab-estimation-kings\\cover.webp",
@@ -1047,7 +1053,8 @@
         "Web Development"
       ],
       "filterTags": [
-        "Mobile",
+        "Android",
+        "iOS",
         "Web",
         "cross-platform",
         "Published"
@@ -1298,11 +1305,24 @@
       "featured": true,
       "name": "3ashara Tawla",
       "platforms": [
-        "Mobile"
+        "Android",
+        "iOS"
       ],
       "cover-image": "src\\Assets\\Images\\project-tawla\\cover.png",
-      "screenshots": [],
-      "videos": [],
+      "screenshots": [
+        "https://play-lh.googleusercontent.com/gAVxkx_xtXAP46tau3tulXz0dLYVT-M2HheQmQKW_4UfStx46FbLn9Qn8UJsoKnerQY=w2560-h1440-rw",
+        "https://play-lh.googleusercontent.com/jv8loln9wlSJo38S54SY5NPARr_b5EDyeD8NfEMWDc6V6Kckg8nHCKMm9waZMZLRh2-C=w2560-h1440-rw",
+        "https://play-lh.googleusercontent.com/fKB6w7Qu5ffIDOKTr7m6UMpQo6T_XOth3APRUmF98gyPadt1C31tPSszrnuWmdoEjw=w2560-h1440-rw",
+        "https://play-lh.googleusercontent.com/w6y5DfRVEStQW402GFX17sjYf9bOvFj_PwoVj3BCAfNaoWJToras76CRieoQnuqMDw=w2560-h1440-rw",
+        "https://play-lh.googleusercontent.com/DqslayMOQ2SkCGdd92Kdc5i0EQSwcKMBX7n9g18_N1QO9XigM-hiyMQCi3oFIlH-kmIA=w2560-h1440-rw"
+      ],
+      "videos": [
+        {
+          "text": "Gameplay Trailer",
+          "type": "youtube",
+          "url": "https://www.youtube.com/embed/XcUdxVhAFaA?si=FE4xtBT2UKx8rhKa"
+        }
+      ],
       "genre": [
         "Board Game",
         "Multiplayer",
@@ -1317,7 +1337,8 @@
         "Mobile Development"
       ],
       "filterTags": [
-        "Mobile",
+        "Android",
+        "iOS",
         "Unity",
         "Published"
       ],
@@ -1333,8 +1354,35 @@
       ],
       "shortDescription": "Modern take on the classic Middle Eastern backgammon game featuring online multiplayer, advanced AI, and extensive customization options.",
       "description": "3ashara Tawla is a comprehensive online multiplayer game based on Middle Eastern backgammon rules. The game features two distinct modes: 'Ma7bosa' and 'Thirteen', each offering unique gameplay experiences.\n\nWith sophisticated AI opponents, extensive character customization, and various game modes, 3ashara Tawla aims to be the definitive digital version of this beloved traditional game.",
-      "contributions": [],
-      "links": []
+      "contributions": [
+        {
+          "title": "Core Gameplay Systems",
+          "description": "Implemented the core game logic for both Ma7bosa and Thirteen modes, including turn management, move validation, and win condition checking.",
+          "screenshot": []
+        },
+        {
+          "title": "AI Opponent Development",
+          "description": "Designed and implemented an advanced AI system with multiple difficulty levels, providing a challenging experience for players of all skill levels.",
+          "screenshot": []
+        },
+        {
+          "title": "Online Multiplayer Implementation",
+          "description": "Built the online multiplayer infrastructure, including matchmaking, real-time game state synchronization, and cross-platform progression support.",
+          "screenshot": []
+        }
+      ],
+      "links": [
+        {
+          "text": "Android",
+          "url": "https://play.google.com/store/apps/details?id=com.EgyptGames.Tawla",
+          "type": "PlayStore"
+        },
+        {
+          "text": "iOS",
+          "url": "https://apps.apple.com/eg/app/10-tawla/id1569696163",
+          "type": "AppStore"
+        }
+      ]
     }
   ]
 }
