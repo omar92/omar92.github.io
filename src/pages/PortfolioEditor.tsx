@@ -90,6 +90,8 @@ type FieldEditorProps = {
   value: JsonValue;
   path: JsonPath;
   schema?: FieldSchema;
+  defaultExpanded?: boolean;
+  autoExpandAll?: boolean;
   expandedItems?: Record<string, boolean>;
   onExpandItem?: (pathKey: string, expanded: boolean) => void;
   onChangeAtPath: (path: JsonPath, nextValue: JsonValue) => void;
@@ -101,12 +103,14 @@ function FieldEditor({
   value,
   path,
   schema,
+  defaultExpanded = false,
+  autoExpandAll = false,
   expandedItems = {},
   onExpandItem,
   onChangeAtPath,
   onDeleteAtPath,
 }: FieldEditorProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(defaultExpanded || autoExpandAll);
   const isObject = isObjectValue(value);
   const isArray = Array.isArray(value);
   const isBoolean = typeof value === 'boolean';
@@ -148,7 +152,8 @@ function FieldEditor({
           <div className="space-y-2">
             {value.map((item, index) => {
               const itemPathKey = `${path.join('.')}.${index}`;
-              const isItemExpanded = expandedItems[itemPathKey];
+              const hasExplicitExpansionState = Object.prototype.hasOwnProperty.call(expandedItems, itemPathKey);
+              const isItemExpanded = hasExplicitExpansionState ? expandedItems[itemPathKey] : autoExpandAll;
               const itemTitle = isObjectValue(item)
                 ? item.id || item.title || item.name || item.label || `Item ${index + 1}`
                 : `Item ${index + 1}`;
@@ -190,6 +195,8 @@ function FieldEditor({
                         value={child}
                         path={[...path, index, key]}
                         schema={schema.itemSchema?.[key]}
+                        defaultExpanded={autoExpandAll}
+                        autoExpandAll={autoExpandAll}
                         expandedItems={expandedItems}
                         onExpandItem={onExpandItem}
                         onChangeAtPath={onChangeAtPath}
@@ -290,6 +297,8 @@ function FieldEditor({
                   value={child}
                   path={[...path, key]}
                   schema={childSchema}
+                  defaultExpanded={autoExpandAll}
+                  autoExpandAll={autoExpandAll}
                   expandedItems={expandedItems}
                   onExpandItem={onExpandItem}
                   onChangeAtPath={onChangeAtPath}
@@ -566,11 +575,29 @@ export default function PortfolioEditor() {
 
             {currentData &&
               isObjectValue(currentData) &&
-              ['projects', 'experience', 'skills', 'stats'].map((sectionName) => {
+              ['projects', 'experience', 'education', 'skills', 'stats'].map((sectionName) => {
                 if (!expandedSections[sectionName]) return null;
 
                 const sectionData = currentData[sectionName];
-                if (!Array.isArray(sectionData) || sectionData.length === 0) return null;
+                if (!Array.isArray(sectionData)) return null;
+
+                const addItemToSection = () => {
+                  const sectionSchema = portfolioSchema[sectionName];
+                  if (!sectionSchema?.itemSchema) return;
+
+                  const itemSchema: FieldSchema = {
+                    type: 'object',
+                    schema: sectionSchema.itemSchema,
+                  };
+                  const newItem = createTemplateFromSchema(itemSchema) as JsonValue;
+                  const newIndex = sectionData.length;
+
+                  handleChangeAtPath([sectionName], [...sectionData, newItem]);
+                  setExpandedItems((prev) => ({
+                    ...prev,
+                    [`${sectionName}.${newIndex}`]: true,
+                  }));
+                };
 
                 const getTitleForItem = (item: JsonValue, index: number): string => {
                   if (!isObjectValue(item)) return `Item ${index + 1}`;
@@ -594,15 +621,28 @@ export default function PortfolioEditor() {
                   if (sectionName === 'stats') {
                     return (item.label as string) || `Stat ${index + 1}`;
                   }
+                    // Education: name or degree
+                    if (sectionName === 'education') {
+                      return (item.name as string) || (item.degree as string) || `Education ${index + 1}`;
+                    }
 
                   return `Item ${index + 1}`;
                 };
 
                 return (
                   <div key={sectionName} className="border-t border-slate-700 pt-3">
-                    <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-300">
-                      {sectionName}
-                    </h3>
+                    <div className="mb-2 flex items-center justify-between gap-2">
+                      <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-300">
+                        {sectionName}
+                      </h3>
+                      <button
+                        type="button"
+                        onClick={addItemToSection}
+                        className="inline-flex items-center gap-1 border border-cyan-500/40 px-2 py-1 text-[11px] text-cyan-200 hover:bg-cyan-500/10"
+                      >
+                        <Plus size={12} /> Add
+                      </button>
+                    </div>
                     <div className="space-y-1">
                       {(sectionData as JsonValue[]).map((item, index) => {
                         const itemKey = `${sectionName}.${index}`;
@@ -631,6 +671,9 @@ export default function PortfolioEditor() {
                           </button>
                         );
                       })}
+                      {sectionData.length === 0 && (
+                        <div className="border border-slate-800 px-2 py-1.5 text-xs text-slate-500">No items yet</div>
+                      )}
                     </div>
                   </div>
                 );
@@ -645,61 +688,74 @@ export default function PortfolioEditor() {
                 const sectionValue = currentData[key];
                 const isArraySection = Array.isArray(sectionValue);
 
-                // Find first expanded item in this section
-                let expandedItemIndex = -1;
+                // Find ALL expanded items in this section
+                const expandedIndices: number[] = [];
                 if (isArraySection) {
-                  expandedItemIndex = (sectionValue as JsonValue[]).findIndex(
-                    (_, index) => expandedItems[`${key}.${index}`]
-                  );
+                  (sectionValue as JsonValue[]).forEach((_, index) => {
+                    if (expandedItems[`${key}.${index}`]) {
+                      expandedIndices.push(index);
+                    }
+                  });
                 }
 
-                // If an item is expanded, show only that item
-                if (expandedItemIndex !== -1 && isArraySection) {
-                  const item = (sectionValue as JsonValue[])[expandedItemIndex];
-                  const getTitleForItem = (item: JsonValue, index: number): string => {
-                    if (!isObjectValue(item)) return `Item ${index + 1}`;
-                    if (key === 'projects') {
-                      return (item.id as string) || (item.name as string) || `Project ${index + 1}`;
-                    }
-                    if (key === 'experience') {
-                      const position = (item.position as string) || '';
-                      const company = (item.company as string) || '';
-                      if (position && company) return `${position} @ ${company}`;
-                      return position || company || `Experience ${index + 1}`;
-                    }
-                    if (key === 'skills') {
-                      return (item.category as string) || `Skill ${index + 1}`;
-                    }
-                    if (key === 'stats') {
-                      return (item.label as string) || `Stat ${index + 1}`;
-                    }
-                    return `Item ${index + 1}`;
-                  };
+                const getTitleForItem = (item: JsonValue, index: number, sectionKey: string): string => {
+                  if (!isObjectValue(item)) return `Item ${index + 1}`;
+                  if (sectionKey === 'projects') {
+                    return (item.id as string) || (item.name as string) || `Project ${index + 1}`;
+                  }
+                  if (sectionKey === 'experience') {
+                    const position = (item.position as string) || '';
+                    const company = (item.company as string) || '';
+                    if (position && company) return `${position} @ ${company}`;
+                    return position || company || `Experience ${index + 1}`;
+                  }
+                  if (sectionKey === 'skills') {
+                    return (item.category as string) || `Skill ${index + 1}`;
+                  }
+                  if (sectionKey === 'stats') {
+                    return (item.label as string) || `Stat ${index + 1}`;
+                  }
+                  return `Item ${index + 1}`;
+                };
 
+                // If items are expanded, show them
+                if (expandedIndices.length > 0 && isArraySection) {
                   return (
-                    <section key={key} className="border border-slate-800 bg-slate-900/30 p-3">
-                      <h2 className="mb-4 text-base font-semibold text-cyan-300">
-                        {getTitleForItem(item, expandedItemIndex)} ({key})
-                      </h2>
-                      <FieldEditor
-                        label={getTitleForItem(item, expandedItemIndex)}
-                        value={item}
-                        path={[key, expandedItemIndex]}
-                        schema={{
-                          type: 'object',
-                          schema: (portfolioSchema[key] as any)?.itemSchema,
-                        }}
-                        expandedItems={expandedItems}
-                        onExpandItem={(pathKey, expanded) => {
-                          setExpandedItems((prev) => ({
-                            ...prev,
-                            [pathKey]: expanded,
-                          }));
-                        }}
-                        onChangeAtPath={handleChangeAtPath}
-                        onDeleteAtPath={handleDeleteAtPath}
-                      />
-                    </section>
+                    <div key={key} className="space-y-4">
+                      {expandedIndices.map((expandedItemIndex) => {
+                        const item = (sectionValue as JsonValue[])[expandedItemIndex];
+                        return (
+                          <section
+                            key={`${key}-${expandedItemIndex}`}
+                            className="border border-slate-800 bg-slate-900/30 p-3"
+                          >
+                            <h2 className="mb-4 text-base font-semibold text-cyan-300">
+                              {getTitleForItem(item, expandedItemIndex, key)} ({key})
+                            </h2>
+                            <FieldEditor
+                              label={getTitleForItem(item, expandedItemIndex, key)}
+                              value={item}
+                              path={[key, expandedItemIndex]}
+                              schema={{
+                                type: 'object',
+                                schema: (portfolioSchema[key] as any)?.itemSchema,
+                              }}
+                              defaultExpanded
+                              autoExpandAll
+                              expandedItems={expandedItems}
+                              onExpandItem={(pathKey, expanded) => {
+                                setExpandedItems((prev) => ({
+                                  ...prev,
+                                  [pathKey]: expanded,
+                                }));
+                              }}
+                              onChangeAtPath={handleChangeAtPath}
+                              onDeleteAtPath={handleDeleteAtPath}
+                            />
+                          </section>
+                        );
+                      })}
+                    </div>
                   );
                 }
 
@@ -712,6 +768,7 @@ export default function PortfolioEditor() {
                       value={sectionValue}
                       path={[key]}
                       schema={portfolioSchema[key]}
+                      defaultExpanded
                       expandedItems={expandedItems}
                       onExpandItem={(pathKey, expanded) => {
                         setExpandedItems((prev) => ({

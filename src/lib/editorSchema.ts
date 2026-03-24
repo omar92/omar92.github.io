@@ -95,6 +95,27 @@ export const portfolioSchema: Record<string, FieldSchema> = {
       id: { type: 'string' },
     },
   },
+    education: {
+      type: 'array',
+      isArray: true,
+      itemType: 'object',
+      itemSchema: {
+        id: { type: 'string' },
+        name: { type: 'string' },
+        degree: { type: 'string' },
+        field: { type: 'string' },
+        startYear: { type: 'number' },
+        endYear: { type: 'number' },
+        grade: { type: 'string' },
+        details: { type: 'string' },
+        projects_ids: {
+          type: 'array',
+          isArray: true,
+          itemType: 'string',
+        },
+        project: { type: 'string' },
+      },
+    },
   projects: {
     type: 'array',
     isArray: true,
