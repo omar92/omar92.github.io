@@ -62,6 +62,23 @@ const About = () => {
   const liveStatsRef = useRef(liveStats);
   liveStatsRef.current = liveStats;
 
+  const techStackSkills = useMemo(() => {
+    const featuredProjects = data.projects.filter((project) => project.featured);
+    const sourceProjects = featuredProjects.length > 0 ? featuredProjects : data.projects;
+    const seen = new Set<string>();
+
+    return sourceProjects
+      .flatMap((project) => project.skills)
+      .filter((skill) => {
+        const normalizedSkill = skill.trim().toLowerCase();
+        if (!normalizedSkill || seen.has(normalizedSkill)) {
+          return false;
+        }
+        seen.add(normalizedSkill);
+        return true;
+      });
+  }, []);
+
   const [counters, setCounters] = useState<number[]>(() => data.stats.map(() => 0));
 
   function animateCounters() {
@@ -175,7 +192,7 @@ const About = () => {
             <div className="ab-skills">
               <div className="section-label mb-5">TECH STACK</div>
               <div className="flex flex-wrap gap-2">
-                {data.skills.flatMap((sg) => sg.items).map((skill) => (
+                {techStackSkills.map((skill) => (
                   <span key={skill} className="ab-skill tag-cyan hover:bg-cyan-400/15 transition-colors cursor-default">{skill}</span>
                 ))}
               </div>

@@ -365,7 +365,7 @@
       "skills": [
         "Unity",
         "Game Architecture",
-        "Data-Driven Design",
+        "Data-Driven",
         "Server Architecture",
         "Leadership",
         "C#",
@@ -608,7 +608,7 @@
         "JavaScript",
         "VR",
         "WebGL",
-        "cross-platform development",
+        "cross-platform",
         "Multiplayer",
         "Networking",
         "Server Architecture",
@@ -762,7 +762,7 @@
         "Python",
         "AI",
         "ComfyUI",
-        "Open Source Development"
+        "Open Source"
       ],
       "filterTags": [
         "AI",
