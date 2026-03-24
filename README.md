@@ -60,6 +60,16 @@ npm install
 npm run dev
 ```
 
+### Optional: increase GitHub API limit for repo stats
+
+Create a `.env.local` file in the project root:
+
+```bash
+VITE_GITHUB_TOKEN=your_github_personal_access_token
+```
+
+This enables authenticated GitHub API requests, which significantly reduces the chance of `403 API rate limit exceeded` for project stats.
+
 The site is now available at **http://localhost:5173**.
 
 The **Portfolio Editor** is available at **http://localhost:5173/editor**.

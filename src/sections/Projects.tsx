@@ -26,7 +26,24 @@ const Projects = () => {
     activeFilter === 'Showcase' ? data.projects.filter((p) => p.featured) :
     activeFilter === 'All' ? data.projects :
     data.projects.filter((p) => p.filterTags.includes(activeFilter));
-  const selectedProjectGitHubStats = selectedProject ? projectGitHubStats[selectedProject.id] : undefined;
+  const getProjectGitHubStats = (project: PortfolioProject): GitHubRepoStats | undefined => {
+    const fetchedStats = projectGitHubStats[project.id];
+    if (fetchedStats) {
+      return fetchedStats;
+    }
+
+    if (project.stats) {
+      return {
+        stars: project.stats.stars ?? 0,
+        forks: project.stats.forks ?? 0,
+        contributors: 0,
+      };
+    }
+
+    return undefined;
+  };
+
+  const selectedProjectGitHubStats = selectedProject ? getProjectGitHubStats(selectedProject) : undefined;
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -183,7 +200,7 @@ const Projects = () => {
                 link.type?.toLowerCase() === 'live' ||
                 link.type?.toLowerCase() === 'website',
             );
-            const githubStats = projectGitHubStats[project.id];
+            const githubStats = getProjectGitHubStats(project);
 
             return (
             <article
@@ -341,12 +358,12 @@ const Projects = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         className={
-                          (link.type === 'github' || link.icon === 'github')
+                          (link.type?.toLowerCase() === 'github' || link.icon?.toLowerCase() === 'github')
                             ? 'btn-ghost flex items-center gap-2 text-sm w-full justify-center'
                             : 'btn-primary flex items-center gap-2 text-sm w-full justify-center'
                         }
                       >
-                        {(link.type === 'github' || link.icon === 'github') ? <Github size={14} /> : <ExternalLink size={14} />}
+                        {(link.type?.toLowerCase() === 'github' || link.icon?.toLowerCase() === 'github') ? <Github size={14} /> : <ExternalLink size={14} />}
                         {link.label || link.text || 'VIEW'}
                       </a>
                     ))}
@@ -453,8 +470,8 @@ const Projects = () => {
                     <div className="mt-5 flex flex-wrap gap-3 lg:hidden">
                       {selectedProject.links.map((link) => (
                         <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer"
-                          className={(link.type === 'github' || link.icon === 'github') ? 'btn-ghost flex items-center gap-2 text-sm' : 'btn-primary flex items-center gap-2 text-sm'}>
-                          {(link.type === 'github' || link.icon === 'github') ? <Github size={14} /> : <ExternalLink size={14} />}
+                          className={(link.type?.toLowerCase() === 'github' || link.icon?.toLowerCase() === 'github') ? 'btn-ghost flex items-center gap-2 text-sm' : 'btn-primary flex items-center gap-2 text-sm'}>
+                          {(link.type?.toLowerCase() === 'github' || link.icon?.toLowerCase() === 'github') ? <Github size={14} /> : <ExternalLink size={14} />}
                           {link.label || link.text || 'VIEW'}
                         </a>
                       ))}
