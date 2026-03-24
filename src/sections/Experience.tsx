@@ -140,6 +140,27 @@ const Experience = () => {
                   </div>
                   <div className="mono text-xs text-slate-500 mb-3">{edu.startYear} — {edu.endYear ?? 'PRESENT'}</div>
                   {edu.grade && <div className="tag-gold self-start">{edu.grade}</div>}
+
+                  {edu.projectIds && edu.projectIds.length > 0 && (
+                    <div className="mt-4">
+                      <div className="section-label mb-2">RELATED PROJECTS</div>
+                      <div className="flex flex-wrap gap-2">
+                        {edu.projectIds.map((pid) => {
+                          const p = data.projects.find((x) => x.id === pid);
+                          if (!p) return null;
+                          return (
+                            <button
+                              key={pid}
+                              onClick={() => openProject(pid)}
+                              className="tag-violet hover:bg-violet-400/20 transition-colors cursor-pointer"
+                            >
+                              {p.name}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
