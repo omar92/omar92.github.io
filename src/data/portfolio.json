@@ -244,7 +244,7 @@
       "description": [
         "Rebuilt legacy Flash games for Web, Android, and iOS using Unity and Phaser.js",
         "Developed server-side logic for multiplayer card and board games",
-        "Featured project: Estimation Kings (Released on iOS & Android)"
+        "Featured project: Estimation Kings (Published on iOS & Android)"
       ],
       "skills": [
         "C#",
@@ -385,7 +385,7 @@
         "Unity",
         "Multiplayer",
         "VR",
-        "Released"
+        "Published"
       ],
       "features": [
         "Class-based combat system with unique abilities and playstyles",
@@ -516,7 +516,7 @@
         "Unity",
         "Multiplayer",
         "Web",
-        "Released"
+        "Published"
       ],
       "features": [
         "Metaverse entry point designed as a scalable social MMO hub",
@@ -621,7 +621,7 @@
         "Web",
         "VR",
         "cross-platform",
-        "Released"
+        "Published"
       ],
       "features": [
         "Player homes with customizable furniture and decorations",
@@ -675,8 +675,11 @@
       "platforms": [
         "Web"
       ],
-      "cover-image": "src\\Assets\\Images\\portfolio-vibe-coded\\cover.svg",
-      "screenshots": [],
+      "cover-image": "src\\Assets\\Images\\portfolio-vibe-coded\\cover.png",
+      "screenshots": [
+        "src\\Assets\\Images\\portfolio-vibe-coded\\cover.png",
+        "src\\Assets\\Images\\portfolio-vibe-coded\\editor.png"
+      ],
       "videos": [],
       "genre": [
         "Web",
@@ -692,7 +695,8 @@
       ],
       "filterTags": [
         "Web",
-        "Vibe Coded"
+        "Vibe Coded",
+        "Published"
       ],
       "features": [
         "Vibe coded portfolio website with a clean, responsive UI",
@@ -712,7 +716,9 @@
         {
           "title": "Visual JSON Editor",
           "description": "Built a schema-driven editor for portfolio.json with nested field editing, array item management, and focused editing workflows that reduce content update friction.",
-          "screenshot": []
+          "screenshot": [
+            "src\\Assets\\Images\\portfolio-vibe-coded\\editor.png"
+          ]
         },
         {
           "title": "Data Safety and Media Editing Enhancements",
@@ -734,29 +740,34 @@
       ]
     },
     {
-      "id": "project-comfyui",
-      "featured": false,
+      "id": "ComfyUI QualityOfLifeSuit",
+      "featured": true,
       "name": "ComfyUI-QualityOfLifeSuit",
       "platforms": [
-        "Python"
+        "ComfyUI"
       ],
-      "cover-image": "src\\Assets\\Images\\project-comfyui\\cover.svg",
-      "screenshots": [],
+      "cover-image": "src\\Assets\\Images\\comfyui-qof\\Cover.png",
+      "screenshots": [
+        "https://opengraph.githubassets.com/1/omar92/ComfyUI-QualityOfLifeSuit_Omar92",
+        "https://api.star-history.com/svg?repos=omar92/ComfyUI-QualityOfLifeSuit_Omar92&type=Date&theme=dark"
+      ],
       "videos": [],
       "genre": [
-        "AI/ML",
+        "AI",
+        "Image generation",
         "Open Source",
         "Tools"
       ],
       "skills": [
         "Python",
         "AI",
+        "ComfyUI",
         "Open Source Development"
       ],
       "filterTags": [
-        "Python",
         "AI",
-        "Released"
+        "Vibe Coded",
+        "Published"
       ],
       "features": [
         "Custom nodes for enhanced workflow efficiency",
@@ -768,8 +779,44 @@
       ],
       "shortDescription": "A comprehensive suite of quality-of-life nodes for ComfyUI, the powerful stable diffusion GUI. Featured in the ComfyUI ecosystem with 176 stars and 23 forks on GitHub.",
       "description": "ComfyUI-QualityOfLifeSuit is a collection of custom nodes designed to enhance the ComfyUI experience for AI artists and developers. This toolkit provides essential utilities and workflow improvements for stable diffusion workflows.\n\nWith over 176 stars on GitHub, this project has become a valuable resource in the ComfyUI community, helping artists and developers streamline their creative workflows.",
-      "contributions": [],
+      "contributions": [
+        {
+          "title": "Ai prompt enhancer node",
+          "description": "Implemented a node that uses AI to enhance and expand text prompts for stable diffusion, allowing users to generate more detailed and creative outputs with minimal effort.",
+          "screenshot": [
+            "src\\Assets\\Images\\comfyui-qof\\AiPromptEnhancer.png"
+          ]
+        },
+        {
+          "title": "Open AI APIs as Nodes (ChatGPT, DALL-E)",
+          "description": "Integrated OpenAI APIs as nodes within ComfyUI, enabling advanced AI functionalities and seamless interaction with external AI services.",
+          "screenshot": [
+            "src\\Assets\\Images\\comfyui-qof\\openai.png",
+            "src\\Assets\\Images\\comfyui-qof\\OpenAiApisNodes.png"
+          ]
+        },
+        {
+          "title": "Equation Node",
+          "description": "Created a versatile equation node that allows users to perform complex mathematical operations within their ComfyUI workflows, enhancing the flexibility and power of their AI pipelines.",
+          "screenshot": [
+            "src\\Assets\\Images\\comfyui-qof\\equationNode.png"
+          ]
+        },
+        {
+          "title": "Text2image node",
+          "description": "Developed a custom Text2Image that convert text to image which can be used as mask or soemthing in the workflow",
+          "screenshot": [
+            "src\\Assets\\Images\\comfyui-qof\\Text2ImageUsage.png",
+            "src\\Assets\\Images\\comfyui-qof\\Text2Image.png"
+          ]
+        }
+      ],
       "links": [
+        {
+          "text": "View on CivitAI",
+          "url": "https://civitai.com/models/21996?modelVersionId=39288",
+          "type": "website"
+        },
         {
           "text": "View on GitHub",
           "url": "https://github.com/omar92/ComfyUI-QualityOfLifeSuit_Omar92",
@@ -778,93 +825,72 @@
       ]
     },
     {
-      "id": "project-online-socket",
-      "featured": false,
-      "name": "Online Game Socket.io",
-      "platforms": [
-        "Web",
-        "Mobile"
-      ],
-      "cover-image": "src\\Assets\\Images\\project-online-socket\\cover.svg",
-      "screenshots": [],
-      "videos": [],
-      "genre": [
-        "Multiplayer",
-        "Framework"
-      ],
-      "skills": [
-        "Unity",
-        "C#",
-        "Socket.io",
-        "JavaScript",
-        "Multiplayer",
-        "Real-time Networking"
-      ],
-      "filterTags": [
-        "Web",
-        "Multiplayer"
-      ],
-      "features": [
-        "Unity client + Socket.io server integration",
-        "Real-time player synchronization",
-        "Authoritative server architecture",
-        "Sample implementations for rapid prototyping",
-        "State synchronization framework",
-        "Player interpolation system"
-      ],
-      "shortDescription": "Real-time multiplayer game framework with Unity client integration and authoritative server architecture.",
-      "description": "A complete multiplayer framework featuring Unity client integration with Socket.io server. Includes examples of real-time synchronization, player interpolation, and authoritative server design. This project demonstrates best practices for networked game development and provides reusable patterns for building multiplayer experiences.",
-      "contributions": [],
-      "links": [
-        {
-          "text": "View on GitHub",
-          "url": "https://github.com/omar92/onlineGameSocket.io",
-          "type": "github"
-        }
-      ]
-    },
-    {
       "id": "project-unreal-games",
       "featured": false,
-      "name": "Unreal Engine Game Collection",
+      "name": "Unreal 5 C++ Developer: Code Your Own Unreal Games",
       "platforms": [
         "PC"
       ],
-      "cover-image": "src\\Assets\\Images\\project-unreal-games\\cover.svg",
+      "cover-image": "src\\Assets\\Images\\project-unreal-games\\cover.png",
       "screenshots": [],
       "videos": [],
       "genre": [
-        "Multiplayer",
         "Shooter",
         "Puzzle",
         "Action"
       ],
       "skills": [
         "Unreal Engine",
-        "C++",
-        "Multiplayer",
-        "AI",
-        "Level Design",
-        "Combat Systems"
+        "C++"
       ],
       "filterTags": [
         "PC",
-        "Unreal",
-        "Multiplayer"
+        "Unreal Engine",
+        "Learning"
       ],
       "features": [
         "Battle Blaster: Multiplayer shooter with advanced combat mechanics",
         "ShooterSam: Third-person shooter with sophisticated AI",
-        "Dungeon Escape: Atmospheric puzzle-action game",
-        "Advanced combat mechanics and weapon systems",
-        "Networked multiplayer with replication system",
-        "Dynamic difficulty adjustment",
-        "Procedural level generation"
+        "Dungeon Escape: Atmospheric puzzle-action game"
       ],
-      "shortDescription": "A collection of advanced Unreal Engine 5 projects showcasing multiplayer systems, combat mechanics, and modern C++ game development practices.",
-      "description": "A comprehensive portfolio of Unreal Engine projects demonstrating proficiency in modern game development practices, including networked multiplayer, advanced combat systems, and level design.\n\nBattle Blaster: A multiplayer shooter featuring advanced combat mechanics, weapon systems, and networked gameplay. Implements Unreal's replication system for seamless online play.\n\nShooterSam: Third-person shooter with sophisticated AI enemies, cover system, and dynamic difficulty adjustment.\n\nDungeon Escape: Atmospheric dungeon crawler combining puzzle-solving with action elements and procedural level generation.",
-      "contributions": [],
+      "shortDescription": "Personal projects built to learn Unreal Engine, featuring a multiplayer shooter, an AI-driven third-person shooter, and a puzzle-action game.",
+      "description": "These projects were developed as part of my self-driven learning journey with Unreal Engine. Each game focused on different aspects of Unreal's capabilities, from multiplayer networking and combat systems in Battle Blaster, to AI behavior and third-person mechanics in ShooterSam, and atmospheric design in Dungeon Escape. These projects allowed me to gain hands-on experience with Unreal Engine's C++ programming, Blueprints visual scripting, and overall game development workflows within the engine.",
+      "contributions": [
+        {
+          "title": "Obstacle Assault",
+          "description": "",
+          "screenshot": [
+            "src\\Assets\\Images\\project-unreal-games\\ObstacleAssault.png"
+          ]
+        },
+        {
+          "title": "Dungeon Escape",
+          "description": "Developed an atmospheric puzzle-action game that emphasizes environmental storytelling and player immersion through level design and visual effects.",
+          "screenshot": [
+            "src\\Assets\\Images\\project-unreal-games\\DungeonEscape.png"
+          ]
+        },
+        {
+          "title": "Battle Blaster",
+          "description": "Designed and implemented a multiplayer shooter with advanced combat mechanics, including cover systems, weapon variety, and dynamic environments.",
+          "screenshot": [
+            "src\\Assets\\Images\\project-unreal-games\\BattleBlaster.png"
+          ]
+        },
+        {
+          "title": "ShooterSam [in progress]",
+          "description": "Created a third-person shooter featuring sophisticated AI opponents with varied behaviors and tactics, showcasing Unreal's AI capabilities.",
+          "screenshot": [
+            "src\\Assets\\Images\\project-unreal-games\\ShooterSam.png"
+          ]
+        }
+      ],
       "links": [
+        {
+          "text": "course on gamedev.tv",
+          "url": "https://gamedev.tv/courses/unreal-c-dev",
+          "type": "website"
+        },
         {
           "text": "Battle Blaster on GitHub",
           "url": "https://github.com/omar92/BattleBlaster_Unreal",
@@ -882,11 +908,14 @@
       "featured": false,
       "name": "Rhythm Attack VR",
       "platforms": [
-        "VR",
-        "Meta Quest"
+        "VR"
       ],
       "cover-image": "src\\Assets\\Images\\iti-rhythm-attack\\cover.jpg",
-      "screenshots": [],
+      "screenshots": [
+        "src\\Assets\\Images\\iti-rhythm-attack\\1.jpg",
+        "src\\Assets\\Images\\iti-rhythm-attack\\2.jpg",
+        "src\\Assets\\Images\\iti-rhythm-attack\\3.png"
+      ],
       "videos": [
         {
           "text": "Story Trailer",
@@ -915,8 +944,7 @@
       ],
       "filterTags": [
         "VR",
-        "Unity",
-        "Released"
+        "Unity"
       ],
       "features": [
         "Immersive VR gameplay with motion controls",
@@ -929,11 +957,52 @@
       ],
       "shortDescription": "Award-winning VR rhythm game combining music, action, and innovative gameplay. ITI graduation project featuring custom art, music, and VFX - 100% original content.",
       "description": "Rhythm Attack is an innovative VR rhythm game that merges music, action, and strategy. Players must defeat rhythm monsters by slicing projectiles to the beat, then attacking when enemies are vulnerable. The game features escalating difficulty that adapts to player performance.\n\nThis project was our graduation project from the ITI Game Development program, showcasing our skills across all aspects of game development including programming, art, music composition, and visual effects - all created entirely by our team.",
-      "contributions": [],
+      "contributions": [
+        {
+          "title": "Lead Developer & Co-Designer",
+          "description": "Led the development of core gameplay systems, including rhythm synchronization, combat mechanics, and dynamic difficulty. Collaborated on overall game design and flow.",
+          "screenshot": []
+        },
+        {
+          "title": "Created Scriptable Object-Based Data Architecture",
+          "description": "Designed and implemented a flexible data architecture using Unity's Scriptable Objects. which provided high felxibility for the team to create and tweak game content (enemies, levels, music cues, etc) without requiring code changes. This system became a foundational tool for the entire project and was used extensively across all content creation.",
+          "screenshot": []
+        },
+        {
+          "title": "Audio Synchronization System",
+          "description": "Implemented a robust audio synchronization system that ensured precise timing between music beats and gameplay events, creating a seamless rhythm-based experience.",
+          "screenshot": []
+        },
+        {
+          "title": "Visual Effects Implementation",
+          "description": "Designed and implemented custom visual effects that enhanced the game's immersive atmosphere and provided feedback for player actions.",
+          "screenshot": []
+        }
+      ],
       "links": [
         {
           "text": "View on GitHub",
           "url": "https://github.com/omar92/RhythmAttack-VR",
+          "type": "github"
+        },
+        {
+          "text": "Track Description",
+          "url": "https://iti.gov.eg/diplomaStructure/139758dc-e1ee-4d2c-ba87-08dbe615d378/tracks/20661d06-0056-40a8-627a-08dbe68d3d73/f84a5c67-29ae-4584-fe16-08dbe75ac461",
+          "type": "website"
+        },
+        {
+          "text": "SO State Machine",
+          "url": "https://github.com/omar92/so_statemachine",
+          "type": "github"
+        },
+        {
+          "text": "SO Events & Variables",
+          "url": "https://github.com/omar92/SOEventsVariables",
+          "type": "github"
+        },
+        {
+          "text": "SO System",
+          "url": "https://github.com/omar92/SO_System",
           "type": "github"
         }
       ]
@@ -981,7 +1050,7 @@
         "Mobile",
         "Web",
         "cross-platform",
-        "Released"
+        "Published"
       ],
       "features": [
         "Real-time multiplayer with global matchmaking",
@@ -995,8 +1064,8 @@
         "Cross-platform support (Web and Mobile)",
         "Free-to-play with ethical monetization"
       ],
-      "shortDescription": "A polished multiplayer card game Released on Google Play. Features online matchmaking, progression system, social features, and cross-platform play.",
-      "description": "Estimation Kings is a professionally Released multiplayer card game that brings the popular Middle Eastern trick-taking game to mobile platforms. Built with Phaser.js and featuring robust server architecture for real-time multiplayer gameplay.\n\nThe game successfully launched on Google Play and attracted a dedicated player base with its smooth gameplay, social features, and competitive progression system.",
+      "shortDescription": "A polished multiplayer card game Published on Google Play. Features online matchmaking, progression system, social features, and cross-platform play.",
+      "description": "Estimation Kings is a professionally Published multiplayer card game that brings the popular Middle Eastern trick-taking game to mobile platforms. Built with Phaser.js and featuring robust server architecture for real-time multiplayer gameplay.\n\nThe game successfully launched on Google Play and attracted a dedicated player base with its smooth gameplay, social features, and competitive progression system.",
       "contributions": [
         {
           "title": "Flash-to-cocos2d-js Migration",
@@ -1033,43 +1102,64 @@
       ]
     },
     {
-      "id": "project-unity-tools",
+      "id": "so-unity-tools",
       "featured": false,
-      "name": "Unity Development Tools",
+      "name": "Scriptable Object Unity Tools",
       "platforms": [
         "Unity"
       ],
-      "cover-image": "src\\Assets\\Images\\project-unity-tools\\cover.svg",
+      "cover-image": "https://opengraph.githubassets.com/1/omar92/SO_System",
       "screenshots": [],
       "videos": [],
       "genre": [
-        "Tools",
-        "Framework",
-        "Open Source"
+        "Tools"
       ],
       "skills": [
         "Unity",
         "C#",
         "Architecture",
         "Framework Design",
-        "Object-Oriented Design"
+        "Object-Oriented Design",
+        "Data-Driven Development",
+        "Scriptable Object"
       ],
       "filterTags": [
         "Unity",
         "Tools"
       ],
       "features": [
-        "SO State Machine: Scriptable Object-based state machine for clean game logic",
-        "SO Events & Variables: Event-driven architecture using Scriptable Objects",
-        "SO System: Comprehensive framework for data-driven development",
-        "Optimized Unity Scroll List: High-performance UI with object pooling",
-        "Visual debugging and runtime inspection",
-        "Decoupled communication system",
-        "Scalable architecture patterns"
+        "SO State Machine: Scriptable Object-based state machine system with visual debugging",
+        "SO Events & Variables: Event-driven architecture system for decoupled communication",
+        "SO System: Comprehensive Scriptable Object framework for data-driven design"
       ],
-      "shortDescription": "A collection of professional Unity tools and frameworks including state machines, scriptable object systems, and UI optimization utilities used by developers worldwide.",
-      "description": "Professional-grade Unity development tools and frameworks designed to streamline game development workflows. These open-source tools are used by developers globally and showcase advanced C# programming and Unity architecture patterns.\n\nIncluded tools:\n- SO State Machine: Scriptable Object-based state machine system with visual debugging\n- SO Events & Variables: Event-driven architecture system for decoupled communication\n- SO System: Comprehensive Scriptable Object framework for data-driven design\n- Optimized Unity Scroll List: High-performance scroll list for thousands of UI elements",
-      "contributions": [],
+      "shortDescription": "A suite of Unity tools leveraging Scriptable Objects to enable data-driven development, decoupled architecture, and visual debugging for game systems.",
+      "description": "This collection of Unity tools is designed to enhance game development workflows by leveraging the power of Scriptable Objects. The tools include a state machine system with visual debugging, an event-driven architecture for decoupled communication, and a comprehensive framework for data-driven design. These tools are open-source  and have been used in various projects to improve code organization, flexibility, and maintainability.",
+      "contributions": [
+        {
+          "title": "SO State Machine",
+          "description": "Designed and implemented a Scriptable Object-based state machine system that allows developers to create complex state behaviors without writing code, featuring visual debugging tools for easy troubleshooting.",
+          "screenshot": [
+            "https://opengraph.githubassets.com/1/omar92/so_statemachine",
+            "https://api.star-history.com/svg?repos=omar92/so_statemachine&type=Date&theme=dark"
+          ]
+        },
+        {
+          "title": "SO Events & Variables",
+          "description": "Created an event-driven architecture system using Scriptable Objects that enables decoupled communication between game systems, allowing for more modular and maintainable code.",
+          "screenshot": [
+            "https://opengraph.githubassets.com/1/omar92/SOEventsVariables",
+            "https://api.star-history.com/svg?repos=omar92/SOEventsVariables&type=Date&theme=dark"
+          ]
+        },
+        {
+          "title": "SO System",
+          "description": "Developed a comprehensive framework for data-driven design in Unity using Scriptable Objects, providing a structured approach to managing game data and logic without hardcoding dependencies.",
+          "screenshot": [
+            "https://opengraph.githubassets.com/1/omar92/SO_System",
+            "https://api.star-history.com/svg?repos=omar92/SO_System&type=Date&theme=dark"
+          ]
+        }
+      ],
       "links": [
         {
           "text": "SO State Machine",
@@ -1138,65 +1228,11 @@
       "links": []
     },
     {
-      "id": "project-vr-collection",
-      "featured": false,
-      "name": "VR Development Portfolio",
-      "platforms": [
-        "VR",
-        "Meta Quest",
-        "HTC Vive"
-      ],
-      "cover-image": "src\\Assets\\Images\\project-vr-collection\\cover.svg",
-      "screenshots": [],
-      "videos": [],
-      "genre": [
-        "VR",
-        "Training",
-        "Innovation"
-      ],
-      "skills": [
-        "Unity",
-        "C#",
-        "VR Development",
-        "Game Design",
-        "Interaction Design"
-      ],
-      "filterTags": [
-        "VR",
-        "Unity"
-      ],
-      "features": [
-        "VR Training Simulator: Professional training simulation for industrial environments",
-        "VR Hackathon Project: Award-winning project with innovative VR mechanics",
-        "Beat Saber Clone: Technical recreation showcasing rhythm game mechanics",
-        "Realistic physics and interaction systems",
-        "Collaborative gameplay support",
-        "Multiple platform support",
-        "Advanced VR mechanics and interactions"
-      ],
-      "shortDescription": "Collection of VR projects demonstrating expertise in immersive technologies, including hackathon winners and training simulations.",
-      "description": "A diverse portfolio of VR projects showcasing proficiency in virtual reality development across different platforms and use cases, from entertainment to training applications.\n\nIncluded Projects:\n- VR Training Simulator: Professional training simulation for industrial environments with realistic physics\n- VR Hackathon Project: Award-winning hackathon project featuring innovative VR mechanics and collaborative gameplay\n- Beat Saber Clone: Technical recreation of Beat Saber mechanics showcasing rhythm game development",
-      "contributions": [],
-      "links": [
-        {
-          "text": "VR Training on GitHub",
-          "url": "https://github.com/omar92/VR-Training",
-          "type": "github"
-        },
-        {
-          "text": "VR Hackathon on GitHub",
-          "url": "https://github.com/omar92/VR-Hackathon",
-          "type": "github"
-        }
-      ]
-    },
-    {
       "id": "project-tawla",
       "featured": false,
       "name": "3ashara Tawla",
       "platforms": [
-        "Mobile",
-        "Web"
+        "Mobile"
       ],
       "cover-image": "src\\Assets\\Images\\project-tawla\\cover.png",
       "screenshots": [],
@@ -1216,7 +1252,8 @@
       ],
       "filterTags": [
         "Mobile",
-        "Unity"
+        "Unity",
+        "Published"
       ],
       "features": [
         "Two unique game modes: Ma7bosa and Thirteen",
@@ -1232,67 +1269,6 @@
       "description": "3ashara Tawla is a comprehensive online multiplayer game based on Middle Eastern backgammon rules. The game features two distinct modes: 'Ma7bosa' and 'Thirteen', each offering unique gameplay experiences.\n\nWith sophisticated AI opponents, extensive character customization, and various game modes, 3ashara Tawla aims to be the definitive digital version of this beloved traditional game.",
       "contributions": [],
       "links": []
-    },
-    {
-      "id": "project-web-games",
-      "featured": false,
-      "name": "Web Game Development",
-      "platforms": [
-        "Web",
-        "WebGL"
-      ],
-      "cover-image": "src\\Assets\\Images\\project-web-games\\cover.svg",
-      "screenshots": [],
-      "videos": [],
-      "genre": [
-        "Game Engine",
-        "Multiplayer",
-        "WebGL"
-      ],
-      "skills": [
-        "JavaScript",
-        "WebGL",
-        "Three.js",
-        "HTML5",
-        "Canvas",
-        "Node.js",
-        "Socket.io",
-        "Server Architecture"
-      ],
-      "filterTags": [
-        "Web",
-        "JavaScript"
-      ],
-      "features": [
-        "Custom JavaScript Game Engine with entity-component system",
-        "Native physics and collision detection",
-        "Socket.io Game Server for real-time multiplayer",
-        "Fast-paced online game support",
-        "Optimized networking and state synchronization",
-        "WebGL Demo Projects using Three.js",
-        "Interactive 3D web experiences",
-        "Advanced WebGL techniques"
-      ],
-      "shortDescription": "Modern web-based game projects utilizing WebGL, Three.js, and custom game engines. Includes multiplayer frameworks and game server architecture.",
-      "description": "A collection of web game projects demonstrating full-stack game development capabilities, from custom JavaScript game engines to real-time multiplayer server architecture.\n\nIncluded Projects:\n- Custom JavaScript Game Engine: Native JavaScript engine built from scratch with entity-component system and physics\n- Socket.io Game Server: Real-time multiplayer server supporting fast-paced online games\n- WebGL Demo Projects: Interactive 3D web experiences using Three.js and advanced WebGL techniques",
-      "contributions": [],
-      "links": [
-        {
-          "text": "Game Engine on GitHub",
-          "url": "https://github.com/omar92/JS_native_gameEngine",
-          "type": "github"
-        },
-        {
-          "text": "Game Server on GitHub",
-          "url": "https://github.com/omar92/omarGameServer",
-          "type": "github"
-        },
-        {
-          "text": "WebGL Demo on GitHub",
-          "url": "https://github.com/omar92/WebGL_demo",
-          "type": "github"
-        }
-      ]
     }
   ]
 }
