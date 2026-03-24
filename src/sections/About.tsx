@@ -65,18 +65,39 @@ const About = () => {
   const techStackSkills = useMemo(() => {
     const featuredProjects = data.projects.filter((project) => project.featured);
     const sourceProjects = featuredProjects.length > 0 ? featuredProjects : data.projects;
-    const seen = new Set<string>();
 
-    return sourceProjects
-      .flatMap((project) => project.skills)
-      .filter((skill) => {
+    const skillCounts = sourceProjects.reduce<Record<string, { label: string; count: number }>>((counts, project) => {
+      project.skills.forEach((skill) => {
         const normalizedSkill = skill.trim().toLowerCase();
-        if (!normalizedSkill || seen.has(normalizedSkill)) {
-          return false;
+        if (!normalizedSkill) {
+          return;
         }
-        seen.add(normalizedSkill);
-        return true;
+
+        const existing = counts[normalizedSkill];
+        if (existing) {
+          existing.count += 1;
+          return;
+        }
+
+        counts[normalizedSkill] = {
+          label: skill.trim(),
+          count: 1,
+        };
       });
+
+      return counts;
+    }, {});
+
+    return Object.values(skillCounts)
+      .sort((left, right) => {
+        const countDifference = right.count - left.count;
+        if (countDifference !== 0) {
+          return countDifference;
+        }
+
+        return left.label.localeCompare(right.label);
+      })
+      .map((skill) => skill.label);
   }, []);
 
   const [counters, setCounters] = useState<number[]>(() => data.stats.map(() => 0));

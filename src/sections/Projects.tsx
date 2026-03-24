@@ -21,7 +21,24 @@ const Projects = () => {
   const [lightbox, setLightbox] = useState<string | null>(null);
   const [projectGitHubStats, setProjectGitHubStats] = useState<Record<string, GitHubRepoStats>>({});
 
-  const categories = ['Showcase', 'All', ...Array.from(new Set(data.projects.flatMap((p) => p.filterTags)))];
+  const filterTagCounts = data.projects.reduce<Record<string, number>>((counts, project) => {
+    project.filterTags.forEach((tag) => {
+      counts[tag] = (counts[tag] ?? 0) + 1;
+    });
+
+    return counts;
+  }, {});
+
+  const sortedFilterTags = Object.keys(filterTagCounts).sort((left, right) => {
+    const countDifference = (filterTagCounts[right] ?? 0) - (filterTagCounts[left] ?? 0);
+    if (countDifference !== 0) {
+      return countDifference;
+    }
+
+    return left.localeCompare(right);
+  });
+
+  const categories = ['Showcase', 'All', ...sortedFilterTags];
   const filtered =
     activeFilter === 'Showcase' ? data.projects.filter((p) => p.featured) :
     activeFilter === 'All' ? data.projects :
