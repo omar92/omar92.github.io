@@ -19,7 +19,7 @@ interface CachedUserStatsEntry {
   stats: GitHubUserStats;
 }
 
-const REPO_STATS_CACHE_KEY = 'portfolio:github-repo-stats:v1';
+const REPO_STATS_CACHE_KEY = 'portfolio:github-repo-stats:v2';
 const USER_STATS_CACHE_KEY = 'portfolio:github-user-stats:v1';
 const GITHUB_RATE_LIMIT_UNTIL_KEY = 'portfolio:github-rate-limit-until:v1';
 const REPO_STATS_CACHE_TTL_MS = 1000 * 60 * 60 * 12;
@@ -392,7 +392,6 @@ export const fetchGitHubRepoStats = async (
 
   const requestPromise = (async (): Promise<GitHubRepoStats | null> => {
   const headers = getGitHubRequestHeaders();
-  const hasGitHubToken = Boolean(getGitHubAuthToken());
 
   try {
     const repoResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {
@@ -412,26 +411,24 @@ export const fetchGitHubRepoStats = async (
     const forks = Number(repoJson.forks_count) || 0;
 
     let contributors = staleCachedStats?.contributors || 0;
-    if (hasGitHubToken) {
-      const contributorsResponse = await fetch(
-        `https://api.github.com/repos/${owner}/${repo}/contributors?per_page=1&anon=1`,
-        {
-          headers,
-        },
-      );
+    const contributorsResponse = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/contributors?per_page=1&anon=1`,
+      {
+        headers,
+      },
+    );
 
-      if (contributorsResponse.ok) {
-        const countFromHeader = parseContributorsCount(contributorsResponse.headers.get('link'));
+    if (contributorsResponse.ok) {
+      const countFromHeader = parseContributorsCount(contributorsResponse.headers.get('link'));
 
-        if (countFromHeader !== null) {
-          contributors = countFromHeader;
-        } else {
-          const contributorsJson = (await contributorsResponse.json()) as unknown[];
-          contributors = Array.isArray(contributorsJson) ? contributorsJson.length : 0;
-        }
+      if (countFromHeader !== null) {
+        contributors = countFromHeader;
       } else {
-        updateGitHubRateLimitWindow(contributorsResponse);
+        const contributorsJson = (await contributorsResponse.json()) as unknown[];
+        contributors = Array.isArray(contributorsJson) ? contributorsJson.length : 0;
       }
+    } else {
+      updateGitHubRateLimitWindow(contributorsResponse);
     }
 
     const stats = {
