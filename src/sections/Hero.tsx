@@ -1,6 +1,6 @@
 ﻿import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { Github, Linkedin, Twitter, ChevronDown, Terminal, Zap } from 'lucide-react';
+import { Github, Linkedin, Twitter, ChevronDown, Zap, MapPin, Mail, UserCircle2 } from 'lucide-react';
 import data from '../lib/portfolio';
 
 const Hero = () => {
@@ -27,9 +27,16 @@ const Hero = () => {
 
   const scrollTo = (href: string) => document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
 
-  const stats   = data.stats.slice(0, 4);
   const firstName = data.personal.firstName ?? data.personal.name.split(' ')[0];
   const lastName  = data.personal.lastName  ?? data.personal.name.split(' ').slice(1).join(' ');
+  const allFeaturedProjects = data.projects.filter((project) => project.featured);
+  const featuredProjects = allFeaturedProjects.slice(0, 3);
+  const releasedProjectsCount = data.projects.filter((project) =>
+    project.filterTags.some((tag) => {
+      const normalizedTag = tag.trim().toLowerCase();
+      return normalizedTag === 'published';
+    })
+  ).length;
 
   return (
     <section id="home" ref={heroRef} className="relative min-h-screen flex flex-col justify-center pt-16 overflow-hidden">
@@ -121,34 +128,76 @@ const Hero = () => {
 
           {/* Right -- 2 cols: Stats + Panel */}
           <div className="lg:col-span-2 space-y-4">
-            {/* Stats grid */}
-            <div className="grid grid-cols-2 gap-3">
-              {stats.map((stat, i) => (
-                <div key={i} className="h-stat game-card clip-card hud-corners p-5 group">
-                  <div className="text-3xl font-black mono text-white mb-1 group-hover:text-cyan-400 transition-colors">
-                    {stat.value}<span className="text-cyan-400">{stat.suffix}</span>
+            <div className="h-panel game-card clip-tl p-6 space-y-6">
+              <div>
+                <div className="section-label mb-2">OPERATOR PROFILE</div>
+                <div className="text-xl font-bold text-white">{data.personal.title}</div>
+                {data.personal.subtitle && (
+                  <div className="mono text-xs text-slate-500 mt-1">{data.personal.subtitle}</div>
+                )}
+              </div>
+
+              <div className="space-y-3">
+                {data.personal.location && (
+                  <div className="h-stat flex items-center gap-3 text-slate-400">
+                    <MapPin size={15} className="text-cyan-400" />
+                    <span className="mono text-xs">{data.personal.location}</span>
                   </div>
-                  <div className="section-label text-[10px]">{stat.label}</div>
+                )}
+                {data.personal.email && (
+                  <div className="h-stat flex items-center gap-3 text-slate-400">
+                    <Mail size={15} className="text-cyan-400" />
+                    <span className="mono text-xs break-all">{data.personal.email}</span>
+                  </div>
+                )}
+                <div className="h-stat flex items-center gap-3 text-slate-400">
+                  <UserCircle2 size={15} className="text-cyan-400" />
+                  <span className="mono text-xs">Open to collaborations</span>
                 </div>
-              ))}
+              </div>
             </div>
 
-            {/* Tech panel */}
-            <div className="h-panel h-float game-card clip-tl p-5">
-              <div className="section-label flex items-center gap-2 mb-4">
-                <Terminal size={12} className="text-cyan-400" />
-                SPECIALIZATIONS
+            <div className="h-panel h-float game-card clip-card hud-corners p-6 space-y-5">
+              <div className="flex items-center justify-between">
+                <div className="section-label">ACTIVE MISSION LOG</div>
+                <span className="mono text-[10px] text-green-400/80">LIVE</span>
               </div>
-              <div className="space-y-2">
-                {data.skills.slice(0, 5).map((sg) => (
-                  <div key={sg.category} className="flex items-start gap-2">
-                    <span className="text-cyan-400/50 text-xs mt-0.5">&#9656;</span>
-                    <div>
-                      <span className="mono text-xs text-slate-500 mr-2">{sg.category}:</span>
-                      <span className="mono text-xs text-slate-400">{sg.items.slice(0, 3).join(', ')}</span>
+
+              <div className="grid grid-cols-3 gap-2">
+                <div className="h-stat border border-slate-800/80 bg-slate-950/50 px-3 py-2">
+                  <div className="mono text-lg font-black text-white">{data.projects.length}</div>
+                  <div className="section-label text-[9px]">PROJECTS</div>
+                </div>
+                <div className="h-stat border border-slate-800/80 bg-slate-950/50 px-3 py-2">
+                  <div className="mono text-lg font-black text-white">{data.experience.length}</div>
+                  <div className="section-label text-[9px]">ROLES</div>
+                </div>
+                <div className="h-stat border border-slate-800/80 bg-slate-950/50 px-3 py-2">
+                  <div className="mono text-lg font-black text-white">{releasedProjectsCount}</div>
+                  <div className="section-label text-[9px]">PUBLISHED</div>
+                </div>
+              </div>
+
+              <div>
+                <div className="section-label mb-2">FEATURED BUILDS</div>
+                <div className="space-y-2">
+                  {featuredProjects.length > 0 ? (
+                    featuredProjects.map((project) => (
+                      <button
+                        key={project.id}
+                        onClick={() => scrollTo('#projects')}
+                        className="h-stat w-full text-left border border-slate-800/80 bg-slate-950/40 hover:border-cyan-400/35 hover:bg-cyan-400/5 transition-all px-3 py-2"
+                      >
+                        <div className="mono text-xs text-slate-200">{project.name}</div>
+                        <div className="mono text-[10px] text-slate-500 mt-0.5">{project.category || 'Project'}</div>
+                      </button>
+                    ))
+                  ) : (
+                    <div className="h-stat border border-slate-800/80 bg-slate-950/40 px-3 py-2">
+                      <div className="mono text-xs text-slate-400">View projects to explore latest work.</div>
                     </div>
-                  </div>
-                ))}
+                  )}
+                </div>
               </div>
             </div>
           </div>
