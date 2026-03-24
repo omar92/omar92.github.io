@@ -366,11 +366,13 @@
         "Unity",
         "Game Architecture",
         "Data-Driven Design",
+        "Server Architecture",
         "Leadership",
         "C#",
         "VR",
         "Multiplayer",
         "DOTS",
+        "Netcode for Entities",
         "networking",
         "GameLift",
         "Multiplay",
@@ -488,43 +490,74 @@
       ],
       "videos": [
         {
-          "text": "Clamity Trailer",
+          "text": "Trailer",
           "type": "local",
           "url": "src\\Assets\\Videos\\highstreet-campus\\trailer.mp4"
         }
       ],
       "genre": [
+        "Metaverse",
         "Multiplayer",
         "social"
       ],
       "skills": [
         "Unity",
         "C#",
+        "JavaScript",
         "WebGL",
         "Multiplayer",
-        "Networking"
+        "Networking",
+        "Server Architecture",
+        "Mirror",
+        "Web3 Integration"
       ],
       "filterTags": [
         "Unity",
         "Multiplayer",
-        "Released",
-        "WEbGl"
+        "WebGL",
+        "Released"
       ],
       "features": [
-        "Explore a vibrant virtual campus with friends",
-        "Attend live events and socialize in real-time",
-        "Customizable avatars and interactive environments",
-        "Scalable WebGL experience supporting large player counts"
+        "Metaverse entry point designed as a scalable social MMO hub",
+        "NFT shopping and social activity spaces across the campus",
+        "Travel pods connecting users from Campus to Highstreet Homes",
+        "VIP rooftop area with outdoor garden and social spaces",
+        "Salon shop and interactive interior spaces inside the campus",
+        "Dynamic lab system where players can swap lab interiors from an in-world console",
+        "Real-time synchronized interactions for shared systems like elevators and seats"
       ],
-      "shortDescription": "Highstreet Campus is a social multiplayer experience where players can explore a vibrant virtual campus, attend events, and connect with friends. The project involved building a scalable WebGL experience with real-time multiplayer features, including matchmaking, chat systems, and interactive environments.",
-      "description": "Highstreet Campus is a social multiplayer experience where players can explore a vibrant virtual campus, attend events, and connect with friends. The project involved building a scalable WebGL experience with real-time multiplayer features, including matchmaking, chat systems, and interactive environments. Players can customize their avatars, participate in campus activities, and socialize in a dynamic online world.",
+      "shortDescription": "Highstreet Campus was built as the company's metaverse entry point: a large-scale WebGL social hub with MMO-oriented networking, NFT commerce, and connected world travel into Highstreet Homes.",
+      "description": "Highstreet Campus started as a social metaverse hub and strategic entry point for the company, with an early goal of building networking and infrastructure that could scale toward MMO requirements. The world combined social interaction spaces with NFT purchasing experiences, then expanded to include travel pods linking players to their homes in the previous Highstreet Homes project. The campus later introduced a VIP rooftop section with an outdoor garden, additional social activities, and a salon shop. One notable multiplayer challenge was a dynamic lab feature where players could switch lab interiors from an in-world console, requiring synchronized environment swaps while correctly handling other users already inside the affected area.",
       "contributions": [
         {
-          "title": "WebGL Multiplayer Experience Development",
-          "description": "Led the development of Highstreet Campus, a WebGL-based social multiplayer experience. Implemented core systems including matchmaking, real-time chat, and interactive environments using Unity and C#. Worked closely with designers and artists to create a vibrant virtual campus that supports large numbers of concurrent players while maintaining performance and stability.",
-          "screenshot": [
-            ""
-          ]
+          "title": "Custom MMO-Oriented Networking Layer",
+          "description": "Implemented a custom network system on top of Mirror transport after evaluating available options and identifying limitations in Unity's default networking for MMO-scale goals. The architecture supported different object variants per context (server, local client, and remote client) instead of forcing a single prefab model, enabling much greater flexibility, including cross-platform representation needs. I also implemented chunk-based data sharing so the server synchronized state primarily between players in the same region.",
+          "screenshot": []
+        },
+        {
+          "title": "Distributed Server Hierarchy Design",
+          "description": "Designed and implemented a server hierarchy where the main server focused on authoritative synchronization, while specialized 'server-client' workers handled domain logic for entities such as elevators and AI-driven actors. The longer-term architecture targeted distributed authority so regional services could handle local combat/AI and write back required player-impact data, reducing core server load and enabling cost-efficient scaling by spinning regional services up only when needed.",
+          "screenshot": []
+        },
+        {
+          "title": "Highstreet Homes Integration",
+          "description": "Integrated the previous Highstreet Homes experience into Campus despite both projects originally using different multiplayer structures. Delivered stable cross-project travel flow through travel pods and unified player transitions between systems.",
+          "screenshot": []
+        },
+        {
+          "title": "Unified Multi-Source Inventory System",
+          "description": "Built a layered inventory system combining NFTs, backend/unlockable items, location-specific local items, and additional Web3-related internal APIs. Implemented adapters for each data source and a unified inventory abstraction on top, making future source additions straightforward. The system drove player clothing, access rules, and location eligibility across the experience.",
+          "screenshot": []
+        },
+        {
+          "title": "Web Container Authentication Bridge",
+          "description": "Implemented authentication and web-to-game communication using JavaScript bridge functions with callback-based JSON responses. Replaced fragile direct function-name coupling with a generic integration layer that isolated game internals from web implementation details and supported continuous profile/data updates from the website while players were connected.",
+          "screenshot": []
+        },
+        {
+          "title": "Interaction Sync, UI, and Delivery Support",
+          "description": "Owned synchronization of campus interactions (elevators, seats, and other shared actions), and contributed across bug fixing, UI implementation, and multiple feature deliveries required to keep releases stable.",
+          "screenshot": []
         }
       ],
       "links": [
@@ -539,13 +572,12 @@
       "id": "highstreet-homes",
       "featured": true,
       "name": "Highstreet Homes",
-      "category": "",
       "image": "",
       "shortDescription": "",
       "description": "",
       "platforms": [
         "MetaQuest",
-        "WebGl"
+        "WebGL"
       ],
       "cover-image": "",
       "screenshots": [],
@@ -555,9 +587,9 @@
       "filterTags": [
         "Unity",
         "Multiplayer",
-        "Released",
-        "WebGl",
-        "VR"
+        "WebGL",
+        "VR",
+        "Released"
       ],
       "tags": [],
       "features": [],
