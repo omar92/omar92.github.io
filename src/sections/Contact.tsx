@@ -19,6 +19,18 @@ const Contact = () => {
   const [formState, setFormState] = useState({ name: '', email: '', subject: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
+  const buildMailtoUrl = () => {
+    const subject = formState.subject.trim() || `Message from ${formState.name.trim()}`;
+    const body = [
+      `Name: ${formState.name.trim()}`,
+      `Email: ${formState.email.trim()}`,
+      '',
+      formState.message.trim(),
+    ].join('\n');
+
+    return `mailto:${data.personal.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo('.ct-header', { opacity: 0, y: 40 }, {
@@ -40,8 +52,16 @@ const Contact = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setStatus('loading');
-    await new Promise((r) => setTimeout(r, 1200));
-    setStatus('success');
+
+    try {
+      const mailtoUrl = buildMailtoUrl();
+      window.location.href = mailtoUrl;
+
+      setStatus('success');
+      setFormState({ name: '', email: '', subject: '', message: '' });
+    } catch {
+      setStatus('error');
+    }
   };
 
   const inputClass = 'w-full bg-slate-900/50 border border-slate-700 focus:border-cyan-400/50 focus:outline-none px-4 py-3 mono text-sm text-slate-200 placeholder-slate-600 transition-colors';
@@ -179,6 +199,9 @@ const Contact = () => {
                 <button type="submit" disabled={status === 'loading'} className="btn-primary w-full flex items-center justify-center gap-2">
                   {status === 'loading' ? <><Loader2 size={14} className="animate-spin" />TRANSMITTING...</> : <><Send size={14} />SEND MESSAGE</>}
                 </button>
+                {status === 'error' && (
+                  <p className="mono text-xs text-rose-400 text-center">Unable to open your mail app. Please email me directly.</p>
+                )}
               </form>
             )}
           </div>
