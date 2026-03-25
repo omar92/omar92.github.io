@@ -42,6 +42,7 @@ const Hero = () => {
   const allFeaturedProjects = data.projects.filter((project) => project.featured);
   const featuredProjects = allFeaturedProjects.slice(0, 3);
   const releasedProjectsCount = data.projects.filter((project) => project.published).length;
+  const availabilityText = data.personal.openToWork ? 'Seeking New Challenges' : 'Currently not open for new work';
 
   return (
     <section id="home" ref={heroRef} className="relative min-h-screen flex flex-col justify-center pt-16 overflow-hidden">
@@ -156,7 +157,7 @@ const Hero = () => {
                 )}
                 <div className="h-stat flex items-center gap-3 text-slate-400">
                   <UserCircle2 size={15} className="text-cyan-400" />
-                  <span className="mono text-xs">Open to collaborations</span>
+                  <span className={`mono text-xs ${data.personal.openToWork ? 'text-green-300' : 'text-amber-200'}`}>{availabilityText}</span>
                 </div>
               </div>
             </div>

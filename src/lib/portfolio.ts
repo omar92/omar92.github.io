@@ -77,6 +77,7 @@ export interface PortfolioData {
     lastName: string;
     title: string;
     subtitle: string;
+    openToWork: boolean;
     location: string;
     tagline: string;
     about: string;
@@ -193,6 +194,7 @@ const data: PortfolioData = {
     lastName: remainingName.join(' '),
     title: asString(personalRaw.title),
     subtitle: asString(personalRaw.subtitle),
+    openToWork: asBoolean(personalRaw.openToWork, true),
     location: asString(personalRaw.location),
     tagline: asString(personalRaw.tagline),
     about: asString(personalRaw.about),

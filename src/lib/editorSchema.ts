@@ -20,6 +20,7 @@ export const portfolioSchema: Record<string, FieldSchema> = {
       name: { type: 'string' },
       title: { type: 'string' },
       subtitle: { type: 'string' },
+      openToWork: { type: 'boolean' },
       location: { type: 'string' },
       tagline: { type: 'string' },
       about: { type: 'string' },

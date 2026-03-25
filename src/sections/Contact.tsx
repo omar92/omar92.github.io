@@ -20,6 +20,14 @@ const Contact = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const [formState, setFormState] = useState({ name: '', email: '', subject: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const isOpenToWork = data.personal.openToWork;
+  const availabilityHeading = isOpenToWork ? 'AVAILABLE FOR WORK' : 'NOT CURRENTLY AVAILABLE';
+  const availabilityBody = isOpenToWork
+    ? 'Open to new opportunities -- game industry, simulation, or system-level engineering.'
+    : 'Not taking new full-time or contract opportunities at the moment, but important messages are still welcome.';
+  const availabilityIntro = isOpenToWork
+    ? 'Available for contract work, full-time roles, and interesting collaborations. Reach out through any channel.'
+    : 'Currently not open for new roles, but you can still reach out for select collaborations or important inquiries.';
 
   const buildMailtoUrl = () => {
     const subject = formState.subject.trim() || `Message from ${formState.name.trim()}`;
@@ -85,7 +93,7 @@ const Contact = () => {
           <div className="ct-info flex flex-col gap-10 lg:h-full lg:justify-between">
             <div className="space-y-10">
               <p className="text-lg text-slate-300 leading-relaxed">
-                Available for contract work, full-time roles, and interesting collaborations. Reach out through any channel.
+                {availabilityIntro}
               </p>
 
               <div className="space-y-5">
@@ -137,10 +145,10 @@ const Contact = () => {
 
             <div className="game-card p-6 clip-tl">
               <div className="flex items-center gap-2 mb-3">
-                <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                <span className="mono text-xs text-green-400">AVAILABLE FOR WORK</span>
+                <span className={`w-2 h-2 rounded-full ${isOpenToWork ? 'bg-green-400 animate-pulse' : 'bg-amber-400'}`} />
+                <span className={`mono text-xs ${isOpenToWork ? 'text-green-400' : 'text-amber-300'}`}>{availabilityHeading}</span>
               </div>
-              <p className="text-sm text-slate-400">Open to new opportunities -- game industry, simulation, or system-level engineering.</p>
+              <p className="text-sm text-slate-400">{availabilityBody}</p>
             </div>
           </div>
 
@@ -208,8 +216,8 @@ const Contact = () => {
                     className={`${inputClass} resize-none`}
                   />
                 </div>
-                <button type="submit" disabled={status === 'loading'} className="btn-primary w-full flex items-center justify-center gap-2">
-                  {status === 'loading' ? <><Loader2 size={14} className="animate-spin" />TRANSMITTING...</> : <><Send size={14} />SEND MESSAGE</>}
+                <button type="submit" disabled={status === 'loading'} className={`w-full flex items-center justify-center gap-2 ${isOpenToWork ? 'btn-primary' : 'btn-ghost border border-amber-400/40 text-amber-100 hover:bg-amber-400/10'}`}>
+                  {status === 'loading' ? <><Loader2 size={14} className="animate-spin" />TRANSMITTING...</> : <><Send size={14} />{isOpenToWork ? 'SEND MESSAGE' : 'SEND INQUIRY'}</>}
                 </button>
                 {status === 'error' && (
                   <p className="mono text-xs text-rose-400 text-center">Unable to open your mail app. Please email me directly.</p>
