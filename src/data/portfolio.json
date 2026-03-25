@@ -336,7 +336,6 @@
   "projects": [
     {
       "id": "highstreet-calamity",
-      "order": 0,
       "featured": true,
       "published": true,
       "name": "HighStreet Clamity VR",
@@ -481,7 +480,6 @@
     },
     {
       "id": "highstreet-campus",
-      "order": 1,
       "featured": true,
       "published": true,
       "name": "Highstreet Campus",
@@ -594,7 +592,6 @@
     },
     {
       "id": "zinad-training-games",
-      "order": 10,
       "featured": true,
       "published": true,
       "name": "Zinad Security Training Games",
@@ -736,7 +733,6 @@
     },
     {
       "id": "highstreet-homes",
-      "order": 2,
       "featured": true,
       "published": true,
       "name": "Highstreet Homes",
@@ -831,7 +827,6 @@
     },
     {
       "id": "el3ab-estimation-kings",
-      "order": 7,
       "featured": true,
       "published": true,
       "name": "Estimation Kings",
@@ -1014,7 +1009,6 @@
     },
     {
       "id": "ComfyUI QualityOfLifeSuit",
-      "order": 4,
       "featured": true,
       "published": true,
       "name": "ComfyUI-QualityOfLifeSuit",
@@ -1100,7 +1094,6 @@
     },
     {
       "id": "portfolio-vibe-coded",
-      "order": 3,
       "featured": false,
       "published": true,
       "name": "Portfolio & JSON Visual Editor",
@@ -1172,7 +1165,6 @@
     },
     {
       "id": "project-unreal-games",
-      "order": 5,
       "featured": false,
       "published": false,
       "name": "Unreal 5 C++ Developer: Code Your Own Unreal Games",
@@ -1253,7 +1245,6 @@
     },
     {
       "id": "iti-rhythm-attack",
-      "order": 6,
       "featured": false,
       "published": false,
       "name": "Rhythm Attack VR",
@@ -1430,7 +1421,6 @@
     },
     {
       "id": "so-unity-tools",
-      "order": 8,
       "featured": false,
       "published": false,
       "name": "Scriptable Object Unity Tools",
@@ -1509,7 +1499,6 @@
     },
     {
       "id": "optimized-unity-scroll-list",
-      "order": 9,
       "featured": false,
       "published": false,
       "name": "Optimized Unity Scroll List",
