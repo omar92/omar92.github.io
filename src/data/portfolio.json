@@ -780,7 +780,7 @@
       ],
       "features": [
         "Player homes with customizable furniture and decorations",
-        "NFT integration for purchasable items and homes access",
+        "NFT integration for inventory items and homes access",
         "Cross-platform social interactions between web and VR users",
         "Interactive activities within player homes",
         "Travel pods connecting homes to the main campus",
@@ -790,23 +790,28 @@
       "description": "Highstreet Homes was designed as a social experience where players could purchase and customize their own homes with NFTs, interact with friends, and connect to the main campus through travel pods. The project presented significant challenges in adapting Unity's native network system, which required extensive custom work to meet the experience's needs. The game supported cross-platform interactions between web and VR users, allowing them to socialize together regardless of their chosen platform. Players could decorate their homes with furniture and items purchased as NFTs, and also had interactive pets that added life to their virtual spaces.",
       "contributions": [
         {
-          "title": "[AI generated] Cross-Platform Multiplayer Architecture",
-          "description": "[AI generated] Adapted the existing multiplayer architecture to support both WebGL and VR clients in the same shared world, implementing platform-specific optimizations while maintaining a unified codebase.",
+          "title": "Cross-Platform Multiplayer Architecture",
+          "description": "adapted the Unity network system to support cross-platform multiplayer interactions between WebGL and VR users",
           "screenshot": []
         },
         {
-          "title": "[AI generated] NFT Integration for Customization",
-          "description": "[AI generated] Implemented NFT-based item purchasing and ownership systems that allowed players to buy, sell, and display unique items in their homes, integrating with external marketplaces and ensuring secure ownership verification.",
+          "title": "Unified Multi-Source Inventory System",
+          "description": "Built a layered inventory system combining NFTs, backend/unlockable items, location-specific local items, and additional Web3-related internal APIs. Implemented adapters for each data source and a unified inventory abstraction on top, making future source additions straightforward.",
           "screenshot": []
         },
         {
-          "title": "[AI generated] Social Interaction Systems",
-          "description": "[AI generated] Built robust social features including friend lists, chat systems, and shared activities that worked seamlessly across platforms, fostering a vibrant community within player homes.",
+          "title": "Furniture Placement System",
+          "description": "Designed and implemented a furniture placement system that allowed players to customize their homes with items purchased as NFTs or provided by the location. The system included intuitive controls for placing, rotating, and moving furniture.",
           "screenshot": []
         },
         {
-          "title": "[AI generated] Cross-Project Connectivity",
-          "description": "[AI generated] Developed the travel pod system that allowed players to seamlessly transition between Highstreet Homes and the main campus experience, synchronizing player data and state across both projects.",
+          "title": "Sync Interactions",
+          "description": "Implemented synchronization for player interactions within homes, such as Moving furniture , video player , emotes , change avatar ,sitting on furniture, interacting with pets, and using items. This included managing state across different platforms and ensuring a consistent experience for all players.",
+          "screenshot": []
+        },
+        {
+          "title": "backend integration for home management",
+          "description": "Implemented backend services to manage player homes, including saving and loading home configurations using a Firebase backend.",
           "screenshot": []
         }
       ],
