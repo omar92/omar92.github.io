@@ -1258,7 +1258,9 @@
       "platforms": [
         "Web",
         "VR",
-        "Kinect"
+        "Kinect",
+        "Android",
+        "iOS"
       ],
       "cover-image": "src\\Assets\\Images\\zinad-training-games\\cover.png",
       "screenshots": [],
@@ -1328,7 +1330,13 @@
       ],
       "shortDescription": "Suite of serious games for cybersecurity awareness training used by enterprise clients. Multi-platform solutions deployed to major organizations.",
       "description": "As Team Lead at Zinad, I spearheaded the development of a comprehensive suite of serious games designed to train employees in cybersecurity awareness. These games translate complex security concepts into engaging, interactive experiences used by major enterprise clients.\n\nKey Projects:\n- Phishing Mania: Interactive game teaching employees to identify phishing attempts\n- Who Will Be Millionaire - Security Edition: Game show format focused on cybersecurity knowledge\n- The Office VR: Immersive VR experience identifying clean desk policy violations\n- Password Ninja: Fast-paced action game about password security\n- Security Archery VR: VR archery game for security question training",
-      "contributions": [],
+      "contributions": [
+        {
+          "title": "Project Leadership and Architecture",
+          "description": "Led the overall project architecture and development process for the suite of training games, ensuring scalable, maintainable code and successful multi-platform deployments.",
+          "screenshot": []
+        }
+      ],
       "links": []
     },
     {
