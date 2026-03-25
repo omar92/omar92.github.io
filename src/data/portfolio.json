@@ -331,6 +331,7 @@
     {
       "id": "highstreet-calamity",
       "featured": true,
+      "published": true,
       "name": "HighStreet Clamity VR",
       "platforms": [
         "Meta Quest"
@@ -384,8 +385,7 @@
       "filterTags": [
         "Unity",
         "Multiplayer",
-        "VR",
-        "Published"
+        "VR"
       ],
       "features": [
         "Class-based combat system with unique abilities and playstyles",
@@ -475,6 +475,7 @@
     {
       "id": "highstreet-campus",
       "featured": true,
+      "published": true,
       "name": "Highstreet Campus",
       "platforms": [
         "webGl"
@@ -520,8 +521,7 @@
       "filterTags": [
         "Unity",
         "Multiplayer",
-        "Web",
-        "Published"
+        "Web"
       ],
       "features": [
         "Metaverse entry point designed as a scalable social MMO hub",
@@ -587,6 +587,7 @@
     {
       "id": "highstreet-homes",
       "featured": true,
+      "published": true,
       "name": "Highstreet Homes",
       "platforms": [
         "MetaQuest",
@@ -625,8 +626,7 @@
         "Multiplayer",
         "Web",
         "VR",
-        "cross-platform",
-        "Published"
+        "cross-platform"
       ],
       "features": [
         "Player homes with customizable furniture and decorations",
@@ -676,6 +676,7 @@
     {
       "id": "portfolio-vibe-coded",
       "featured": false,
+      "published": true,
       "name": "Portfolio & JSON Visual Editor",
       "platforms": [
         "Web"
@@ -700,8 +701,7 @@
       ],
       "filterTags": [
         "Web",
-        "Vibe Coded",
-        "Published"
+        "Vibe Coded"
       ],
       "features": [
         "Vibe coded portfolio website with a clean, responsive UI",
@@ -747,6 +747,7 @@
     {
       "id": "ComfyUI QualityOfLifeSuit",
       "featured": true,
+      "published": true,
       "name": "ComfyUI-QualityOfLifeSuit",
       "platforms": [
         "ComfyUI"
@@ -771,8 +772,7 @@
       ],
       "filterTags": [
         "AI",
-        "Vibe Coded",
-        "Published"
+        "Vibe Coded"
       ],
       "features": [
         "Custom nodes for enhanced workflow efficiency",
@@ -832,6 +832,7 @@
     {
       "id": "project-unreal-games",
       "featured": false,
+      "published": false,
       "name": "Unreal 5 C++ Developer: Code Your Own Unreal Games",
       "platforms": [
         "PC"
@@ -911,6 +912,7 @@
     {
       "id": "iti-rhythm-attack",
       "featured": false,
+      "published": false,
       "name": "Rhythm Attack VR",
       "platforms": [
         "VR"
@@ -1015,6 +1017,7 @@
     {
       "id": "el3ab-estimation-kings",
       "featured": true,
+      "published": true,
       "name": "Estimation Kings",
       "platforms": [
         "Android",
@@ -1057,8 +1060,7 @@
         "iOS",
         "Web",
         "cross-platform",
-        "Multiplayer",
-        "Published"
+        "Multiplayer"
       ],
       "features": [
         "Real-time multiplayer with global matchmaking",
@@ -1112,6 +1114,7 @@
     {
       "id": "so-unity-tools",
       "featured": false,
+      "published": false,
       "name": "Scriptable Object Unity Tools",
       "platforms": [
         "Unity"
@@ -1189,6 +1192,7 @@
     {
       "id": "optimized-unity-scroll-list",
       "featured": false,
+      "published": false,
       "name": "Optimized Unity Scroll List",
       "category": "Unity Tooling",
       "platforms": [
@@ -1255,6 +1259,7 @@
     {
       "id": "zinad-training-games",
       "featured": true,
+      "published": true,
       "name": "Zinad Security Training Games",
       "platforms": [
         "Web",
@@ -1321,8 +1326,7 @@
         "Web",
         "Android",
         "iOS",
-        "Kinect",
-        "Published"
+        "Kinect"
       ],
       "features": [
         "Multi-platform deployment (Web, VR, Kinect, Android, iOS)",
@@ -1396,6 +1400,7 @@
     {
       "id": "project-tawla",
       "featured": true,
+      "published": true,
       "name": "3ashara Tawla",
       "platforms": [
         "Android",
@@ -1433,8 +1438,7 @@
         "Unity",
         "Android",
         "iOS",
-        "Multiplayer",
-        "Published"
+        "Multiplayer"
       ],
       "features": [
         "Two unique game modes: Ma7bosa and Thirteen",
@@ -1481,6 +1485,7 @@
     {
       "id": "dots-behaviour-tree",
       "featured": false,
+      "published": false,
       "name": "DOTS Behaviour Tree",
       "platforms": [
         "Unity",

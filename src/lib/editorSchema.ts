@@ -123,6 +123,7 @@ export const portfolioSchema: Record<string, FieldSchema> = {
     itemSchema: {
       id: { type: 'string' },
       featured: { type: 'boolean' },
+      published: { type: 'boolean' },
       name: { type: 'string' },
       category: { type: 'string' },
       image: { type: 'string' },

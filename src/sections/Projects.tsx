@@ -38,10 +38,13 @@ const Projects = () => {
     return left.localeCompare(right);
   });
 
-  const categories = ['Showcase', 'All', ...sortedFilterTags];
+  const publishedProjectsCount = data.projects.filter((project) => project.published).length;
+
+  const categories = ['Showcase', 'All', ...(publishedProjectsCount > 0 ? ['Published'] : []), ...sortedFilterTags];
   const filtered =
     activeFilter === 'Showcase' ? data.projects.filter((p) => p.featured) :
     activeFilter === 'All' ? data.projects :
+    activeFilter === 'Published' ? data.projects.filter((p) => p.published) :
     data.projects.filter((p) => p.filterTags.includes(activeFilter));
   const getProjectGitHubStats = (project: PortfolioProject): GitHubRepoStats | undefined => {
     const fetchedStats = projectGitHubStats[project.id];

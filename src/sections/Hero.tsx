@@ -31,12 +31,7 @@ const Hero = () => {
   const lastName  = data.personal.lastName  ?? data.personal.name.split(' ').slice(1).join(' ');
   const allFeaturedProjects = data.projects.filter((project) => project.featured);
   const featuredProjects = allFeaturedProjects.slice(0, 3);
-  const releasedProjectsCount = data.projects.filter((project) =>
-    project.filterTags.some((tag) => {
-      const normalizedTag = tag.trim().toLowerCase();
-      return normalizedTag === 'published';
-    })
-  ).length;
+  const releasedProjectsCount = data.projects.filter((project) => project.published).length;
 
   return (
     <section id="home" ref={heroRef} className="relative min-h-screen flex flex-col justify-center pt-16 overflow-hidden">

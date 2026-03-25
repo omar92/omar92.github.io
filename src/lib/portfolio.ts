@@ -53,6 +53,7 @@ export interface PortfolioProject {
   category: string;
   image: string;
   featured: boolean;
+  published: boolean;
   tags: string[];
   filterTags: string[];
   shortDescription: string;
@@ -149,6 +150,9 @@ const slugify = (...parts: Array<string | number | undefined>): string => {
 const normalizeLabel = (value: string): string =>
   value.toLowerCase().replace(/[^a-z0-9]+/g, '');
 
+const isPublishedTag = (value: string): boolean =>
+  normalizeLabel(value) === 'published';
+
 const root: RawRecord = isRecord(rawData) ? rawData : {};
 const personalRaw: RawRecord = isRecord(root.personal) ? root.personal : {};
 const contactsRaw: RawRecord = isRecord(personalRaw.contacts) ? personalRaw.contacts : {};
@@ -241,8 +245,10 @@ const data: PortfolioData = {
     const skills = asStringArray(project.skills);
     const legacyTags = asStringArray(project.tags);
     const explicitFilterTags = asStringArray(project.filterTags);
+    const publishedFromFilterTags = explicitFilterTags.some(isPublishedTag);
+    const published = project.published === true || publishedFromFilterTags;
     const filterTags = explicitFilterTags.length > 0
-      ? uniqueStrings(explicitFilterTags)
+      ? uniqueStrings(explicitFilterTags.filter((tag) => !isPublishedTag(tag)))
       : uniqueStrings([...platforms, ...genre]);
     const screenshots = asStringArray(project.screenshots);
     const links = asRecordArray(project.links).map((link) => ({
@@ -266,6 +272,7 @@ const data: PortfolioData = {
       category: asString(project.category) || platforms[0] || genre[0] || 'Project',
       image: asString(project.image || project['cover-image']) || screenshots[0] || '',
       featured: project.featured === true,
+      published,
       tags: uniqueStrings([...legacyTags, ...platforms, ...genre, ...skills]),
       filterTags,
       shortDescription: asString(project.shortDescription),
