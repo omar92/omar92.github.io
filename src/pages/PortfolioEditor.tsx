@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
   ArrowLeft,
+  ArrowUp,
+  ArrowDown,
   Save,
   RotateCcw,
   CheckCircle2,
@@ -170,6 +172,8 @@ function FieldEditor({
 
   // For arrays of objects
   if (isArray && schema?.itemSchema) {
+    const isProjectsArray = path.length === 1 && path[0] === 'projects';
+
     return (
       <div className="border border-slate-800 bg-slate-900/40 p-3">
         <div className="mb-3 flex items-center justify-between gap-2">
@@ -182,21 +186,39 @@ function FieldEditor({
             {label}
             <span className="mono text-[10px] text-slate-500">({value.length})</span>
           </button>
-          <button
-            type="button"
-            onClick={() => {
-              // Create a schema for a single item (not the array itself)
-              const itemSchema: FieldSchema = {
-                type: 'object',
-                schema: schema?.itemSchema,
-              };
-              const newItem = createTemplateFromSchema(itemSchema) as JsonValue;
-              onChangeAtPath(path, [...value, newItem]);
-            }}
-            className="inline-flex items-center gap-1 border border-cyan-500/40 px-2 py-1 text-[11px] text-cyan-200 hover:bg-cyan-500/10"
-          >
-            <Plus size={12} /> Add
-          </button>
+          <div className="flex items-center gap-2">
+            {isProjectsArray && (
+              <button
+                type="button"
+                onClick={() => {
+                  const sorted = [...value].sort((left, right) => {
+                    const leftOrder = isObjectValue(left) && typeof left.order === 'number' ? left.order : Number.MAX_SAFE_INTEGER;
+                    const rightOrder = isObjectValue(right) && typeof right.order === 'number' ? right.order : Number.MAX_SAFE_INTEGER;
+                    return leftOrder - rightOrder;
+                  });
+                  onChangeAtPath(path, sorted);
+                }}
+                className="inline-flex items-center gap-1 border border-amber-500/40 px-2 py-1 text-[11px] text-amber-200 hover:bg-amber-500/10"
+              >
+                Sort by order
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={() => {
+                // Create a schema for a single item (not the array itself)
+                const itemSchema: FieldSchema = {
+                  type: 'object',
+                  schema: schema?.itemSchema,
+                };
+                const newItem = createTemplateFromSchema(itemSchema) as JsonValue;
+                onChangeAtPath(path, [...value, newItem]);
+              }}
+              className="inline-flex items-center gap-1 border border-cyan-500/40 px-2 py-1 text-[11px] text-cyan-200 hover:bg-cyan-500/10"
+            >
+              <Plus size={12} /> Add
+            </button>
+          </div>
         </div>
 
         {isExpanded && (
@@ -224,6 +246,36 @@ function FieldEditor({
                     >
                       {isItemExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
                       {String(itemTitle)}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (index === 0) {
+                          return;
+                        }
+                        const newArray = [...value];
+                        [newArray[index - 1], newArray[index]] = [newArray[index], newArray[index - 1]];
+                        onChangeAtPath(path, newArray);
+                      }}
+                      disabled={index === 0}
+                      className="inline-flex items-center gap-1 border border-slate-600 px-2 py-0.5 text-[11px] text-slate-200 hover:bg-slate-700/40 disabled:cursor-not-allowed disabled:opacity-40"
+                    >
+                      <ArrowUp size={12} /> Up
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (index === value.length - 1) {
+                          return;
+                        }
+                        const newArray = [...value];
+                        [newArray[index], newArray[index + 1]] = [newArray[index + 1], newArray[index]];
+                        onChangeAtPath(path, newArray);
+                      }}
+                      disabled={index === value.length - 1}
+                      className="inline-flex items-center gap-1 border border-slate-600 px-2 py-0.5 text-[11px] text-slate-200 hover:bg-slate-700/40 disabled:cursor-not-allowed disabled:opacity-40"
+                    >
+                      <ArrowDown size={12} /> Down
                     </button>
                     <button
                       type="button"

@@ -335,6 +335,7 @@
   "projects": [
     {
       "id": "highstreet-calamity",
+      "order": 0,
       "featured": true,
       "published": true,
       "name": "HighStreet Clamity VR",
@@ -479,6 +480,7 @@
     },
     {
       "id": "highstreet-campus",
+      "order": 1,
       "featured": true,
       "published": true,
       "name": "Highstreet Campus",
@@ -590,679 +592,8 @@
       ]
     },
     {
-      "id": "highstreet-homes",
-      "featured": true,
-      "published": true,
-      "name": "Highstreet Homes",
-      "platforms": [
-        "MetaQuest",
-        "WebGL"
-      ],
-      "cover-image": "src\\Assets\\Images\\highstreet-homes\\1.jpg",
-      "screenshots": [
-        "src\\Assets\\Images\\highstreet-homes\\1.jpg",
-        "src\\Assets\\Images\\highstreet-homes\\2.jpg",
-        "src\\Assets\\Images\\highstreet-homes\\3.jpg",
-        "src\\Assets\\Images\\highstreet-homes\\4.jpg",
-        "src\\Assets\\Images\\highstreet-homes\\5.jpg",
-        "src\\Assets\\Images\\highstreet-homes\\6.jpg"
-      ],
-      "videos": [],
-      "genre": [
-        "VR",
-        "Multiplayer",
-        "social"
-      ],
-      "skills": [
-        "Unity",
-        "C#",
-        "JavaScript",
-        "VR",
-        "WebGL",
-        "cross-platform",
-        "Multiplayer",
-        "Networking",
-        "Server Architecture",
-        "Mirror",
-        "Web3 Integration"
-      ],
-      "filterTags": [
-        "Unity",
-        "Multiplayer",
-        "Web",
-        "VR",
-        "cross-platform"
-      ],
-      "features": [
-        "Player homes with customizable furniture and decorations",
-        "NFT integration for purchasable items and homes access",
-        "Cross-platform social interactions between web and VR users",
-        "Interactive activities within player homes",
-        "Travel pods connecting homes to the main campus",
-        "Player pets with interactive behaviors"
-      ],
-      "shortDescription": "Highstreet Homes was designed as a social experience where players could purchase and customize their own homes with NFTs, interact with friends, and connect to the main campus through travel pods.",
-      "description": "Highstreet Homes was designed as a social experience where players could purchase and customize their own homes with NFTs, interact with friends, and connect to the main campus through travel pods. The project presented significant challenges in adapting Unity's native network system, which required extensive custom work to meet the experience's needs. The game supported cross-platform interactions between web and VR users, allowing them to socialize together regardless of their chosen platform. Players could decorate their homes with furniture and items purchased as NFTs, and also had interactive pets that added life to their virtual spaces.",
-      "contributions": [
-        {
-          "title": "[AI generated] Cross-Platform Multiplayer Architecture",
-          "description": "[AI generated] Adapted the existing multiplayer architecture to support both WebGL and VR clients in the same shared world, implementing platform-specific optimizations while maintaining a unified codebase.",
-          "screenshot": []
-        },
-        {
-          "title": "[AI generated] NFT Integration for Customization",
-          "description": "[AI generated] Implemented NFT-based item purchasing and ownership systems that allowed players to buy, sell, and display unique items in their homes, integrating with external marketplaces and ensuring secure ownership verification.",
-          "screenshot": []
-        },
-        {
-          "title": "[AI generated] Social Interaction Systems",
-          "description": "[AI generated] Built robust social features including friend lists, chat systems, and shared activities that worked seamlessly across platforms, fostering a vibrant community within player homes.",
-          "screenshot": []
-        },
-        {
-          "title": "[AI generated] Cross-Project Connectivity",
-          "description": "[AI generated] Developed the travel pod system that allowed players to seamlessly transition between Highstreet Homes and the main campus experience, synchronizing player data and state across both projects.",
-          "screenshot": []
-        }
-      ],
-      "links": [
-        {
-          "text": "In Campus `Web Version`",
-          "url": "https://www.meta.com/en-gb/experiences/highstreet-homes/9352017631510878/",
-          "type": "website"
-        },
-        {
-          "text": "SideQuest `VR Version`",
-          "url": "https://sidequestvr.com/app/8343/highstreet-homes",
-          "type": "website"
-        }
-      ]
-    },
-    {
-      "id": "portfolio-vibe-coded",
-      "featured": false,
-      "published": true,
-      "name": "Portfolio & JSON Visual Editor",
-      "platforms": [
-        "Web"
-      ],
-      "cover-image": "src\\Assets\\Images\\portfolio-vibe-coded\\cover.png",
-      "screenshots": [
-        "src\\Assets\\Images\\portfolio-vibe-coded\\cover.png",
-        "src\\Assets\\Images\\portfolio-vibe-coded\\editor.png"
-      ],
-      "videos": [],
-      "genre": [
-        "Web",
-        "Developer Tools"
-      ],
-      "skills": [
-        "React",
-        "TypeScript",
-        "Vite",
-        "Tailwind CSS",
-        "JSON Schema",
-        "UI/UX"
-      ],
-      "filterTags": [
-        "Web",
-        "Vibe Coded"
-      ],
-      "features": [
-        "Vibe coded portfolio website with a clean, responsive UI",
-        "Built-in visual editor for portfolio.json (no manual raw JSON editing required)",
-        "Schema-aware add/remove flows to protect data structure integrity",
-        "Section and item focus mode for fast content editing",
-        "Media preview support for images and screenshots during editing"
-      ],
-      "shortDescription": "A vibe coded portfolio project built with React and TypeScript, featuring a full visual editor for managing portfolio content safely.",
-      "description": "This portfolio is a vibe coded project focused on both presentation quality and practical content management. Beyond the public-facing portfolio pages, it includes an integrated visual editor that lets content be updated through structured UI controls instead of manual JSON text editing. The editor is schema-aware, supports nested sections, and helps prevent structural mistakes while editing projects, experience, education, and media fields.",
-      "contributions": [
-        {
-          "title": "Vibe Coded UX and Frontend Architecture",
-          "description": "Designed and implemented the portfolio UI and interaction model using React, TypeScript, and Tailwind CSS, with an emphasis on readability, speed, and modern visual style.",
-          "screenshot": []
-        },
-        {
-          "title": "Visual JSON Editor",
-          "description": "Built a schema-driven editor for portfolio.json with nested field editing, array item management, and focused editing workflows that reduce content update friction.",
-          "screenshot": [
-            "src\\Assets\\Images\\portfolio-vibe-coded\\editor.png"
-          ]
-        },
-        {
-          "title": "Data Safety and Media Editing Enhancements",
-          "description": "Implemented structure-safe creation flows, section/item navigation behavior, and media editing improvements including preview-first UX for image-related fields.",
-          "screenshot": []
-        }
-      ],
-      "links": [
-        {
-          "text": "Live Site",
-          "url": "https://omar92.github.io/portfolio/",
-          "type": "website"
-        },
-        {
-          "text": "GitHub Repository",
-          "url": "https://github.com/omar92/portfolio",
-          "type": "github"
-        }
-      ]
-    },
-    {
-      "id": "ComfyUI QualityOfLifeSuit",
-      "featured": true,
-      "published": true,
-      "name": "ComfyUI-QualityOfLifeSuit",
-      "platforms": [
-        "ComfyUI"
-      ],
-      "cover-image": "src\\Assets\\Images\\comfyui-qof\\Cover.png",
-      "screenshots": [
-        "https://opengraph.githubassets.com/1/omar92/ComfyUI-QualityOfLifeSuit_Omar92",
-        "https://api.star-history.com/svg?repos=omar92/ComfyUI-QualityOfLifeSuit_Omar92&type=Date&theme=dark"
-      ],
-      "videos": [],
-      "genre": [
-        "AI",
-        "Image generation",
-        "Open Source",
-        "Tools"
-      ],
-      "skills": [
-        "Python",
-        "AI",
-        "ComfyUI",
-        "Open Source"
-      ],
-      "filterTags": [
-        "AI",
-        "Vibe Coded"
-      ],
-      "features": [
-        "Custom nodes for enhanced workflow efficiency",
-        "Quality-of-life improvements for ComfyUI interface",
-        "Integration with stable diffusion pipelines",
-        "Active community with 176+ GitHub stars",
-        "Regular updates and maintenance",
-        "Open-source and well-documented"
-      ],
-      "shortDescription": "A comprehensive suite of quality-of-life nodes for ComfyUI, the powerful stable diffusion GUI. Featured in the ComfyUI ecosystem with 176 stars and 23 forks on GitHub.",
-      "description": "ComfyUI-QualityOfLifeSuit is a collection of custom nodes designed to enhance the ComfyUI experience for AI artists and developers. This toolkit provides essential utilities and workflow improvements for stable diffusion workflows.\n\nWith over 176 stars on GitHub, this project has become a valuable resource in the ComfyUI community, helping artists and developers streamline their creative workflows.",
-      "contributions": [
-        {
-          "title": "Ai prompt enhancer node",
-          "description": "Implemented a node that uses AI to enhance and expand text prompts for stable diffusion, allowing users to generate more detailed and creative outputs with minimal effort.",
-          "screenshot": [
-            "src\\Assets\\Images\\comfyui-qof\\AiPromptEnhancer.png"
-          ]
-        },
-        {
-          "title": "Open AI APIs as Nodes (ChatGPT, DALL-E)",
-          "description": "Integrated OpenAI APIs as nodes within ComfyUI, enabling advanced AI functionalities and seamless interaction with external AI services.",
-          "screenshot": [
-            "src\\Assets\\Images\\comfyui-qof\\openai.png",
-            "src\\Assets\\Images\\comfyui-qof\\OpenAiApisNodes.png"
-          ]
-        },
-        {
-          "title": "Equation Node",
-          "description": "Created a versatile equation node that allows users to perform complex mathematical operations within their ComfyUI workflows, enhancing the flexibility and power of their AI pipelines.",
-          "screenshot": [
-            "src\\Assets\\Images\\comfyui-qof\\equationNode.png"
-          ]
-        },
-        {
-          "title": "Text2image node",
-          "description": "Developed a custom Text2Image that convert text to image which can be used as mask or soemthing in the workflow",
-          "screenshot": [
-            "src\\Assets\\Images\\comfyui-qof\\Text2ImageUsage.png",
-            "src\\Assets\\Images\\comfyui-qof\\Text2Image.png"
-          ]
-        }
-      ],
-      "links": [
-        {
-          "text": "View on CivitAI",
-          "url": "https://civitai.com/models/21996?modelVersionId=39288",
-          "type": "website"
-        },
-        {
-          "text": "View on GitHub",
-          "url": "https://github.com/omar92/ComfyUI-QualityOfLifeSuit_Omar92",
-          "type": "github"
-        }
-      ]
-    },
-    {
-      "id": "project-unreal-games",
-      "featured": false,
-      "published": false,
-      "name": "Unreal 5 C++ Developer: Code Your Own Unreal Games",
-      "platforms": [
-        "PC"
-      ],
-      "cover-image": "src\\Assets\\Images\\project-unreal-games\\cover.png",
-      "screenshots": [],
-      "videos": [],
-      "genre": [
-        "Shooter",
-        "Puzzle",
-        "Action"
-      ],
-      "skills": [
-        "Unreal Engine",
-        "C++"
-      ],
-      "filterTags": [
-        "PC",
-        "Unreal Engine",
-        "Learning"
-      ],
-      "features": [
-        "Battle Blaster: Multiplayer shooter with advanced combat mechanics",
-        "ShooterSam: Third-person shooter with sophisticated AI",
-        "Dungeon Escape: Atmospheric puzzle-action game"
-      ],
-      "shortDescription": "Personal projects built to learn Unreal Engine, featuring a multiplayer shooter, an AI-driven third-person shooter, and a puzzle-action game.",
-      "description": "These projects were developed as part of my self-driven learning journey with Unreal Engine. Each game focused on different aspects of Unreal's capabilities, from multiplayer networking and combat systems in Battle Blaster, to AI behavior and third-person mechanics in ShooterSam, and atmospheric design in Dungeon Escape. These projects allowed me to gain hands-on experience with Unreal Engine's C++ programming, Blueprints visual scripting, and overall game development workflows within the engine.",
-      "contributions": [
-        {
-          "title": "Obstacle Assault",
-          "description": "",
-          "screenshot": [
-            "src\\Assets\\Images\\project-unreal-games\\ObstacleAssault.png"
-          ]
-        },
-        {
-          "title": "Dungeon Escape",
-          "description": "Developed an atmospheric puzzle-action game that emphasizes environmental storytelling and player immersion through level design and visual effects.",
-          "screenshot": [
-            "src\\Assets\\Images\\project-unreal-games\\DungeonEscape.png"
-          ]
-        },
-        {
-          "title": "Battle Blaster",
-          "description": "Designed and implemented a multiplayer shooter with advanced combat mechanics, including cover systems, weapon variety, and dynamic environments.",
-          "screenshot": [
-            "src\\Assets\\Images\\project-unreal-games\\BattleBlaster.png"
-          ]
-        },
-        {
-          "title": "ShooterSam [in progress]",
-          "description": "Created a third-person shooter featuring sophisticated AI opponents with varied behaviors and tactics, showcasing Unreal's AI capabilities.",
-          "screenshot": [
-            "src\\Assets\\Images\\project-unreal-games\\ShooterSam.png"
-          ]
-        }
-      ],
-      "links": [
-        {
-          "text": "course on gamedev.tv",
-          "url": "https://gamedev.tv/courses/unreal-c-dev",
-          "type": "website"
-        },
-        {
-          "text": "Battle Blaster on GitHub",
-          "url": "https://github.com/omar92/BattleBlaster_Unreal",
-          "type": "github"
-        },
-        {
-          "text": "ShooterSam on GitHub",
-          "url": "https://github.com/omar92/ShooterSam_Unreal",
-          "type": "github"
-        }
-      ]
-    },
-    {
-      "id": "iti-rhythm-attack",
-      "featured": false,
-      "published": false,
-      "name": "Rhythm Attack VR",
-      "platforms": [
-        "VR"
-      ],
-      "cover-image": "src\\Assets\\Images\\iti-rhythm-attack\\cover.jpg",
-      "screenshots": [
-        "src\\Assets\\Images\\iti-rhythm-attack\\1.jpg",
-        "src\\Assets\\Images\\iti-rhythm-attack\\2.jpg",
-        "src\\Assets\\Images\\iti-rhythm-attack\\3.png"
-      ],
-      "videos": [
-        {
-          "text": "Story Trailer",
-          "type": "youtube",
-          "url": "https://www.youtube.com/embed/C-O4k4yMaR8"
-        },
-        {
-          "text": "Gameplay Video",
-          "type": "youtube",
-          "url": "https://www.youtube.com/embed/ElA8NzXpk4E"
-        }
-      ],
-      "genre": [
-        "VR",
-        "Rhythm",
-        "Action",
-        "Music"
-      ],
-      "skills": [
-        "Unity",
-        "C#",
-        "VR",
-        "Game Design",
-        "Audio Synchronization",
-        "Visual Effects"
-      ],
-      "filterTags": [
-        "VR",
-        "Unity"
-      ],
-      "features": [
-        "Immersive VR gameplay with motion controls",
-        "Dynamic difficulty system that adapts to player skill",
-        "Original soundtrack and sound design",
-        "Custom 3D art and character designs",
-        "Hand-crafted visual effects",
-        "Rhythm-based combat mechanics",
-        "Award-winning ITI graduation project"
-      ],
-      "shortDescription": "Award-winning VR rhythm game combining music, action, and innovative gameplay. ITI graduation project featuring custom art, music, and VFX - 100% original content.",
-      "description": "Rhythm Attack is an innovative VR rhythm game that merges music, action, and strategy. Players must defeat rhythm monsters by slicing projectiles to the beat, then attacking when enemies are vulnerable. The game features escalating difficulty that adapts to player performance.\n\nThis project was our graduation project from the ITI Game Development program, showcasing our skills across all aspects of game development including programming, art, music composition, and visual effects - all created entirely by our team.",
-      "contributions": [
-        {
-          "title": "Lead Developer & Co-Designer",
-          "description": "Led the development of core gameplay systems, including rhythm synchronization, combat mechanics, and dynamic difficulty. Collaborated on overall game design and flow.",
-          "screenshot": []
-        },
-        {
-          "title": "Created Scriptable Object-Based Data Architecture",
-          "description": "Designed and implemented a flexible data architecture using Unity's Scriptable Objects. which provided high felxibility for the team to create and tweak game content (enemies, levels, music cues, etc) without requiring code changes. This system became a foundational tool for the entire project and was used extensively across all content creation.",
-          "screenshot": []
-        },
-        {
-          "title": "Audio Synchronization System",
-          "description": "Implemented a robust audio synchronization system that ensured precise timing between music beats and gameplay events, creating a seamless rhythm-based experience.",
-          "screenshot": []
-        },
-        {
-          "title": "Visual Effects Implementation",
-          "description": "Designed and implemented custom visual effects that enhanced the game's immersive atmosphere and provided feedback for player actions.",
-          "screenshot": []
-        }
-      ],
-      "links": [
-        {
-          "text": "View on GitHub",
-          "url": "https://github.com/omar92/RhythmAttack-VR",
-          "type": "github"
-        },
-        {
-          "text": "Track Description",
-          "url": "https://iti.gov.eg/diplomaStructure/139758dc-e1ee-4d2c-ba87-08dbe615d378/tracks/20661d06-0056-40a8-627a-08dbe68d3d73/f84a5c67-29ae-4584-fe16-08dbe75ac461",
-          "type": "website"
-        },
-        {
-          "text": "SO State Machine",
-          "url": "https://github.com/omar92/so_statemachine",
-          "type": "github"
-        },
-        {
-          "text": "SO Events & Variables",
-          "url": "https://github.com/omar92/SOEventsVariables",
-          "type": "github"
-        },
-        {
-          "text": "SO System",
-          "url": "https://github.com/omar92/SO_System",
-          "type": "github"
-        }
-      ]
-    },
-    {
-      "id": "el3ab-estimation-kings",
-      "featured": true,
-      "published": true,
-      "name": "Estimation Kings",
-      "platforms": [
-        "Android",
-        "iOS",
-        "Web"
-      ],
-      "cover-image": "src\\Assets\\Images\\el3ab-estimation-kings\\cover.webp",
-      "screenshots": [
-        "src\\Assets\\Images\\el3ab-estimation-kings\\1.webp",
-        "src\\Assets\\Images\\el3ab-estimation-kings\\2.webp",
-        "src\\Assets\\Images\\el3ab-estimation-kings\\3.webp",
-        "src\\Assets\\Images\\el3ab-estimation-kings\\4.webp",
-        "src\\Assets\\Images\\el3ab-estimation-kings\\5.webp"
-      ],
-      "videos": [
-        {
-          "text": "Gameplay Trailer",
-          "type": "youtube",
-          "url": "https://www.youtube.com/embed/-gvC4kBzuU8"
-        }
-      ],
-      "genre": [
-        "Card Game",
-        "Multiplayer",
-        "Mobile"
-      ],
-      "skills": [
-        "JavaScript",
-        "Phaser.js",
-        "Cordova",
-        "Multiplayer",
-        "Server Architecture",
-        "HTML/CSS",
-        "Unity",
-        "cocos2d-x",
-        "Web Development"
-      ],
-      "filterTags": [
-        "Android",
-        "iOS",
-        "Web",
-        "cross-platform",
-        "Multiplayer"
-      ],
-      "features": [
-        "Real-time multiplayer with global matchmaking",
-        "Comprehensive progression and leveling system",
-        "Social features including friend system and chat",
-        "Facebook integration for challenging friends",
-        "Multiple game environments and visual themes",
-        "Extensive avatar customization options",
-        "Quick communication with emotes and preset messages",
-        "Interactive actions and animations",
-        "Cross-platform support (Web and Mobile)",
-        "Free-to-play with ethical monetization"
-      ],
-      "shortDescription": "A polished multiplayer card game Published on Google Play. Features online matchmaking, progression system, social features, and cross-platform play.",
-      "description": "Estimation Kings is a professionally Published multiplayer card game that brings the popular Middle Eastern trick-taking game to mobile platforms. Built with Phaser.js and featuring robust server architecture for real-time multiplayer gameplay.\n\nThe game successfully launched on Google Play and attracted a dedicated player base with its smooth gameplay, social features, and competitive progression system.",
-      "contributions": [
-        {
-          "title": "Flash-to-cocos2d-js Migration",
-          "description": "Contributed to migrating the original Flash version to cocos2d-js for mobile deployment. Re-implemented core gameplay systems in JavaScript, optimized performance for mobile devices, and maintained feature parity while improving visuals and overall UX.",
-          "screenshot": []
-        },
-        {
-          "title": "Stage 2: Unity Migration & SmartFox Server Refactor",
-          "description": "Led the migration from cocos2d-js to Unity to improve cross-platform scalability and maintainability. Applied an MVC architecture to separate game logic from presentation, then refactored legacy SmartFoxServer code into a fully authoritative server model to improve stability, security, and gameplay consistency.",
-          "screenshot": []
-        },
-        {
-          "title": "Phaser.js + Cordova Release Pipeline",
-          "description": "Worked with the team lead on a new release built with Phaser.js and Cordova for web and mobile targets. Implemented the game navigation flow and built key front-end pages (server list, game settings, shop, and home screens) using HTML, CSS, and JavaScript.",
-          "screenshot": []
-        }
-      ],
-      "links": [
-        {
-          "text": "Download on Google Play [dead link]",
-          "url": "https://play.google.com/store/apps/details?id=com.el3ab.Estimation",
-          "type": "website"
-        },
-        {
-          "text": "Download on iTunes [dead link]",
-          "url": "https://itunes.apple.com/eg/app/id423988702",
-          "type": "website"
-        },
-        {
-          "text": "Facebook Game Page",
-          "url": "https://www.facebook.com/Estimation.Official.Page/",
-          "type": "facebook"
-        }
-      ]
-    },
-    {
-      "id": "so-unity-tools",
-      "featured": false,
-      "published": false,
-      "name": "Scriptable Object Unity Tools",
-      "platforms": [
-        "Unity"
-      ],
-      "cover-image": "https://opengraph.githubassets.com/1/omar92/SO_System",
-      "screenshots": [],
-      "videos": [],
-      "genre": [
-        "Tools"
-      ],
-      "skills": [
-        "Unity",
-        "C#",
-        "Architecture",
-        "Framework Design",
-        "Object-Oriented Design",
-        "Data-Driven Development",
-        "Scriptable Object"
-      ],
-      "filterTags": [
-        "Unity",
-        "Tools"
-      ],
-      "features": [
-        "SO State Machine: Scriptable Object-based state machine system with visual debugging",
-        "SO Events & Variables: Event-driven architecture system for decoupled communication",
-        "SO System: Comprehensive Scriptable Object framework for data-driven design"
-      ],
-      "shortDescription": "A suite of Unity tools leveraging Scriptable Objects to enable data-driven development, decoupled architecture, and visual debugging for game systems.",
-      "description": "This collection of Unity tools is designed to enhance game development workflows by leveraging the power of Scriptable Objects. The tools include a state machine system with visual debugging, an event-driven architecture for decoupled communication, and a comprehensive framework for data-driven design. These tools are open-source  and have been used in various projects to improve code organization, flexibility, and maintainability.",
-      "contributions": [
-        {
-          "title": "SO State Machine",
-          "description": "Designed and implemented a Scriptable Object-based state machine system that allows developers to create complex state behaviors without writing code, featuring visual debugging tools for easy troubleshooting.",
-          "screenshot": [
-            "https://opengraph.githubassets.com/1/omar92/so_statemachine",
-            "https://api.star-history.com/svg?repos=omar92/so_statemachine&type=Date&theme=dark"
-          ]
-        },
-        {
-          "title": "SO Events & Variables",
-          "description": "Created an event-driven architecture system using Scriptable Objects that enables decoupled communication between game systems, allowing for more modular and maintainable code.",
-          "screenshot": [
-            "https://opengraph.githubassets.com/1/omar92/SOEventsVariables",
-            "https://api.star-history.com/svg?repos=omar92/SOEventsVariables&type=Date&theme=dark"
-          ]
-        },
-        {
-          "title": "SO System",
-          "description": "Developed a comprehensive framework for data-driven design in Unity using Scriptable Objects, providing a structured approach to managing game data and logic without hardcoding dependencies.",
-          "screenshot": [
-            "https://opengraph.githubassets.com/1/omar92/SO_System",
-            "https://api.star-history.com/svg?repos=omar92/SO_System&type=Date&theme=dark"
-          ]
-        }
-      ],
-      "links": [
-        {
-          "text": "SO State Machine",
-          "url": "https://github.com/omar92/so_statemachine",
-          "type": "github"
-        },
-        {
-          "text": "SO Events & Variables",
-          "url": "https://github.com/omar92/SOEventsVariables",
-          "type": "github"
-        },
-        {
-          "text": "SO System",
-          "url": "https://github.com/omar92/SO_System",
-          "type": "github"
-        }
-      ]
-    },
-    {
-      "id": "optimized-unity-scroll-list",
-      "featured": false,
-      "published": false,
-      "name": "Optimized Unity Scroll List",
-      "category": "Unity Tooling",
-      "platforms": [
-        "Unity"
-      ],
-      "cover-image": "https://opengraph.githubassets.com/1/omar92/Optmized-unity-scroll-list",
-      "screenshots": [
-        "https://opengraph.githubassets.com/1/omar92/Optmized-unity-scroll-list"
-      ],
-      "videos": [],
-      "genre": [
-        "Tools",
-        "UI",
-        "Performance",
-        "Open Source"
-      ],
-      "skills": [
-        "Unity",
-        "C#",
-        "UGUI",
-        "Object Pooling",
-        "Performance Optimization",
-        "ScriptableObject Architecture"
-      ],
-      "filterTags": [
-        "Unity",
-        "Tools"
-      ],
-      "features": [
-        "Virtual scrolling with object pooling so only visible items are instantiated",
-        "Smooth handling of 1000+ items with low draw calls and mobile-friendly performance",
-        "Supports both horizontal and vertical ScrollRect layouts",
-        "Responsive rebuilding when the viewport size changes",
-        "OnItemShow and OnItemHide callbacks for clean data binding on recycled items",
-        "Includes a decoupled ScriptableObject-based demo architecture"
-      ],
-      "shortDescription": "High-performance Unity scroll list system with pooled, virtualized items for large datasets and smooth scrolling.",
-      "description": "Optimized Unity Scroll List is a Unity UI tooling project focused on rendering very large ScrollRect datasets efficiently by recycling a fixed pool of item views instead of instantiating one object per entry. The repo includes a working inventory demo, lifecycle callbacks for rebinding pooled items, support for horizontal and vertical lists, and a lightweight ScriptableObject-driven architecture for decoupled UI communication.",
-      "contributions": [
-        {
-          "title": "Virtualized ScrollRect Pooling System",
-          "description": "Built the core ListOptmizer component to calculate visible ranges, recycle pooled UI items, and maintain front and rear filler elements so large lists scroll smoothly without the cost of thousands of instantiated objects.",
-          "screenshot": []
-        },
-        {
-          "title": "Inspector-Friendly Item Lifecycle Hooks",
-          "description": "Implemented OnItemShow and OnItemHide callback flows, plus OptmizedListItem UnityEvent hooks, so recycled cells can be rebound cleanly from code or directly through the Unity Inspector.",
-          "screenshot": []
-        },
-        {
-          "title": "ScriptableObject Demo Integration",
-          "description": "Structured the demo around ScriptableObject variables and event channels to keep inventory data, selection state, and UI updates decoupled while still being easy to wire up in-editor.",
-          "screenshot": []
-        }
-      ],
-      "links": [
-        {
-          "text": "View on GitHub",
-          "url": "https://github.com/omar92/Optmized-unity-scroll-list",
-          "type": "github"
-        }
-      ]
-    },
-    {
       "id": "zinad-training-games",
+      "order": 10,
       "featured": true,
       "published": true,
       "name": "Zinad Security Training Games",
@@ -1403,6 +734,194 @@
       "links": []
     },
     {
+      "id": "highstreet-homes",
+      "order": 2,
+      "featured": true,
+      "published": true,
+      "name": "Highstreet Homes",
+      "platforms": [
+        "MetaQuest",
+        "WebGL"
+      ],
+      "cover-image": "src\\Assets\\Images\\highstreet-homes\\1.jpg",
+      "screenshots": [
+        "src\\Assets\\Images\\highstreet-homes\\1.jpg",
+        "src\\Assets\\Images\\highstreet-homes\\2.jpg",
+        "src\\Assets\\Images\\highstreet-homes\\3.jpg",
+        "src\\Assets\\Images\\highstreet-homes\\4.jpg",
+        "src\\Assets\\Images\\highstreet-homes\\5.jpg",
+        "src\\Assets\\Images\\highstreet-homes\\6.jpg"
+      ],
+      "videos": [],
+      "genre": [
+        "VR",
+        "Multiplayer",
+        "social"
+      ],
+      "skills": [
+        "Unity",
+        "C#",
+        "JavaScript",
+        "VR",
+        "WebGL",
+        "cross-platform",
+        "Multiplayer",
+        "Networking",
+        "Server Architecture",
+        "Mirror",
+        "Web3 Integration"
+      ],
+      "filterTags": [
+        "Unity",
+        "Multiplayer",
+        "Web",
+        "VR",
+        "cross-platform"
+      ],
+      "features": [
+        "Player homes with customizable furniture and decorations",
+        "NFT integration for purchasable items and homes access",
+        "Cross-platform social interactions between web and VR users",
+        "Interactive activities within player homes",
+        "Travel pods connecting homes to the main campus",
+        "Player pets with interactive behaviors"
+      ],
+      "shortDescription": "Highstreet Homes was designed as a social experience where players could purchase and customize their own homes with NFTs, interact with friends, and connect to the main campus through travel pods.",
+      "description": "Highstreet Homes was designed as a social experience where players could purchase and customize their own homes with NFTs, interact with friends, and connect to the main campus through travel pods. The project presented significant challenges in adapting Unity's native network system, which required extensive custom work to meet the experience's needs. The game supported cross-platform interactions between web and VR users, allowing them to socialize together regardless of their chosen platform. Players could decorate their homes with furniture and items purchased as NFTs, and also had interactive pets that added life to their virtual spaces.",
+      "contributions": [
+        {
+          "title": "[AI generated] Cross-Platform Multiplayer Architecture",
+          "description": "[AI generated] Adapted the existing multiplayer architecture to support both WebGL and VR clients in the same shared world, implementing platform-specific optimizations while maintaining a unified codebase.",
+          "screenshot": []
+        },
+        {
+          "title": "[AI generated] NFT Integration for Customization",
+          "description": "[AI generated] Implemented NFT-based item purchasing and ownership systems that allowed players to buy, sell, and display unique items in their homes, integrating with external marketplaces and ensuring secure ownership verification.",
+          "screenshot": []
+        },
+        {
+          "title": "[AI generated] Social Interaction Systems",
+          "description": "[AI generated] Built robust social features including friend lists, chat systems, and shared activities that worked seamlessly across platforms, fostering a vibrant community within player homes.",
+          "screenshot": []
+        },
+        {
+          "title": "[AI generated] Cross-Project Connectivity",
+          "description": "[AI generated] Developed the travel pod system that allowed players to seamlessly transition between Highstreet Homes and the main campus experience, synchronizing player data and state across both projects.",
+          "screenshot": []
+        }
+      ],
+      "links": [
+        {
+          "text": "In Campus `Web Version`",
+          "url": "https://www.meta.com/en-gb/experiences/highstreet-homes/9352017631510878/",
+          "type": "website"
+        },
+        {
+          "text": "SideQuest `VR Version`",
+          "url": "https://sidequestvr.com/app/8343/highstreet-homes",
+          "type": "website"
+        }
+      ]
+    },
+    {
+      "id": "el3ab-estimation-kings",
+      "order": 7,
+      "featured": true,
+      "published": true,
+      "name": "Estimation Kings",
+      "platforms": [
+        "Android",
+        "iOS",
+        "Web"
+      ],
+      "cover-image": "src\\Assets\\Images\\el3ab-estimation-kings\\cover.webp",
+      "screenshots": [
+        "src\\Assets\\Images\\el3ab-estimation-kings\\1.webp",
+        "src\\Assets\\Images\\el3ab-estimation-kings\\2.webp",
+        "src\\Assets\\Images\\el3ab-estimation-kings\\3.webp",
+        "src\\Assets\\Images\\el3ab-estimation-kings\\4.webp",
+        "src\\Assets\\Images\\el3ab-estimation-kings\\5.webp"
+      ],
+      "videos": [
+        {
+          "text": "Gameplay Trailer",
+          "type": "youtube",
+          "url": "https://www.youtube.com/embed/-gvC4kBzuU8"
+        }
+      ],
+      "genre": [
+        "Card Game",
+        "Multiplayer",
+        "Mobile"
+      ],
+      "skills": [
+        "JavaScript",
+        "Phaser.js",
+        "Cordova",
+        "Multiplayer",
+        "Server Architecture",
+        "HTML/CSS",
+        "Unity",
+        "cocos2d-x",
+        "Web Development"
+      ],
+      "filterTags": [
+        "Android",
+        "iOS",
+        "Web",
+        "cross-platform",
+        "Multiplayer"
+      ],
+      "features": [
+        "Real-time multiplayer with global matchmaking",
+        "Comprehensive progression and leveling system",
+        "Social features including friend system and chat",
+        "Facebook integration for challenging friends",
+        "Multiple game environments and visual themes",
+        "Extensive avatar customization options",
+        "Quick communication with emotes and preset messages",
+        "Interactive actions and animations",
+        "Cross-platform support (Web and Mobile)",
+        "Free-to-play with ethical monetization"
+      ],
+      "shortDescription": "A polished multiplayer card game Published on Google Play. Features online matchmaking, progression system, social features, and cross-platform play.",
+      "description": "Estimation Kings is a professionally Published multiplayer card game that brings the popular Middle Eastern trick-taking game to mobile platforms. Built with Phaser.js and featuring robust server architecture for real-time multiplayer gameplay.\n\nThe game successfully launched on Google Play and attracted a dedicated player base with its smooth gameplay, social features, and competitive progression system.",
+      "contributions": [
+        {
+          "title": "Flash-to-cocos2d-js Migration",
+          "description": "Contributed to migrating the original Flash version to cocos2d-js for mobile deployment. Re-implemented core gameplay systems in JavaScript, optimized performance for mobile devices, and maintained feature parity while improving visuals and overall UX.",
+          "screenshot": []
+        },
+        {
+          "title": "Stage 2: Unity Migration & SmartFox Server Refactor",
+          "description": "Led the migration from cocos2d-js to Unity to improve cross-platform scalability and maintainability. Applied an MVC architecture to separate game logic from presentation, then refactored legacy SmartFoxServer code into a fully authoritative server model to improve stability, security, and gameplay consistency.",
+          "screenshot": []
+        },
+        {
+          "title": "Phaser.js + Cordova Release Pipeline",
+          "description": "Worked with the team lead on a new release built with Phaser.js and Cordova for web and mobile targets. Implemented the game navigation flow and built key front-end pages (server list, game settings, shop, and home screens) using HTML, CSS, and JavaScript.",
+          "screenshot": []
+        }
+      ],
+      "links": [
+        {
+          "text": "Download on Google Play [dead link]",
+          "url": "https://play.google.com/store/apps/details?id=com.el3ab.Estimation",
+          "type": "website"
+        },
+        {
+          "text": "Download on iTunes [dead link]",
+          "url": "https://itunes.apple.com/eg/app/id423988702",
+          "type": "website"
+        },
+        {
+          "text": "Facebook Game Page",
+          "url": "https://www.facebook.com/Estimation.Official.Page/",
+          "type": "facebook"
+        }
+      ]
+    },
+    {
       "id": "project-tawla",
       "featured": true,
       "published": true,
@@ -1488,6 +1007,351 @@
       ]
     },
     {
+      "id": "ComfyUI QualityOfLifeSuit",
+      "order": 4,
+      "featured": true,
+      "published": true,
+      "name": "ComfyUI-QualityOfLifeSuit",
+      "platforms": [
+        "ComfyUI"
+      ],
+      "cover-image": "src\\Assets\\Images\\comfyui-qof\\Cover.png",
+      "screenshots": [
+        "https://opengraph.githubassets.com/1/omar92/ComfyUI-QualityOfLifeSuit_Omar92",
+        "https://api.star-history.com/svg?repos=omar92/ComfyUI-QualityOfLifeSuit_Omar92&type=Date&theme=dark"
+      ],
+      "videos": [],
+      "genre": [
+        "AI",
+        "Image generation",
+        "Open Source",
+        "Tools"
+      ],
+      "skills": [
+        "Python",
+        "AI",
+        "ComfyUI",
+        "Open Source"
+      ],
+      "filterTags": [
+        "AI",
+        "Vibe Coded"
+      ],
+      "features": [
+        "Custom nodes for enhanced workflow efficiency",
+        "Quality-of-life improvements for ComfyUI interface",
+        "Integration with stable diffusion pipelines",
+        "Active community with 176+ GitHub stars",
+        "Regular updates and maintenance",
+        "Open-source and well-documented"
+      ],
+      "shortDescription": "A comprehensive suite of quality-of-life nodes for ComfyUI, the powerful stable diffusion GUI. Featured in the ComfyUI ecosystem with 176 stars and 23 forks on GitHub.",
+      "description": "ComfyUI-QualityOfLifeSuit is a collection of custom nodes designed to enhance the ComfyUI experience for AI artists and developers. This toolkit provides essential utilities and workflow improvements for stable diffusion workflows.\n\nWith over 176 stars on GitHub, this project has become a valuable resource in the ComfyUI community, helping artists and developers streamline their creative workflows.",
+      "contributions": [
+        {
+          "title": "Ai prompt enhancer node",
+          "description": "Implemented a node that uses AI to enhance and expand text prompts for stable diffusion, allowing users to generate more detailed and creative outputs with minimal effort.",
+          "screenshot": [
+            "src\\Assets\\Images\\comfyui-qof\\AiPromptEnhancer.png"
+          ]
+        },
+        {
+          "title": "Open AI APIs as Nodes (ChatGPT, DALL-E)",
+          "description": "Integrated OpenAI APIs as nodes within ComfyUI, enabling advanced AI functionalities and seamless interaction with external AI services.",
+          "screenshot": [
+            "src\\Assets\\Images\\comfyui-qof\\openai.png",
+            "src\\Assets\\Images\\comfyui-qof\\OpenAiApisNodes.png"
+          ]
+        },
+        {
+          "title": "Equation Node",
+          "description": "Created a versatile equation node that allows users to perform complex mathematical operations within their ComfyUI workflows, enhancing the flexibility and power of their AI pipelines.",
+          "screenshot": [
+            "src\\Assets\\Images\\comfyui-qof\\equationNode.png"
+          ]
+        },
+        {
+          "title": "Text2image node",
+          "description": "Developed a custom Text2Image that convert text to image which can be used as mask or soemthing in the workflow",
+          "screenshot": [
+            "src\\Assets\\Images\\comfyui-qof\\Text2ImageUsage.png",
+            "src\\Assets\\Images\\comfyui-qof\\Text2Image.png"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "text": "View on CivitAI",
+          "url": "https://civitai.com/models/21996?modelVersionId=39288",
+          "type": "website"
+        },
+        {
+          "text": "View on GitHub",
+          "url": "https://github.com/omar92/ComfyUI-QualityOfLifeSuit_Omar92",
+          "type": "github"
+        }
+      ]
+    },
+    {
+      "id": "portfolio-vibe-coded",
+      "order": 3,
+      "featured": false,
+      "published": true,
+      "name": "Portfolio & JSON Visual Editor",
+      "platforms": [
+        "Web"
+      ],
+      "cover-image": "src\\Assets\\Images\\portfolio-vibe-coded\\cover.png",
+      "screenshots": [
+        "src\\Assets\\Images\\portfolio-vibe-coded\\cover.png",
+        "src\\Assets\\Images\\portfolio-vibe-coded\\editor.png"
+      ],
+      "videos": [],
+      "genre": [
+        "Web",
+        "Developer Tools"
+      ],
+      "skills": [
+        "React",
+        "TypeScript",
+        "Vite",
+        "Tailwind CSS",
+        "JSON Schema",
+        "UI/UX"
+      ],
+      "filterTags": [
+        "Web",
+        "Vibe Coded"
+      ],
+      "features": [
+        "Vibe coded portfolio website with a clean, responsive UI",
+        "Built-in visual editor for portfolio.json (no manual raw JSON editing required)",
+        "Schema-aware add/remove flows to protect data structure integrity",
+        "Section and item focus mode for fast content editing",
+        "Media preview support for images and screenshots during editing"
+      ],
+      "shortDescription": "A vibe coded portfolio project built with React and TypeScript, featuring a full visual editor for managing portfolio content safely.",
+      "description": "This portfolio is a vibe coded project focused on both presentation quality and practical content management. Beyond the public-facing portfolio pages, it includes an integrated visual editor that lets content be updated through structured UI controls instead of manual JSON text editing. The editor is schema-aware, supports nested sections, and helps prevent structural mistakes while editing projects, experience, education, and media fields.",
+      "contributions": [
+        {
+          "title": "Vibe Coded UX and Frontend Architecture",
+          "description": "Designed and implemented the portfolio UI and interaction model using React, TypeScript, and Tailwind CSS, with an emphasis on readability, speed, and modern visual style.",
+          "screenshot": []
+        },
+        {
+          "title": "Visual JSON Editor",
+          "description": "Built a schema-driven editor for portfolio.json with nested field editing, array item management, and focused editing workflows that reduce content update friction.",
+          "screenshot": [
+            "src\\Assets\\Images\\portfolio-vibe-coded\\editor.png"
+          ]
+        },
+        {
+          "title": "Data Safety and Media Editing Enhancements",
+          "description": "Implemented structure-safe creation flows, section/item navigation behavior, and media editing improvements including preview-first UX for image-related fields.",
+          "screenshot": []
+        }
+      ],
+      "links": [
+        {
+          "text": "Live Site",
+          "url": "https://omar92.github.io/portfolio/",
+          "type": "website"
+        },
+        {
+          "text": "GitHub Repository",
+          "url": "https://github.com/omar92/portfolio",
+          "type": "github"
+        }
+      ]
+    },
+    {
+      "id": "project-unreal-games",
+      "order": 5,
+      "featured": false,
+      "published": false,
+      "name": "Unreal 5 C++ Developer: Code Your Own Unreal Games",
+      "platforms": [
+        "PC"
+      ],
+      "cover-image": "src\\Assets\\Images\\project-unreal-games\\cover.png",
+      "screenshots": [],
+      "videos": [],
+      "genre": [
+        "Shooter",
+        "Puzzle",
+        "Action"
+      ],
+      "skills": [
+        "Unreal Engine",
+        "C++"
+      ],
+      "filterTags": [
+        "PC",
+        "Unreal Engine",
+        "Learning"
+      ],
+      "features": [
+        "Battle Blaster: Multiplayer shooter with advanced combat mechanics",
+        "ShooterSam: Third-person shooter with sophisticated AI",
+        "Dungeon Escape: Atmospheric puzzle-action game"
+      ],
+      "shortDescription": "Personal projects built to learn Unreal Engine, featuring a multiplayer shooter, an AI-driven third-person shooter, and a puzzle-action game.",
+      "description": "These projects were developed as part of my self-driven learning journey with Unreal Engine. Each game focused on different aspects of Unreal's capabilities, from multiplayer networking and combat systems in Battle Blaster, to AI behavior and third-person mechanics in ShooterSam, and atmospheric design in Dungeon Escape. These projects allowed me to gain hands-on experience with Unreal Engine's C++ programming, Blueprints visual scripting, and overall game development workflows within the engine.",
+      "contributions": [
+        {
+          "title": "Obstacle Assault",
+          "description": "",
+          "screenshot": [
+            "src\\Assets\\Images\\project-unreal-games\\ObstacleAssault.png"
+          ]
+        },
+        {
+          "title": "Dungeon Escape",
+          "description": "Developed an atmospheric puzzle-action game that emphasizes environmental storytelling and player immersion through level design and visual effects.",
+          "screenshot": [
+            "src\\Assets\\Images\\project-unreal-games\\DungeonEscape.png"
+          ]
+        },
+        {
+          "title": "Battle Blaster",
+          "description": "Designed and implemented a multiplayer shooter with advanced combat mechanics, including cover systems, weapon variety, and dynamic environments.",
+          "screenshot": [
+            "src\\Assets\\Images\\project-unreal-games\\BattleBlaster.png"
+          ]
+        },
+        {
+          "title": "ShooterSam [in progress]",
+          "description": "Created a third-person shooter featuring sophisticated AI opponents with varied behaviors and tactics, showcasing Unreal's AI capabilities.",
+          "screenshot": [
+            "src\\Assets\\Images\\project-unreal-games\\ShooterSam.png"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "text": "course on gamedev.tv",
+          "url": "https://gamedev.tv/courses/unreal-c-dev",
+          "type": "website"
+        },
+        {
+          "text": "Battle Blaster on GitHub",
+          "url": "https://github.com/omar92/BattleBlaster_Unreal",
+          "type": "github"
+        },
+        {
+          "text": "ShooterSam on GitHub",
+          "url": "https://github.com/omar92/ShooterSam_Unreal",
+          "type": "github"
+        }
+      ]
+    },
+    {
+      "id": "iti-rhythm-attack",
+      "order": 6,
+      "featured": false,
+      "published": false,
+      "name": "Rhythm Attack VR",
+      "platforms": [
+        "VR"
+      ],
+      "cover-image": "src\\Assets\\Images\\iti-rhythm-attack\\cover.jpg",
+      "screenshots": [
+        "src\\Assets\\Images\\iti-rhythm-attack\\1.jpg",
+        "src\\Assets\\Images\\iti-rhythm-attack\\2.jpg",
+        "src\\Assets\\Images\\iti-rhythm-attack\\3.png"
+      ],
+      "videos": [
+        {
+          "text": "Story Trailer",
+          "type": "youtube",
+          "url": "https://www.youtube.com/embed/C-O4k4yMaR8"
+        },
+        {
+          "text": "Gameplay Video",
+          "type": "youtube",
+          "url": "https://www.youtube.com/embed/ElA8NzXpk4E"
+        }
+      ],
+      "genre": [
+        "VR",
+        "Rhythm",
+        "Action",
+        "Music"
+      ],
+      "skills": [
+        "Unity",
+        "C#",
+        "VR",
+        "Game Design",
+        "Audio Synchronization",
+        "Visual Effects"
+      ],
+      "filterTags": [
+        "VR",
+        "Unity"
+      ],
+      "features": [
+        "Immersive VR gameplay with motion controls",
+        "Dynamic difficulty system that adapts to player skill",
+        "Original soundtrack and sound design",
+        "Custom 3D art and character designs",
+        "Hand-crafted visual effects",
+        "Rhythm-based combat mechanics",
+        "Award-winning ITI graduation project"
+      ],
+      "shortDescription": "Award-winning VR rhythm game combining music, action, and innovative gameplay. ITI graduation project featuring custom art, music, and VFX - 100% original content.",
+      "description": "Rhythm Attack is an innovative VR rhythm game that merges music, action, and strategy. Players must defeat rhythm monsters by slicing projectiles to the beat, then attacking when enemies are vulnerable. The game features escalating difficulty that adapts to player performance.\n\nThis project was our graduation project from the ITI Game Development program, showcasing our skills across all aspects of game development including programming, art, music composition, and visual effects - all created entirely by our team.",
+      "contributions": [
+        {
+          "title": "Lead Developer & Co-Designer",
+          "description": "Led the development of core gameplay systems, including rhythm synchronization, combat mechanics, and dynamic difficulty. Collaborated on overall game design and flow.",
+          "screenshot": []
+        },
+        {
+          "title": "Created Scriptable Object-Based Data Architecture",
+          "description": "Designed and implemented a flexible data architecture using Unity's Scriptable Objects. which provided high felxibility for the team to create and tweak game content (enemies, levels, music cues, etc) without requiring code changes. This system became a foundational tool for the entire project and was used extensively across all content creation.",
+          "screenshot": []
+        },
+        {
+          "title": "Audio Synchronization System",
+          "description": "Implemented a robust audio synchronization system that ensured precise timing between music beats and gameplay events, creating a seamless rhythm-based experience.",
+          "screenshot": []
+        },
+        {
+          "title": "Visual Effects Implementation",
+          "description": "Designed and implemented custom visual effects that enhanced the game's immersive atmosphere and provided feedback for player actions.",
+          "screenshot": []
+        }
+      ],
+      "links": [
+        {
+          "text": "View on GitHub",
+          "url": "https://github.com/omar92/RhythmAttack-VR",
+          "type": "github"
+        },
+        {
+          "text": "Track Description",
+          "url": "https://iti.gov.eg/diplomaStructure/139758dc-e1ee-4d2c-ba87-08dbe615d378/tracks/20661d06-0056-40a8-627a-08dbe68d3d73/f84a5c67-29ae-4584-fe16-08dbe75ac461",
+          "type": "website"
+        },
+        {
+          "text": "SO State Machine",
+          "url": "https://github.com/omar92/so_statemachine",
+          "type": "github"
+        },
+        {
+          "text": "SO Events & Variables",
+          "url": "https://github.com/omar92/SOEventsVariables",
+          "type": "github"
+        },
+        {
+          "text": "SO System",
+          "url": "https://github.com/omar92/SO_System",
+          "type": "github"
+        }
+      ]
+    },
+    {
       "id": "dots-behaviour-tree",
       "featured": false,
       "published": false,
@@ -1554,6 +1418,153 @@
         {
           "text": "View on GitHub",
           "url": "https://github.com/M-Hamdy23/DotsBehaviourTree",
+          "type": "github"
+        }
+      ]
+    },
+    {
+      "id": "so-unity-tools",
+      "order": 8,
+      "featured": false,
+      "published": false,
+      "name": "Scriptable Object Unity Tools",
+      "platforms": [
+        "Unity"
+      ],
+      "cover-image": "https://opengraph.githubassets.com/1/omar92/SO_System",
+      "screenshots": [],
+      "videos": [],
+      "genre": [
+        "Tools"
+      ],
+      "skills": [
+        "Unity",
+        "C#",
+        "Architecture",
+        "Framework Design",
+        "Object-Oriented Design",
+        "Data-Driven Development",
+        "Scriptable Object"
+      ],
+      "filterTags": [
+        "Unity",
+        "Tools"
+      ],
+      "features": [
+        "SO State Machine: Scriptable Object-based state machine system with visual debugging",
+        "SO Events & Variables: Event-driven architecture system for decoupled communication",
+        "SO System: Comprehensive Scriptable Object framework for data-driven design"
+      ],
+      "shortDescription": "A suite of Unity tools leveraging Scriptable Objects to enable data-driven development, decoupled architecture, and visual debugging for game systems.",
+      "description": "This collection of Unity tools is designed to enhance game development workflows by leveraging the power of Scriptable Objects. The tools include a state machine system with visual debugging, an event-driven architecture for decoupled communication, and a comprehensive framework for data-driven design. These tools are open-source  and have been used in various projects to improve code organization, flexibility, and maintainability.",
+      "contributions": [
+        {
+          "title": "SO State Machine",
+          "description": "Designed and implemented a Scriptable Object-based state machine system that allows developers to create complex state behaviors without writing code, featuring visual debugging tools for easy troubleshooting.",
+          "screenshot": [
+            "https://opengraph.githubassets.com/1/omar92/so_statemachine",
+            "https://api.star-history.com/svg?repos=omar92/so_statemachine&type=Date&theme=dark"
+          ]
+        },
+        {
+          "title": "SO Events & Variables",
+          "description": "Created an event-driven architecture system using Scriptable Objects that enables decoupled communication between game systems, allowing for more modular and maintainable code.",
+          "screenshot": [
+            "https://opengraph.githubassets.com/1/omar92/SOEventsVariables",
+            "https://api.star-history.com/svg?repos=omar92/SOEventsVariables&type=Date&theme=dark"
+          ]
+        },
+        {
+          "title": "SO System",
+          "description": "Developed a comprehensive framework for data-driven design in Unity using Scriptable Objects, providing a structured approach to managing game data and logic without hardcoding dependencies.",
+          "screenshot": [
+            "https://opengraph.githubassets.com/1/omar92/SO_System",
+            "https://api.star-history.com/svg?repos=omar92/SO_System&type=Date&theme=dark"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "text": "SO State Machine",
+          "url": "https://github.com/omar92/so_statemachine",
+          "type": "github"
+        },
+        {
+          "text": "SO Events & Variables",
+          "url": "https://github.com/omar92/SOEventsVariables",
+          "type": "github"
+        },
+        {
+          "text": "SO System",
+          "url": "https://github.com/omar92/SO_System",
+          "type": "github"
+        }
+      ]
+    },
+    {
+      "id": "optimized-unity-scroll-list",
+      "order": 9,
+      "featured": false,
+      "published": false,
+      "name": "Optimized Unity Scroll List",
+      "category": "Unity Tooling",
+      "platforms": [
+        "Unity"
+      ],
+      "cover-image": "https://opengraph.githubassets.com/1/omar92/Optmized-unity-scroll-list",
+      "screenshots": [
+        "https://opengraph.githubassets.com/1/omar92/Optmized-unity-scroll-list"
+      ],
+      "videos": [],
+      "genre": [
+        "Tools",
+        "UI",
+        "Performance",
+        "Open Source"
+      ],
+      "skills": [
+        "Unity",
+        "C#",
+        "UGUI",
+        "Object Pooling",
+        "Performance Optimization",
+        "ScriptableObject Architecture"
+      ],
+      "filterTags": [
+        "Unity",
+        "Tools"
+      ],
+      "features": [
+        "Virtual scrolling with object pooling so only visible items are instantiated",
+        "Smooth handling of 1000+ items with low draw calls and mobile-friendly performance",
+        "Supports both horizontal and vertical ScrollRect layouts",
+        "Responsive rebuilding when the viewport size changes",
+        "OnItemShow and OnItemHide callbacks for clean data binding on recycled items",
+        "Includes a decoupled ScriptableObject-based demo architecture"
+      ],
+      "shortDescription": "High-performance Unity scroll list system with pooled, virtualized items for large datasets and smooth scrolling.",
+      "description": "Optimized Unity Scroll List is a Unity UI tooling project focused on rendering very large ScrollRect datasets efficiently by recycling a fixed pool of item views instead of instantiating one object per entry. The repo includes a working inventory demo, lifecycle callbacks for rebinding pooled items, support for horizontal and vertical lists, and a lightweight ScriptableObject-driven architecture for decoupled UI communication.",
+      "contributions": [
+        {
+          "title": "Virtualized ScrollRect Pooling System",
+          "description": "Built the core ListOptmizer component to calculate visible ranges, recycle pooled UI items, and maintain front and rear filler elements so large lists scroll smoothly without the cost of thousands of instantiated objects.",
+          "screenshot": []
+        },
+        {
+          "title": "Inspector-Friendly Item Lifecycle Hooks",
+          "description": "Implemented OnItemShow and OnItemHide callback flows, plus OptmizedListItem UnityEvent hooks, so recycled cells can be rebound cleanly from code or directly through the Unity Inspector.",
+          "screenshot": []
+        },
+        {
+          "title": "ScriptableObject Demo Integration",
+          "description": "Structured the demo around ScriptableObject variables and event channels to keep inventory data, selection state, and UI updates decoupled while still being easy to wire up in-editor.",
+          "screenshot": []
+        }
+      ],
+      "links": [
+        {
+          "text": "View on GitHub",
+          "url": "https://github.com/omar92/Optmized-unity-scroll-list",
           "type": "github"
         }
       ]
