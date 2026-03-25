@@ -7,7 +7,7 @@
     "tagline": "Building worlds. Shipping systems.",
     "about": "Highly proficient Game Developer with over a decade of professional experience, specializing in Unity, multiplayer, and cross-platform game development, including VR/XR technologies. Expert in Unity DOTS, advanced game architecture design, and complex problem-solving.",
     "avatar": "https://avatars.githubusercontent.com/u/1458624?v=4",
-    "resume": "https://github.com/omar92",
+    "resume": "src\\Assets\\Documents\\Omar_AbdElzaher_GameDeveloper_CV.pdf",
     "contacts": {
       "email": "omarabdelzaher@gmail.com",
       "phone": "+20 100 814 6211",
@@ -1381,6 +1381,76 @@
           "text": "iOS",
           "url": "https://apps.apple.com/eg/app/10-tawla/id1569696163",
           "type": "AppStore"
+        }
+      ]
+    },
+    {
+      "id": "dots-behaviour-tree",
+      "featured": false,
+      "name": "DOTS Behaviour Tree",
+      "platforms": [
+        "Unity",
+        "ECS/DOTS"
+      ],
+      "cover-image": "src\\Assets\\Images\\highstreet-calamity\\dots-behaviour-tree\\1.png",
+      "screenshots": [
+        "src\\Assets\\Images\\highstreet-calamity\\dots-behaviour-tree\\1.png",
+        "src\\Assets\\Images\\highstreet-calamity\\dots-behaviour-tree\\2.png",
+        "src\\Assets\\Images\\highstreet-calamity\\dots-behaviour-tree\\3.png",
+        "src\\Assets\\Images\\highstreet-calamity\\dots-behaviour-tree\\4.png",
+        "src\\Assets\\Images\\highstreet-calamity\\dots-behaviour-tree\\5.png"
+      ],
+      "videos": [],
+      "genre": [
+        "Tools",
+        "AI",
+        "Framework",
+        "Open Source"
+      ],
+      "skills": [
+        "Unity",
+        "DOTS",
+        "C#",
+        "Behaviour Tree",
+        "Visual Editor"
+      ],
+      "filterTags": [
+        "Unity",
+        "Tools"
+      ],
+      "features": [
+        "ECS-native behaviour tree execution with nodes baked into entities",
+        "Visual node-graph editor for authoring trees in Unity",
+        "Runtime inspector to watch node status transitions live during play mode",
+        "Built-in composite nodes: Sequencer, Selector, Parallel, Random, and Repeater",
+        "Condition combinators: AND, OR, and NOT for flexible decision gating",
+        "Interrupt system for high-priority preemption and control handoff",
+        "Script templates for custom Action, Condition, Composite, and Interrupt nodes"
+      ],
+      "shortDescription": "A high-performance Behaviour Tree framework for Unity DOTS/ECS with a visual editor, runtime inspector, interrupts, and extensible custom node templates.",
+      "description": "Dots Behaviour Tree is a Behaviour Tree framework built for Unity DOTS (Data-Oriented Technology Stack) on top of ECS architecture. It focuses on high-performance AI decision-making by baking authoring nodes into ECS entities and executing them through ECS systems. The framework includes a visual editor for graph-based authoring, a runtime inspector for live debugging, rich composite nodes, condition combinators, and interrupt support for high-priority behaviour preemption. It also provides script templates to accelerate creation of custom Action, Condition, Composite, and Interrupt nodes.\n\nRequirements from the README include Unity 6000.0.23f1+ with Entities 1.3.2+ (Burst compatible), and the demo scene runs with URP 17.0.4+.",
+      "contributions": [
+        {
+          "title": "ECS-Native Behaviour Tree Runtime",
+          "description": "Implemented a DOTS-first execution model where authored tree nodes are baked into ECS entities and updated by ECS systems for scalable runtime performance.",
+          "screenshot": []
+        },
+        {
+          "title": "Visual Authoring + Runtime Inspector Tooling",
+          "description": "Built editor tooling for graph-based tree authoring and runtime state inspection, enabling faster iteration and easier debugging of node state transitions.",
+          "screenshot": []
+        },
+        {
+          "title": "Extensible Node, Condition, and Interrupt Architecture",
+          "description": "Designed an extensible framework with templates and base classes for custom Action/Condition/Interrupt nodes, including condition combinators and interrupt preemption flows.",
+          "screenshot": []
+        }
+      ],
+      "links": [
+        {
+          "text": "View on GitHub",
+          "url": "https://github.com/M-Hamdy23/DotsBehaviourTree",
+          "type": "github"
         }
       ]
     }
