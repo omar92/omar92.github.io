@@ -1,7 +1,17 @@
 ﻿import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { Github, Linkedin, Twitter, ChevronDown, Zap, MapPin, Mail, UserCircle2 } from 'lucide-react';
+import { Github, Linkedin, Twitter, Youtube, Facebook, ChevronDown, Zap, MapPin, Mail, UserCircle2 } from 'lucide-react';
 import data from '../lib/portfolio';
+
+const getSocialIcon = (link: typeof data.personal.contacts.links[0]): typeof Github | null => {
+  const type = (link.type || link.icon || link.label).toLowerCase();
+  if (type.includes('github')) return Github;
+  if (type.includes('linkedin')) return Linkedin;
+  if (type.includes('twitter') || type === 'x') return Twitter;
+  if (type.includes('youtube')) return Youtube;
+  if (type.includes('facebook')) return Facebook;
+  return null;
+};
 
 const Hero = () => {
   const heroRef = useRef<HTMLElement>(null);
@@ -100,24 +110,23 @@ const Hero = () => {
 
             {/* Social links */}
             <div className="flex gap-2.5">
-              {data.personal.github && (
-                <a href={data.personal.github} target="_blank" rel="noopener noreferrer"
-                  className="h-social p-2.5 border border-slate-700/60 text-slate-500 hover:text-cyan-400 hover:border-cyan-400/40 transition-all">
-                  <Github size={18} />
-                </a>
-              )}
-              {data.personal.linkedin && (
-                <a href={data.personal.linkedin} target="_blank" rel="noopener noreferrer"
-                  className="h-social p-2.5 border border-slate-700/60 text-slate-500 hover:text-cyan-400 hover:border-cyan-400/40 transition-all">
-                  <Linkedin size={18} />
-                </a>
-              )}
-              {data.personal.twitter && (
-                <a href={data.personal.twitter} target="_blank" rel="noopener noreferrer"
-                  className="h-social p-2.5 border border-slate-700/60 text-slate-500 hover:text-cyan-400 hover:border-cyan-400/40 transition-all">
-                  <Twitter size={18} />
-                </a>
-              )}
+              {data.personal.contacts.links.map((link) => {
+                const Icon = getSocialIcon(link);
+                if (!Icon) return null;
+
+                return (
+                  <a
+                    key={link.url}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="h-social p-2.5 border border-slate-700/60 text-slate-500 hover:text-cyan-400 hover:border-cyan-400/40 transition-all"
+                    aria-label={link.label}
+                  >
+                    <Icon size={18} />
+                  </a>
+                );
+              })}
             </div>
           </div>
 

@@ -8,6 +8,7 @@ export interface PortfolioLink {
   icon?: string;
   type?: string;
   text?: string;
+  enabled?: boolean;
 }
 
 export interface PortfolioStat {
@@ -107,6 +108,9 @@ const isRecord = (value: unknown): value is RawRecord =>
 const asString = (value: unknown, fallback = ''): string =>
   typeof value === 'string' ? value : fallback;
 
+const asBoolean = (value: unknown, fallback = false): boolean =>
+  typeof value === 'boolean' ? value : fallback;
+
 const asNumber = (value: unknown): number | undefined => {
   if (typeof value === 'number' && Number.isFinite(value)) {
     return value;
@@ -163,7 +167,8 @@ const socialLinks = asRecordArray(contactsRaw.links).map((link) => ({
   icon: asString(link.icon),
   type: asString(link.type),
   text: asString(link.text),
-})).filter((link) => Boolean(link.url));
+  enabled: asBoolean(link.enabled, true),
+})).filter((link) => Boolean(link.url) && link.enabled !== false);
 
 const findSocialUrl = (...labels: string[]): string => {
   const normalizedLabels = labels.map(normalizeLabel);

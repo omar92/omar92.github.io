@@ -38,6 +38,7 @@ export const portfolioSchema: Record<string, FieldSchema> = {
               label: { type: 'string' },
               url: { type: 'string' },
               icon: { type: 'string' },
+              enabled: { type: 'boolean' },
             },
           },
         },

@@ -1,7 +1,7 @@
 ﻿import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, MapPin, Send, Github, Linkedin, Twitter, Loader2, CheckCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter, Youtube, Facebook, Loader2, CheckCircle } from 'lucide-react';
 import data from '../lib/portfolio';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -10,7 +10,9 @@ const getSocialIcon = (link: typeof data.personal.contacts.links[0]): typeof Git
   const type = (link.type || link.icon || link.label).toLowerCase();
   if (type.includes('github')) return Github;
   if (type.includes('linkedin')) return Linkedin;
-  if (type.includes('twitter')) return Twitter;
+  if (type.includes('twitter') || type === 'x') return Twitter;
+  if (type.includes('youtube')) return Youtube;
+  if (type.includes('facebook')) return Facebook;
   return null;
 };
 
@@ -28,7 +30,7 @@ const Contact = () => {
       formState.message.trim(),
     ].join('\n');
 
-    return `mailto:${data.personal.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    return `mailto:${data.personal.contacts.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
   useEffect(() => {
@@ -80,46 +82,56 @@ const Contact = () => {
 
         <div className="ct-content grid lg:grid-cols-2 gap-16 lg:gap-24">
           {/* Info panel */}
-          <div className="ct-info space-y-10">
-            <p className="text-lg text-slate-300 leading-relaxed">
-              Available for contract work, full-time roles, and interesting collaborations. Reach out through any channel.
-            </p>
+          <div className="ct-info flex flex-col gap-10 lg:h-full lg:justify-between">
+            <div className="space-y-10">
+              <p className="text-lg text-slate-300 leading-relaxed">
+                Available for contract work, full-time roles, and interesting collaborations. Reach out through any channel.
+              </p>
 
-            <div className="space-y-5">
-              <a href={`mailto:${data.personal.email}`} className="flex items-center gap-4 group">
-                <div className="w-10 h-10 flex items-center justify-center border border-slate-700 group-hover:border-cyan-400/50 group-hover:bg-cyan-400/5 transition-all">
-                  <Mail size={16} className="text-slate-600 group-hover:text-cyan-400 transition-colors" />
-                </div>
-                <span className="mono text-sm text-slate-400 group-hover:text-cyan-400 transition-colors">{data.personal.email}</span>
-              </a>
-              {data.personal.location && (
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 flex items-center justify-center border border-slate-700">
-                    <MapPin size={16} className="text-slate-600" />
+              <div className="space-y-5">
+                <a href={`mailto:${data.personal.contacts.email}`} className="flex items-center gap-4 group">
+                  <div className="w-10 h-10 flex items-center justify-center border border-slate-700 group-hover:border-cyan-400/50 group-hover:bg-cyan-400/5 transition-all">
+                    <Mail size={16} className="text-slate-600 group-hover:text-cyan-400 transition-colors" />
                   </div>
-                  <span className="mono text-sm text-slate-400">{data.personal.location}</span>
-                </div>
-              )}
-            </div>
+                  <span className="mono text-sm text-slate-400 group-hover:text-cyan-400 transition-colors">{data.personal.contacts.email}</span>
+                </a>
+                {data.personal.contacts.phone && (
+                  <a href={`tel:${data.personal.contacts.phone}`} className="flex items-center gap-4 group">
+                    <div className="w-10 h-10 flex items-center justify-center border border-slate-700 group-hover:border-cyan-400/50 group-hover:bg-cyan-400/5 transition-all">
+                      <Phone size={16} className="text-slate-600 group-hover:text-cyan-400 transition-colors" />
+                    </div>
+                    <span className="mono text-sm text-slate-400 group-hover:text-cyan-400 transition-colors">{data.personal.contacts.phone}</span>
+                  </a>
+                )}
+                {data.personal.location && (
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 flex items-center justify-center border border-slate-700">
+                      <MapPin size={16} className="text-slate-600" />
+                    </div>
+                    <span className="mono text-sm text-slate-400">{data.personal.location}</span>
+                  </div>
+                )}
+              </div>
 
-            <div>
-              <div className="section-label mb-5">SOCIAL LINKS</div>
-              <div className="flex gap-3">
-                {data.personal.contacts.links.map((link) => {
-                  const Icon = getSocialIcon(link);
-                  if (!Icon) return null;
-                  return (
-                    <a
-                      key={link.url}
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-10 h-10 flex items-center justify-center border border-slate-700 hover:border-cyan-400/50 hover:bg-cyan-400/5 transition-all"
-                    >
-                      <Icon size={15} className="text-slate-400 hover:text-cyan-400 transition-colors" />
-                    </a>
-                  );
-                })}
+              <div>
+                <div className="section-label mb-5">SOCIAL LINKS</div>
+                <div className="flex gap-3">
+                  {data.personal.contacts.links.map((link) => {
+                    const Icon = getSocialIcon(link);
+                    if (!Icon) return null;
+                    return (
+                      <a
+                        key={link.url}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-10 h-10 flex items-center justify-center border border-slate-700 hover:border-cyan-400/50 hover:bg-cyan-400/5 transition-all"
+                      >
+                        <Icon size={15} className="text-slate-400 hover:text-cyan-400 transition-colors" />
+                      </a>
+                    );
+                  })}
+                </div>
               </div>
             </div>
 
@@ -189,7 +201,7 @@ const Contact = () => {
                   <label className="section-label block mb-1.5">MESSAGE *</label>
                   <textarea
                     required
-                    rows={6}
+                    rows={9}
                     placeholder="Type your message..."
                     value={formState.message}
                     onChange={(e) => setFormState((s) => ({ ...s, message: e.target.value }))}
