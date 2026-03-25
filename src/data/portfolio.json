@@ -1057,6 +1057,7 @@
         "iOS",
         "Web",
         "cross-platform",
+        "Multiplayer",
         "Published"
       ],
       "features": [
@@ -1253,7 +1254,7 @@
     },
     {
       "id": "zinad-training-games",
-      "featured": false,
+      "featured": true,
       "name": "Zinad Security Training Games",
       "platforms": [
         "Web",
@@ -1319,7 +1320,9 @@
         "VR",
         "Web",
         "Android",
-        "iOS"
+        "iOS",
+        "Kinect",
+        "Published"
       ],
       "features": [
         "Multi-platform deployment (Web, VR, Kinect, Android, iOS)",
@@ -1427,9 +1430,10 @@
         "Mobile Development"
       ],
       "filterTags": [
+        "Unity",
         "Android",
         "iOS",
-        "Unity",
+        "Multiplayer",
         "Published"
       ],
       "features": [
