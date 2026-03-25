@@ -1262,7 +1262,38 @@
       ],
       "cover-image": "src\\Assets\\Images\\zinad-training-games\\cover.png",
       "screenshots": [],
-      "videos": [],
+      "videos": [
+        {
+          "text": "Cyber Emoji",
+          "type": "youtube",
+          "url": "https://www.youtube.com/embed/PyKICJRs4eM?si=1MMLU5XOMP3g0ZHx"
+        },
+        {
+          "text": "The Office VR Gameplay",
+          "type": "youtube",
+          "url": "https://www.youtube.com/embed/iGwV84Rlqzs?si=UB6DJReXwel6hR9V&amp;start=2"
+        },
+        {
+          "text": "Basketball",
+          "type": "youtube",
+          "url": "https://www.youtube.com/embed/ycpl4R3FRQI?si=QLjj8-1iEIr-7EWI"
+        },
+        {
+          "text": "Archery ",
+          "type": "youtube",
+          "url": "https://www.youtube.com/embed/BOqBdossA4g?si=_T-kgzyjO3x0YFkc"
+        },
+        {
+          "text": "Phishing Mania",
+          "type": "youtube",
+          "url": "https://www.youtube.com/embed/9n7s8Xo2kWE?si=1MMLU5XOMP3g0ZHx"
+        },
+        {
+          "text": "Password Ninja",
+          "type": "youtube",
+          "url": "https://www.youtube.com/embed/4h6j8qjQYpE?si=QLjj8-1iEIr-7EWI"
+        }
+      ],
       "genre": [
         "Training",
         "Serious Games",
