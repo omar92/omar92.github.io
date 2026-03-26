@@ -14,12 +14,46 @@ import {
 
 gsap.registerPlugin(ScrollTrigger);
 
+type ImageLoadState = 'loading' | 'loaded' | 'failed';
+
 const Projects = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const [activeFilter, setActiveFilter] = useState('Showcase');
   const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
   const [lightbox, setLightbox] = useState<string | null>(null);
   const [projectGitHubStats, setProjectGitHubStats] = useState<Record<string, GitHubRepoStats>>({});
+  const [imageStates, setImageStates] = useState<Record<string, ImageLoadState>>({});
+  const loadingImageUrlsRef = useRef(new Set<string>());
+
+  const getImageState = (src: string): ImageLoadState | undefined => imageStates[src];
+  const isImageLoaded = (src: string) => getImageState(src) === 'loaded';
+  const isImageFailed = (src: string) => getImageState(src) === 'failed';
+  const setImageState = (src: string, state: ImageLoadState) => {
+    if (!src) {
+      return;
+    }
+
+    setImageStates((current) => (current[src] === state ? current : { ...current, [src]: state }));
+  };
+  const queueImageLoad = (src: string) => {
+    if (!src || loadingImageUrlsRef.current.has(src) || imageStates[src]) {
+      return;
+    }
+
+    loadingImageUrlsRef.current.add(src);
+    setImageState(src, 'loading');
+
+    const image = new Image();
+    image.onload = () => {
+      loadingImageUrlsRef.current.delete(src);
+      setImageState(src, 'loaded');
+    };
+    image.onerror = () => {
+      loadingImageUrlsRef.current.delete(src);
+      setImageState(src, 'failed');
+    };
+    image.src = src;
+  };
 
   const filterTagCounts = data.projects.reduce<Record<string, number>>((counts, project) => {
     project.filterTags.forEach((tag) => {
@@ -64,6 +98,39 @@ const Projects = () => {
   };
 
   const selectedProjectGitHubStats = selectedProject ? getProjectGitHubStats(selectedProject) : undefined;
+  const visibleSelectedProjectScreenshots = selectedProject?.screenshots.filter((src) => isImageLoaded(src)) ?? [];
+  const visibleSelectedProjectContributionScreenshots = selectedProject?.contributions?.map((contribution) => ({
+    ...contribution,
+    screenshot: contribution.screenshot.filter((src) => !isImageFailed(src)),
+  })) ?? [];
+  const selectedProjectVisibleMediaCount = (selectedProject?.videos?.length ?? 0) + visibleSelectedProjectScreenshots.length;
+
+  useEffect(() => {
+    const imageUrls = new Set<string>();
+
+    filtered.forEach((project) => {
+      if (project.image) {
+        imageUrls.add(project.image);
+      }
+    });
+
+    if (selectedProject?.image) {
+      imageUrls.add(selectedProject.image);
+    }
+
+    selectedProject?.screenshots.forEach((src) => imageUrls.add(src));
+    selectedProject?.contributions?.forEach((contribution) => {
+      contribution.screenshot.forEach((src) => imageUrls.add(src));
+    });
+
+    imageUrls.forEach((src) => {
+      if (src.startsWith('http://') || src.startsWith('https://')) {
+        queueImageLoad(src);
+      } else {
+        setImageState(src, 'loaded');
+      }
+    });
+  }, [filtered, selectedProject]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -229,9 +296,13 @@ const Projects = () => {
               onClick={() => setSelectedProject(project)}
             >
               {/* Image */}
-              {project.image && (
+              {project.image && isImageLoaded(project.image) && (
                 <div className="relative overflow-hidden h-44 shrink-0">
-                  <img src={project.image} alt={project.name} className="w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-500" />
+                  <img
+                    src={project.image}
+                    alt={project.name}
+                    className="w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-500"
+                  />
                   <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-transparent to-slate-950/80" />
                   <div className="absolute top-3 right-3 flex flex-wrap justify-end gap-1 max-w-[80%]">
                     {project.platforms.map((platform) => (
@@ -264,7 +335,7 @@ const Projects = () => {
                     </span>
                   </div>
                 )}
-                {!project.image && (
+                {(!project.image || isImageFailed(project.image) || getImageState(project.image) === 'loading') && (
                   <div className="flex flex-wrap gap-1.5 self-start">
                     {project.platforms.map((platform) => (
                       <span key={platform} className="tag-violet">{platform}</span>
@@ -356,7 +427,7 @@ const Projects = () => {
             <aside className="hidden lg:flex flex-col w-64 xl:w-72 shrink-0 border-r border-slate-800 overflow-y-auto">
 
               {/* Cover image */}
-              {selectedProject?.image && (
+              {selectedProject?.image && isImageLoaded(selectedProject.image) && (
                 <div className="relative overflow-hidden h-40 shrink-0">
                   <img
                     src={selectedProject.image}
@@ -422,11 +493,11 @@ const Projects = () => {
                     <a href="#pd-about" className="flex items-center gap-2 text-xs text-slate-500 hover:text-cyan-400 transition-colors py-0.5">
                       <span className="w-1 h-1 bg-slate-600 rounded-full shrink-0" /> About
                     </a>
-                    {(selectedProject?.videos?.length ?? 0) + (selectedProject?.screenshots?.length ?? 0) > 0 && (
+                    {selectedProjectVisibleMediaCount > 0 && (
                       <a href="#pd-media" className="flex items-center gap-2 text-xs text-slate-500 hover:text-cyan-400 transition-colors py-0.5">
                         <span className="w-1 h-1 bg-slate-600 rounded-full shrink-0" /> Media
                         <span className="ml-auto mono text-[10px] text-slate-600">
-                          {(selectedProject?.videos?.length ?? 0) + (selectedProject?.screenshots?.length ?? 0)}
+                          {selectedProjectVisibleMediaCount}
                         </span>
                       </a>
                     )}
@@ -500,14 +571,14 @@ const Projects = () => {
                 </section>
 
                 {/* ── Media (videos + screenshots) ── */}
-                {((selectedProject?.videos?.length ?? 0) + (selectedProject?.screenshots?.length ?? 0)) > 0 && (
+                {selectedProjectVisibleMediaCount > 0 && (
                   <section id="pd-media">
                     <div className="flex items-center gap-3 mb-5">
                       <Play size={14} className="text-cyan-400 shrink-0" />
                       <div className="section-label">MEDIA</div>
                       <div className="flex-1 h-px bg-slate-800" />
                       <span className="mono text-[10px] text-slate-600">
-                        {(selectedProject?.videos?.length ?? 0) + (selectedProject?.screenshots?.length ?? 0)} items — click screenshots to expand
+                        {selectedProjectVisibleMediaCount} items — click screenshots to expand
                       </span>
                     </div>
                     <div className="flex gap-3 overflow-x-auto pb-2 items-start">
@@ -527,10 +598,10 @@ const Projects = () => {
                         </div>
                       ))}
                       {/* Screenshots */}
-                      {selectedProject?.screenshots?.map((src, i) => (
+                      {visibleSelectedProjectScreenshots.filter((src) => isImageLoaded(src)).map((src, i, screenshots) => (
                         <div key={`s-${i}`} className="shrink-0 space-y-1.5" style={{ width: '320px' }}>
                           <div className="mono text-[10px] text-slate-500 tracking-wider uppercase flex items-center gap-1.5">
-                            <Monitor size={9} className="text-cyan-400/70" />Screenshot {i + 1} / {selectedProject.screenshots.length}
+                            <Monitor size={9} className="text-cyan-400/70" />Screenshot {i + 1} / {screenshots.length}
                           </div>
                           <button
                             onClick={() => setLightbox(src)}
@@ -562,7 +633,10 @@ const Projects = () => {
                       <span className="mono text-[10px] text-slate-600">{selectedProject.contributions.length} contributions</span>
                     </div>
                     <div className="space-y-4">
-                      {selectedProject.contributions.map((c, i) => (
+                      {visibleSelectedProjectContributionScreenshots.map((c, i) => {
+                        const loadedContributionScreenshots = c.screenshot.filter((src) => isImageLoaded(src));
+
+                        return (
                         <div key={i} className="group border border-slate-800 hover:border-slate-700 bg-slate-900/20 hover:bg-slate-900/40 transition-all duration-200">
                           <div className="flex items-start gap-4 p-5 pb-4">
                             <span className="mono text-3xl font-black text-slate-800/80 group-hover:text-slate-700 tabular-nums shrink-0 leading-none select-none">
@@ -573,13 +647,13 @@ const Projects = () => {
                               <p className="text-sm text-slate-400 leading-relaxed">{c.description}</p>
                             </div>
                           </div>
-                          {c.screenshot && c.screenshot.length > 0 && (
+                          {loadedContributionScreenshots.length > 0 && (
                             <div className="px-5 pb-5 pl-[calc(1.25rem+3rem+1rem)]">
                               <div className="mono text-[10px] text-slate-600 mb-2 uppercase tracking-wider">
-                                {c.screenshot.length} screenshot{c.screenshot.length > 1 ? 's' : ''}
+                                {loadedContributionScreenshots.length} screenshot{loadedContributionScreenshots.length > 1 ? 's' : ''}
                               </div>
                               <div className="flex gap-2 overflow-x-auto pb-1">
-                                {c.screenshot.map((src, si) => (
+                                {loadedContributionScreenshots.map((src, si) => (
                                   <button
                                     key={si}
                                     onClick={() => setLightbox(src)}
@@ -600,7 +674,8 @@ const Projects = () => {
                             </div>
                           )}
                         </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </section>
                 )}
@@ -628,6 +703,7 @@ const Projects = () => {
               src={lightbox}
               alt="Preview"
               className="max-w-[95vw] max-h-[95vh] object-contain border border-slate-700"
+              onError={() => setLightbox(null)}
             />
           )}
         </DialogContent>
