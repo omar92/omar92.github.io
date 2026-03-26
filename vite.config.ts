@@ -103,6 +103,39 @@ function copyAssetsToOutputPlugin(outDir: string): Plugin {
   }
 }
 
+function createLegacyRedirectPlugin(outDir: string): Plugin {
+  const legacyIndexPath = path.resolve(__dirname, `./${outDir}/portfolio/index.html`)
+  const redirectHtml = `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redirecting...</title>
+    <meta http-equiv="refresh" content="0; url=/" />
+    <script>
+      const redirectTarget = window.location.origin + "/";
+      window.location.replace(redirectTarget);
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to <a href="/">omar92.github.io</a>...</p>
+  </body>
+</html>
+`
+
+  return {
+    name: "create-legacy-portfolio-redirect",
+    async writeBundle() {
+      try {
+        await fs.mkdir(path.dirname(legacyIndexPath), { recursive: true })
+        await fs.writeFile(legacyIndexPath, redirectHtml, "utf8")
+      } catch (error) {
+        console.error("Failed to create legacy redirect page:", error)
+      }
+    },
+  }
+}
+
 // https://vite.dev/config/
 export default defineConfig(() => {
   const base = process.env.VITE_BASE ?? "/";
@@ -110,7 +143,7 @@ export default defineConfig(() => {
 
   return {
     base,
-    plugins: [inspectAttr(), react(), createPortfolioJsonEditorPlugin(), copyAssetsToOutputPlugin(outDir)],
+    plugins: [inspectAttr(), react(), createPortfolioJsonEditorPlugin(), copyAssetsToOutputPlugin(outDir), createLegacyRedirectPlugin(outDir)],
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
