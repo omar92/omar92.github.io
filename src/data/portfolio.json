@@ -1067,7 +1067,7 @@
           "title": "Equation Node",
           "description": "Created a versatile equation node that allows users to perform complex mathematical operations within their ComfyUI workflows, enhancing the flexibility and power of their AI pipelines.",
           "screenshot": [
-            "src\\Assets\\Images\\comfyui-qof\\equationNode.png"
+            "src\\Assets\\Images\\comfyui-qof\\EquationNode.png"
           ]
         },
         {
