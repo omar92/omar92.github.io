@@ -138,6 +138,25 @@ const asStringArray = (value: unknown): string[] =>
         .filter(Boolean)
     : [];
 
+const normalizeAssetPath = (value: string): string => {
+  const trimmed = value.trim();
+
+  if (!trimmed) {
+    return '';
+  }
+
+  if (
+    trimmed.startsWith('http://') ||
+    trimmed.startsWith('https://') ||
+    trimmed.startsWith('data:') ||
+    trimmed.startsWith('blob:')
+  ) {
+    return trimmed;
+  }
+
+  return trimmed.replace(/\\/g, '/');
+};
+
 const uniqueStrings = (values: Array<string | undefined>): string[] =>
   Array.from(new Set(values.map((value) => value?.trim() ?? '').filter(Boolean)));
 
@@ -187,6 +206,92 @@ const findSocialUrl = (...labels: string[]): string => {
 const fullName = asString(personalRaw.name, 'Portfolio');
 const [firstName, ...remainingName] = fullName.trim().split(/\s+/).filter(Boolean);
 
+const normalizedProjects = asRecordArray(root.projects).map((project, index) => {
+  const platforms = asStringArray(project.platforms);
+  const genre = asStringArray(project.genre);
+  const skills = asStringArray(project.skills);
+  const legacyTags = asStringArray(project.tags);
+  const explicitFilterTags = asStringArray(project.filterTags);
+  const publishedFromFilterTags = explicitFilterTags.some(isPublishedTag);
+  const published = project.published === true || publishedFromFilterTags;
+  const filterTags = explicitFilterTags.length > 0
+    ? uniqueStrings(explicitFilterTags.filter((tag) => !isPublishedTag(tag)))
+    : uniqueStrings([...platforms, ...genre]);
+  const screenshots = asStringArray(project.screenshots).map(normalizeAssetPath);
+  const links = asRecordArray(project.links).map((link) => ({
+    label: asString(link.label || link.text),
+    text: asString(link.text || link.label),
+    url: asString(link.url),
+    icon: asString(link.icon),
+    type: asString(link.type),
+  })).filter((link) => Boolean(link.url));
+
+  const stats = isRecord(project.stats)
+    ? {
+        stars: asNumber(project.stats.stars),
+        forks: asNumber(project.stats.forks),
+      }
+    : undefined;
+
+  return {
+    id: asString(project.id) || slugify(asString(project.name), index),
+    name: asString(project.name),
+    category: asString(project.category) || platforms[0] || genre[0] || 'Project',
+    image: normalizeAssetPath(asString(project.image || project['cover-image']) || screenshots[0] || ''),
+    featured: project.featured === true,
+    published,
+    tags: uniqueStrings([...legacyTags, ...platforms, ...genre, ...skills]),
+    filterTags,
+    shortDescription: asString(project.shortDescription),
+    description: asString(project.description || project.shortDescription),
+    links,
+    features: asStringArray(project.features),
+    videos: asRecordArray(project.videos).map((v) => ({
+      text: asString(v.text),
+      type: asString(v.type),
+      url: asString(v.type).toLowerCase() === 'local' ? normalizeAssetPath(asString(v.url)) : asString(v.url),
+    })).filter((v) => Boolean(v.url)),
+    screenshots,
+    stats,
+    platforms,
+    genre,
+    skills,
+    contributions: asRecordArray(project.contributions).map((c) => ({
+      title: asString(c.title),
+      description: asString(c.description),
+      screenshot: asStringArray(c.screenshot).map(normalizeAssetPath),
+    })),
+  } satisfies PortfolioProject;
+});
+
+const projectIdSet = new Set(normalizedProjects.map((project) => project.id));
+
+const normalizedExperience = asRecordArray(root.experience).map((experience, index) => ({
+  id: asString(experience.id) || slugify(asString(experience.company), asString(experience.position), asString(experience.startDate), index),
+  company: asString(experience.company),
+  url: asString(experience.url),
+  position: asString(experience.position),
+  location: asString(experience.location),
+  startDate: asString(experience.startDate),
+  endDate: asString(experience.endDate),
+  description: asStringArray(experience.description),
+  skills: asStringArray(experience.skills),
+  projectIds: asStringArray(experience.projects_ids),
+}));
+
+const normalizedEducation = asRecordArray(root.education).map((education, index) => ({
+  id: asString(education.id) || slugify(asString(education.school || education.name), asString(education.degree), index),
+  school: asString(education.school || education.name),
+  degree: asString(education.degree),
+  field: asString(education.field),
+  startYear: asNumber(education.startYear),
+  endYear: asNumber(education.endYear),
+  grade: asString(education.grade),
+  project: asString(education.project),
+  details: asString(education.details),
+  projectIds: asStringArray(education.projects_ids),
+}));
+
 const data: PortfolioData = {
   personal: {
     name: fullName,
@@ -198,8 +303,8 @@ const data: PortfolioData = {
     location: asString(personalRaw.location),
     tagline: asString(personalRaw.tagline),
     about: asString(personalRaw.about),
-    avatar: asString(personalRaw.avatar),
-    resume: asString(personalRaw.resume),
+    avatar: normalizeAssetPath(asString(personalRaw.avatar)),
+    resume: normalizeAssetPath(asString(personalRaw.resume)),
     email: asString(contactsRaw.email || personalRaw.email),
     phone: asString(contactsRaw.phone || personalRaw.phone),
     github: findSocialUrl('github') || asString(personalRaw.github),
@@ -222,87 +327,15 @@ const data: PortfolioData = {
     category: asString(skillGroup.category),
     items: asStringArray(skillGroup.items),
   })),
-  experience: asRecordArray(root.experience).map((experience, index) => ({
-    id: asString(experience.id) || slugify(asString(experience.company), asString(experience.position), asString(experience.startDate), index),
-    company: asString(experience.company),
-    url: asString(experience.url),
-    position: asString(experience.position),
-    location: asString(experience.location),
-    startDate: asString(experience.startDate),
-    endDate: asString(experience.endDate),
-    description: asStringArray(experience.description),
-    skills: asStringArray(experience.skills),
-    projectIds: asStringArray(experience.projects_ids),
+  experience: normalizedExperience.map((experience) => ({
+    ...experience,
+    projectIds: experience.projectIds.filter((projectId) => projectIdSet.has(projectId)),
   })),
-  education: asRecordArray(root.education).map((education, index) => ({
-    id: asString(education.id) || slugify(asString(education.school || education.name), asString(education.degree), index),
-    school: asString(education.school || education.name),
-    degree: asString(education.degree),
-    field: asString(education.field),
-    startYear: asNumber(education.startYear),
-    endYear: asNumber(education.endYear),
-    grade: asString(education.grade),
-    project: asString(education.project),
-    details: asString(education.details),
-    projectIds: asStringArray(education.projects_ids),
+  education: normalizedEducation.map((education) => ({
+    ...education,
+    projectIds: education.projectIds.filter((projectId) => projectIdSet.has(projectId)),
   })),
-  projects: asRecordArray(root.projects).map((project, index) => {
-    const platforms = asStringArray(project.platforms);
-    const genre = asStringArray(project.genre);
-    const skills = asStringArray(project.skills);
-    const legacyTags = asStringArray(project.tags);
-    const explicitFilterTags = asStringArray(project.filterTags);
-    const publishedFromFilterTags = explicitFilterTags.some(isPublishedTag);
-    const published = project.published === true || publishedFromFilterTags;
-    const filterTags = explicitFilterTags.length > 0
-      ? uniqueStrings(explicitFilterTags.filter((tag) => !isPublishedTag(tag)))
-      : uniqueStrings([...platforms, ...genre]);
-    const screenshots = asStringArray(project.screenshots);
-    const links = asRecordArray(project.links).map((link) => ({
-      label: asString(link.label || link.text),
-      text: asString(link.text || link.label),
-      url: asString(link.url),
-      icon: asString(link.icon),
-      type: asString(link.type),
-    })).filter((link) => Boolean(link.url));
-
-    const stats = isRecord(project.stats)
-      ? {
-          stars: asNumber(project.stats.stars),
-          forks: asNumber(project.stats.forks),
-        }
-      : undefined;
-
-    return {
-      id: asString(project.id) || slugify(asString(project.name), index),
-      name: asString(project.name),
-      category: asString(project.category) || platforms[0] || genre[0] || 'Project',
-      image: asString(project.image || project['cover-image']) || screenshots[0] || '',
-      featured: project.featured === true,
-      published,
-      tags: uniqueStrings([...legacyTags, ...platforms, ...genre, ...skills]),
-      filterTags,
-      shortDescription: asString(project.shortDescription),
-      description: asString(project.description || project.shortDescription),
-      links,
-      features: asStringArray(project.features),
-      videos: asRecordArray(project.videos).map((v) => ({
-        text: asString(v.text),
-        type: asString(v.type),
-        url: asString(v.url),
-      })).filter((v) => Boolean(v.url)),
-      screenshots,
-      stats,
-      platforms,
-      genre,
-      skills,
-      contributions: asRecordArray(project.contributions).map((c) => ({
-        title: asString(c.title),
-        description: asString(c.description),
-        screenshot: asStringArray(c.screenshot),
-      })),
-    } satisfies PortfolioProject;
-  }),
+  projects: normalizedProjects,
 };
 
 export default data;

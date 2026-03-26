@@ -80,7 +80,11 @@ const AnimatedBackground = () => {
         const a = (Math.PI / 3) * i;
         const px = cx + r * Math.cos(a);
         const py = cy + r * Math.sin(a);
-        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+        if (i === 0) {
+          ctx.moveTo(px, py);
+        } else {
+          ctx.lineTo(px, py);
+        }
       }
       ctx.closePath();
     }

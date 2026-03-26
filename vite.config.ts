@@ -104,8 +104,8 @@ function copyAssetsToOutputPlugin(outDir: string): Plugin {
 }
 
 // https://vite.dev/config/
-export default defineConfig(({ mode }) => {
-  const base = process.env.VITE_BASE ?? (mode === "production" ? "/portfolio/" : "/");
+export default defineConfig(() => {
+  const base = process.env.VITE_BASE ?? "/";
   const outDir = process.env.VITE_OUT_DIR ?? "docs";
 
   return {

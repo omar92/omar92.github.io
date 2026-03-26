@@ -1153,12 +1153,12 @@
       "links": [
         {
           "text": "Live Site",
-          "url": "https://omar92.github.io/portfolio/",
+          "url": "https://omar92.github.io/",
           "type": "website"
         },
         {
           "text": "GitHub Repository",
-          "url": "https://github.com/omar92/portfolio",
+          "url": "https://github.com/omar92/omar92.github.io",
           "type": "github"
         }
       ]

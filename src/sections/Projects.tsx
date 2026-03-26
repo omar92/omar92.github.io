@@ -518,7 +518,6 @@ const Projects = () => {
                             <Play size={9} className="text-cyan-400/70" />{v.text}
                           </div>
                           {v.type === 'local' ? (
-                            // eslint-disable-next-line jsx-a11y/media-has-caption
                             <video src={v.url} controls className="w-full border border-slate-800 bg-slate-900" style={{ height: '180px', objectFit: 'contain' }} />
                           ) : v.type === 'youtube' ? (
                             <div className="border border-slate-800 bg-slate-900" style={{ height: '180px' }}>

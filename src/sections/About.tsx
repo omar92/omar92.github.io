@@ -8,10 +8,11 @@ import { fetchGitHubUserStats, type GitHubUserStats } from '../lib/github';
 gsap.registerPlugin(ScrollTrigger);
 
 const SPEC_ICONS = [Shield, Cpu, Layers, Globe, Network, Zap];
+const NOW_MS = Date.now();
 
 const About = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const hasAnimated = useRef(false);
+  const [hasAnimated, setHasAnimated] = useState(false);
 
   // ── Compute years of experience from earliest job start date ──────────
   const yearsExperience = useMemo(() => {
@@ -20,7 +21,7 @@ const About = () => {
       .filter((d) => !isNaN(d.getTime()));
     if (!dates.length) return 0;
     const earliest = new Date(Math.min(...dates.map((d) => d.getTime())));
-    return Math.floor((Date.now() - earliest.getTime()) / (1000 * 60 * 60 * 24 * 365.25));
+    return Math.floor((NOW_MS - earliest.getTime()) / (1000 * 60 * 60 * 24 * 365.25));
   }, []);
 
   // ── Live GitHub user stats (stars, forks, public repos) ───────────────
@@ -60,7 +61,10 @@ const About = () => {
 
   // Keep a ref so the GSAP closure (created once on mount) always reads the latest values
   const liveStatsRef = useRef(liveStats);
-  liveStatsRef.current = liveStats;
+
+  useEffect(() => {
+    liveStatsRef.current = liveStats;
+  }, [liveStats]);
 
   const techStackSkills = useMemo(() => {
     const featuredProjects = data.projects.filter((project) => project.featured);
@@ -120,13 +124,6 @@ const About = () => {
     });
   }
 
-  // If GitHub data arrives after the animation already played, update counters directly
-  useEffect(() => {
-    if (hasAnimated.current) {
-      setCounters(liveStats.map((s) => s.value));
-    }
-  }, [liveStats]);
-
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo('.ab-header', { opacity: 0, y: 40 }, {
@@ -149,7 +146,10 @@ const About = () => {
         trigger: '.ab-stats',
         start: 'top 82%',
         onEnter: () => {
-          if (!hasAnimated.current) { hasAnimated.current = true; animateCounters(); }
+          if (!hasAnimated) {
+            setHasAnimated(true);
+            animateCounters();
+          }
         },
       });
       gsap.fromTo('.ab-stat', { opacity: 0, y: 28 }, {
@@ -158,7 +158,7 @@ const About = () => {
       });
     }, sectionRef);
     return () => ctx.revert();
-  }, []);
+  }, [hasAnimated]);
 
   return (
     <section id="about" ref={sectionRef} className="relative py-28 lg:py-36 reveal-section">
@@ -224,7 +224,7 @@ const About = () => {
               {liveStats.map((stat, i) => (
                 <div key={i} className="ab-stat game-card clip-tl hud-corners p-5 group hover:border-cyan-400/25 transition-all">
                   <div className="text-4xl font-black mono text-white mb-1 group-hover:text-cyan-400 transition-colors">
-                    {counters[i]}<span className="text-cyan-400 text-3xl">{stat.suffix}</span>
+                    {hasAnimated ? stat.value : counters[i]}<span className="text-cyan-400 text-3xl">{stat.suffix}</span>
                   </div>
                   <div className="section-label text-[10px]">{stat.label}</div>
                 </div>

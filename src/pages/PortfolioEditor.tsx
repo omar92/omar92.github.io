@@ -605,7 +605,7 @@ export default function PortfolioEditor() {
         setBaselineData(fallback);
         setStatusMessage(
           error instanceof Error
-            ? `${error.message} Start app with \"npm run dev\" in this workspace to enable file save.`
+            ? `${error.message} Start app with "npm run dev" in this workspace to enable file save.`
             : 'Unable to load portfolio.json.'
         );
       } finally {
@@ -888,6 +888,9 @@ export default function PortfolioEditor() {
                   return `Item ${index + 1}`;
                 };
 
+                const sectionSchema = portfolioSchema[key];
+                const itemSchema = sectionSchema?.itemSchema;
+
                 // If items are expanded, show them
                 if (expandedIndices.length > 0 && isArraySection) {
                   return (
@@ -908,7 +911,7 @@ export default function PortfolioEditor() {
                               path={[key, expandedItemIndex]}
                               schema={{
                                 type: 'object',
-                                schema: (portfolioSchema[key] as any)?.itemSchema,
+                                schema: itemSchema,
                               }}
                               defaultExpanded
                               autoExpandAll

@@ -2,7 +2,7 @@
 
 A modern, fully data-driven portfolio website for a senior game developer. Built with **React 19**, **TypeScript**, **Vite**, and **Tailwind CSS**, it features a cyberpunk/game-dev aesthetic, smooth GSAP animations, and a built-in visual JSON editor so you can update every piece of content without touching code.
 
-🌐 **Live site:** [omar92.github.io/portfolio](https://omar92.github.io/portfolio/)
+🌐 **Live site:** [omar92.github.io](https://omar92.github.io/)
 
 ---
 
@@ -44,8 +44,8 @@ A modern, fully data-driven portfolio website for a senior game developer. Built
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/omar92/portfolio.git
-cd portfolio
+git clone https://github.com/omar92/omar92.github.io.git
+cd omar92.github.io
 ```
 
 ### 2. Install dependencies
@@ -223,7 +223,7 @@ The repository is configured for **automatic deployment** via GitHub Actions:
 1. Push to the `main` branch.
 2. The workflow (`.github/workflows/deploy-pages.yml`) runs `npm ci && npm run build`.
 3. The contents of the `docs/` directory are deployed to GitHub Pages.
-4. The live site is updated at `https://<your-username>.github.io/portfolio/`.
+4. The live site is updated at `https://<your-username>.github.io/`.
 
 ### Manual build
 
@@ -237,7 +237,7 @@ The production-ready site is written to the `docs/` directory. You can host this
 
 | Environment variable | Default | Description |
 |---|---|---|
-| `VITE_BASE` | `/portfolio/` (prod) / `/` (dev) | Base URL path of the deployed site |
+| `VITE_BASE` | `/` | Base URL path of the deployed site |
 | `VITE_OUT_DIR` | `docs` | Build output directory |
 
 To deploy to a custom sub-path, set `VITE_BASE` before building:
