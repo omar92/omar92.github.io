@@ -7,9 +7,6 @@ import { fetchGitHubRepoStats, parseGitHubRepoFromUrl, type GitHubRepoStats } fr
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
 } from '@/components/ui/dialog';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -518,29 +515,35 @@ const Projects = () => {
           onEscapeKeyDown={(e) => { if (lightbox) { e.preventDefault(); setLightbox(null); } }}
         >
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,229,255,0.12),transparent_45%),radial-gradient(circle_at_bottom_left,rgba(139,92,246,0.10),transparent_45%)]" />
-          <div className="relative z-10 shrink-0 border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-sm">
-            <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-start justify-between gap-4">
-              <DialogHeader className="p-0 m-0 flex-1 min-w-0 text-left">
-                <div className="section-label mb-1">STORE PAGE // PROJECT</div>
-                <DialogTitle className="text-2xl sm:text-3xl font-black text-white leading-tight truncate">
-                  {selectedProject?.name}
-                </DialogTitle>
-                <DialogDescription className="text-slate-300 text-sm mt-1.5 line-clamp-2">
-                  {selectedProject?.shortDescription}
-                </DialogDescription>
-              </DialogHeader>
-              <button
-                onClick={() => setSelectedProject(null)}
-                className="shrink-0 text-slate-300 hover:text-white transition-all border border-slate-700/80 hover:border-cyan-400/50 bg-slate-950/70 p-2"
-              >
-                <X size={16} />
-              </button>
-            </div>
-          </div>
-
+          
           <div className="relative z-10 flex-1 overflow-y-auto bg-gradient-to-b from-slate-900/10 to-slate-950/30">
-            <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10 space-y-8">
-              <section className="grid xl:grid-cols-[minmax(0,1fr)_340px] gap-5 lg:gap-6 items-stretch">
+            <div className="sticky top-0 z-20 w-full bg-gradient-to-b from-slate-950/95 via-slate-950/88 to-slate-950/72 backdrop-blur-md border-b border-slate-700/60 shadow-[0_10px_30px_rgba(2,6,23,0.45)]">
+              <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6">
+                <div className="flex items-start justify-between gap-6 mb-4">
+                  <div className="flex-1 min-w-0">
+                    <div className="section-label mb-2 text-slate-400/80">STORE PAGE // PROJECT</div>
+                    <h2 className="text-2xl sm:text-3xl font-black text-white">{selectedProject?.name}</h2>
+                  </div>
+
+                  <button
+                    onClick={() => setSelectedProject(null)}
+                    className="shrink-0 mt-1 text-slate-400 hover:text-white transition-all border border-slate-700/80 hover:border-cyan-400/50 bg-slate-900/45 hover:bg-slate-900/80 p-2"
+                  >
+                    <X size={18} />
+                  </button>
+                </div>
+
+                <div className="flex items-center gap-3 sm:gap-4 text-xs mono">
+                  <a href="#pd-media" onClick={(e) => { e.preventDefault(); document.getElementById('pd-media')?.scrollIntoView({ behavior: 'smooth' }); }} className="text-slate-300/90 hover:text-cyan-300 transition-colors whitespace-nowrap px-2.5 py-1.5 border border-slate-700/70 bg-slate-900/30 hover:border-cyan-400/40 hover:bg-slate-900/60">GALLERY</a>
+                  <a href="#pd-about" onClick={(e) => { e.preventDefault(); document.getElementById('pd-about')?.scrollIntoView({ behavior: 'smooth' }); }} className="text-slate-300/90 hover:text-cyan-300 transition-colors whitespace-nowrap px-2.5 py-1.5 border border-slate-700/70 bg-slate-900/30 hover:border-cyan-400/40 hover:bg-slate-900/60">ABOUT</a>
+                  <a href="#pd-contributions" onClick={(e) => { e.preventDefault(); document.getElementById('pd-contributions')?.scrollIntoView({ behavior: 'smooth' }); }} className="text-slate-300/90 hover:text-cyan-300 transition-colors whitespace-nowrap px-2.5 py-1.5 border border-slate-700/70 bg-slate-900/30 hover:border-cyan-400/40 hover:bg-slate-900/60">MY CONTRIBUTION</a>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="pt-2 sm:pt-3 lg:pt-4 space-y-8">
+              <section className="grid xl:grid-cols-[minmax(0,1fr)_340px] gap-5 lg:gap-6 items-stretch" id="pd-media">
                 <div className="h-full flex flex-col min-h-0">
                   <div className="border border-slate-800 bg-slate-950/70 overflow-hidden flex-1 min-h-[260px] sm:min-h-[380px] lg:min-h-[460px]">
                     {!activeSelectedMedia && selectedProject?.image ? (
@@ -668,7 +671,7 @@ const Projects = () => {
                 </aside>
               </section>
 
-              <section className="game-card border border-slate-800/90 bg-slate-900/35 p-5 sm:p-6 space-y-5">
+              <section id="pd-about" className="game-card border border-slate-800/90 bg-slate-900/35 p-5 sm:p-6 space-y-5">
                 <div className="flex items-center gap-3">
                   <div className="section-label">ABOUT THIS PROJECT</div>
                   <div className="flex-1 h-px bg-slate-800" />
@@ -756,6 +759,7 @@ const Projects = () => {
                   </div>
                 </section>
               )}
+              </div>
             </div>
           </div>
         </DialogContent>
