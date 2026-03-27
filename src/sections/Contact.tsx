@@ -74,12 +74,6 @@ const Contact = () => {
   return (
     <section id="contact" ref={sectionRef} className="relative py-12 reveal-section" style={{ background: '#1b2838', borderTop: '1px solid rgba(0,0,0,0.3)' }}>
       <div className="w-full max-w-[1400px] mx-auto px-4 lg:px-8">
-        <div className="ct-header mb-6">
-          <div className="steam-section-header">
-            <span className="text-sm font-semibold" style={{ color: '#c6d4df' }}>Contact</span>
-          </div>
-        </div>
-
         <div className="ct-content grid lg:grid-cols-2 gap-6 lg:gap-10">
           {/* Info panel */}
           <div className="ct-info space-y-4">

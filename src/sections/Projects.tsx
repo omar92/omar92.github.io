@@ -442,16 +442,6 @@ const Projects = () => {
 <section id="projects" ref={sectionRef} className="relative py-12 reveal-section" style={{ background: '#1b2838', borderTop: '1px solid rgba(0,0,0,0.3)' }}>
       <div className="w-full max-w-[1400px] mx-auto px-4 lg:px-8">
 
-        {/* Steam section header */}
-        <div className="pj-header mb-6 flex items-center justify-between flex-wrap gap-4">
-          <div className="steam-section-header flex items-center gap-4">
-            <span className="text-sm font-semibold" style={{ color: '#c6d4df' }}>Projects</span>
-            <span className="text-xs" style={{ color: '#4a6b8a' }}>
-              {filtered.length} of {data.projects.length}
-            </span>
-          </div>
-        </div>
-
         {/* Steam-style category tabs */}
         <div className="pj-filters flex flex-wrap gap-1.5 mb-5">
           {categories.map((cat) => (

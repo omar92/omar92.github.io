@@ -38,17 +38,8 @@ const Hero = () => {
   return (
     <section id="home" ref={heroRef} className="relative pt-[52px]" style={{ background: '#1b2838' }}>
 
-      {/* ── "Featured & Recommended" section label ── */}
-      <div className="h-featured-label w-full max-w-[1400px] mx-auto px-4 lg:px-8 pt-6 pb-3">
-        <div className="flex items-center gap-3">
-          <h2 className="text-base font-semibold" style={{ color: '#c6d4df', letterSpacing: '0.02em' }}>
-            Featured Developer
-          </h2>
-          <span className="text-xs px-2 py-0.5 rounded-sm font-medium" style={{ background: 'rgba(102,192,244,0.15)', color: '#66c0f4', border: '1px solid rgba(102,192,244,0.25)' }}>
-            {data.personal.openToWork ? 'Available for Work' : 'Not Available'}
-          </span>
-        </div>
-      </div>
+      {/* Gap spacer */}
+      <div className="h-3" />
 
       {/* ── Main featured banner ── */}
       <div className="w-full max-w-[1400px] mx-auto px-4 lg:px-8 pb-4">
