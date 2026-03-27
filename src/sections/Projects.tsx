@@ -290,43 +290,12 @@ const Projects = () => {
             );
             const githubStats = getProjectGitHubStats(project);
 
-            const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-              const card = e.currentTarget;
-              const rect = card.getBoundingClientRect();
-              const x = e.clientX - rect.left;
-              const y = e.clientY - rect.top;
-
-              const centerX = rect.width / 2;
-              const centerY = rect.height / 2;
-              const normalizedX = (x - centerX) / centerX;
-              const normalizedY = (y - centerY) / centerY;
-
-              const rotateX = (y - centerY) / 12;
-              const rotateY = (centerX - x) / 12;
-
-              card.style.transform = `perspective(1000px) translateY(-8px) scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-              card.style.setProperty('--shine-x', `${normalizedX * 22}px`);
-              card.style.setProperty('--shine-y', `${normalizedY * 22}px`);
-              card.style.setProperty('--shine-angle', `${-45 + normalizedX * 20}deg`);
-              card.style.setProperty('--shine-opacity', '0.28');
-            };
-
-            const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
-              e.currentTarget.style.transform = '';
-              e.currentTarget.style.setProperty('--shine-x', '0px');
-              e.currentTarget.style.setProperty('--shine-y', '0px');
-              e.currentTarget.style.setProperty('--shine-angle', '-45deg');
-              e.currentTarget.style.setProperty('--shine-opacity', '0');
-            };
-
             return (
             <article
               key={project.id}
               data-project-id={project.id}
               className="pj-card pokemon-card game-card clip-tl group cursor-pointer flex flex-col"
               onClick={() => setSelectedProject(project)}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
             >
               <div className="pokemon-card-inner">
                 {/* Image */}
@@ -476,7 +445,7 @@ const Projects = () => {
               <div className="p-5 space-y-6 flex-1">
                 {/* Links */}
                 {hasProjectLinks && (
-                  <div className="space-y-2 game-card clip-tl p-3">
+                  <div className="space-y-2 pokemon-card game-card clip-tl p-3">
                     {selectedProject?.links?.map((link) => {
                       const isGithubLink = link.type?.toLowerCase() === 'github' || link.icon?.toLowerCase() === 'github';
                       const linkLabel = (link.label || link.text || 'VIEW').replace(/`+/g, '').trim();

@@ -47,6 +47,64 @@ function App() {
     return () => ctx.revert();
   }, [isEditorRoute]);
 
+  useEffect(() => {
+    if (isEditorRoute) {
+      return;
+    }
+
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('.pokemon-card.pokemon-card-main'));
+
+    const handleMouseMove = (event: Event) => {
+      const card = event.currentTarget as HTMLElement;
+      const mouseEvent = event as MouseEvent;
+      const rect = card.getBoundingClientRect();
+      const x = mouseEvent.clientX - rect.left;
+      const y = mouseEvent.clientY - rect.top;
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const normalizedX = (x - centerX) / centerX;
+      const normalizedY = (y - centerY) / centerY;
+
+      const rotateDivisor = 22;
+      const translateY = -3;
+      const scale = 1.008;
+      const shineDistance = 12;
+      const shineAngleRange = 10;
+      const shineOpacity = 0.14;
+
+      const rotateX = (y - centerY) / rotateDivisor;
+      const rotateY = (centerX - x) / rotateDivisor;
+
+      card.style.transform = `perspective(1000px) translateY(${translateY}px) scale(${scale}) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      card.style.setProperty('--shine-x', `${normalizedX * shineDistance}px`);
+      card.style.setProperty('--shine-y', `${normalizedY * shineDistance}px`);
+      card.style.setProperty('--shine-angle', `${-45 + normalizedX * shineAngleRange}deg`);
+      card.style.setProperty('--shine-opacity', `${shineOpacity}`);
+    };
+
+    const handleMouseLeave = (event: Event) => {
+      const card = event.currentTarget as HTMLElement;
+      card.style.transform = '';
+      card.style.setProperty('--shine-x', '0px');
+      card.style.setProperty('--shine-y', '0px');
+      card.style.setProperty('--shine-angle', '-45deg');
+      card.style.setProperty('--shine-opacity', '0');
+    };
+
+    cards.forEach((card) => {
+      card.addEventListener('mousemove', handleMouseMove);
+      card.addEventListener('mouseleave', handleMouseLeave);
+    });
+
+    return () => {
+      cards.forEach((card) => {
+        card.removeEventListener('mousemove', handleMouseMove);
+        card.removeEventListener('mouseleave', handleMouseLeave);
+      });
+    };
+  }, [isEditorRoute]);
+
   if (isEditorRoute) {
     return <PortfolioEditor />;
   }

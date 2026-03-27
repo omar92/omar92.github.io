@@ -133,7 +133,7 @@ const Hero = () => {
 
           {/* Right -- 2 cols: Stats + Panel */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="h-panel game-card clip-tl p-6 space-y-6">
+            <div className="h-panel pokemon-card pokemon-card-main game-card clip-tl p-6 space-y-6">
               <div>
                 <div className="section-label mb-2">OPERATOR PROFILE</div>
                 <div className="text-xl font-bold text-white">{data.personal.title}</div>

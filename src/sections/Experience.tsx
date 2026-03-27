@@ -55,7 +55,7 @@ const Experience = () => {
                 {data.experience.map((job, i) => (
                   <div key={i} className="ex-item relative group">
                     {/* Diamond dot */}
-                    <div className="absolute -left-8 top-1.5 w-3 h-3 rotate-45 border border-cyan-400/60 bg-slate-950 group-hover:bg-cyan-400 group-hover:border-cyan-400 transition-all" />
+                    <div className="absolute -left-8 -translate-x-1/2 top-1.5 w-3 h-3 rotate-45 border border-cyan-400/60 bg-slate-950 group-hover:bg-cyan-400 group-hover:border-cyan-400 transition-all" />
 
                     <div className="game-card clip-tl p-6 group-hover:border-cyan-400/20 transition-all">
                       <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
