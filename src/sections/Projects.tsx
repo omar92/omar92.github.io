@@ -40,6 +40,7 @@ const getProjectIdFromHash = (hash: string): string | null => {
 
 const Projects = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const filtersContainerRef = useRef<HTMLDivElement>(null);
   const projectDialogScrollRef = useRef<HTMLDivElement>(null);
   const projectDetailHeaderRef = useRef<HTMLDivElement>(null);
   const [activeFilter, setActiveFilter] = useState('Showcase');
@@ -49,6 +50,7 @@ const Projects = () => {
   const [activeDetailSection, setActiveDetailSection] = useState<'pd-media' | 'pd-about' | 'pd-contributions'>('pd-media');
   const [projectGitHubStats, setProjectGitHubStats] = useState<Record<string, GitHubRepoStats>>({});
   const [imageStates, setImageStates] = useState<Record<string, ImageLoadState>>({});
+  const [visibleTabCount, setVisibleTabCount] = useState(3);
   const loadingImageUrlsRef = useRef(new Set<string>());
 
   const getImageState = (src: string): ImageLoadState | undefined => imageStates[src];
@@ -438,32 +440,131 @@ const Projects = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const container = filtersContainerRef.current;
+    if (!container) return;
+
+    const calculateVisibleTabs = () => {
+      const containerWidth = container.offsetWidth;
+      const tabWidth = 120; // approximate width per tab (px + py + text)
+      const moreButtonWidth = 100;
+      const gapSize = 8; // gap between items
+      
+      // Calculate how many tabs can fit
+      let count = Math.max(1, Math.floor((containerWidth - moreButtonWidth) / (tabWidth + gapSize)));
+      
+      // Ensure we don't show more tabs than available
+      count = Math.min(count, categories.length);
+      
+      setVisibleTabCount(count);
+    };
+
+    calculateVisibleTabs();
+
+    const resizeObserver = new ResizeObserver(calculateVisibleTabs);
+    resizeObserver.observe(container);
+
+    return () => resizeObserver.disconnect();
+  }, [categories.length]);
+
   return (
 <section id="projects" ref={sectionRef} className="relative py-12 reveal-section" style={{ background: '#1b2838', borderTop: '1px solid rgba(0,0,0,0.3)' }}>
       <div className="w-full max-w-[1400px] mx-auto px-4 lg:px-8">
 
         {/* Steam-style category tabs */}
-        <div className="pj-filters flex flex-wrap gap-1.5 mb-5">
-          {categories.map((cat) => (
+        <div ref={filtersContainerRef} className="pj-filters flex flex-wrap gap-2 mb-8 pb-4 border-b border-white/5 items-center relative" style={{ zIndex: 20 }}>
+          {categories.slice(0, visibleTabCount).map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveFilter(cat)}
-              className="pj-filter text-xs px-3 py-1.5 rounded-sm font-medium transition-all"
+              className="pj-filter text-xs px-4 py-2.5 font-semibold transition-all relative group"
               style={{
-                background: activeFilter === cat ? '#4a7ebf' : 'rgba(255,255,255,0.07)',
-                color: activeFilter === cat ? '#fff' : '#8f98a0',
-                border: '1px solid ' + (activeFilter === cat ? 'rgba(74,126,191,0.6)' : 'rgba(255,255,255,0.08)'),
+                color: activeFilter === cat ? '#66c0f4' : '#8f98a0',
+                background: activeFilter === cat ? 'rgba(102, 192, 244, 0.08)' : 'transparent',
+                border: activeFilter === cat ? '1px solid rgba(102, 192, 244, 0.4)' : '1px solid rgba(255,255,255,0.08)',
+                borderRadius: '2px',
+                cursor: 'pointer',
+                letterSpacing: '0.3px',
+                boxShadow: activeFilter === cat ? '0 0 12px rgba(102, 192, 244, 0.15)' : 'none'
+              }}
+              onMouseEnter={(e) => {
+                if (activeFilter !== cat) {
+                  (e.currentTarget as HTMLElement).style.color = '#c6d4df';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(102, 192, 244, 0.03)';
+                  (e.currentTarget as HTMLElement).style.borderColor = 'rgba(102, 192, 244, 0.2)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (activeFilter !== cat) {
+                  (e.currentTarget as HTMLElement).style.color = '#8f98a0';
+                  (e.currentTarget as HTMLElement).style.background = 'transparent';
+                  (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.08)';
+                }
               }}
             >
               {cat}
             </button>
           ))}
+          
+          {categories.length > visibleTabCount && (
+            <div className="relative group">
+              <button
+                className="text-xs px-4 py-2.5 font-semibold transition-all"
+                style={{
+                  color: '#8f98a0',
+                  background: 'transparent',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  borderRadius: '2px',
+                  cursor: 'pointer',
+                  letterSpacing: '0.3px'
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = '#c6d4df';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(102, 192, 244, 0.03)';
+                  (e.currentTarget as HTMLElement).style.borderColor = 'rgba(102, 192, 244, 0.2)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = '#8f98a0';
+                  (e.currentTarget as HTMLElement).style.background = 'transparent';
+                  (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.08)';
+                }}
+              >
+                More ({categories.length - visibleTabCount})
+              </button>
+              <div className="absolute left-0 top-full mt-1 hidden group-hover:block bg-[#16202d] border rounded-sm shadow-lg"
+                style={{ minWidth: '180px', borderColor: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.08)', zIndex: 9999 }}>
+                {categories.slice(visibleTabCount).map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveFilter(cat)}
+                    className="w-full text-left text-xs px-4 py-2.5 transition-all border-b border-white/5 last:border-b-0"
+                    style={{
+                      color: activeFilter === cat ? '#66c0f4' : '#8f98a0',
+                      background: activeFilter === cat ? 'rgba(102, 192, 244, 0.08)' : 'transparent',
+                      borderLeft: activeFilter === cat ? '2px solid #66c0f4' : '2px solid transparent',
+                      paddingLeft: '12px'
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLElement).style.background = 'rgba(102, 192, 244, 0.12)';
+                      (e.currentTarget as HTMLElement).style.color = '#c6d4df';
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLElement).style.background = activeFilter === cat ? 'rgba(102, 192, 244, 0.08)' : 'transparent';
+                      (e.currentTarget as HTMLElement).style.color = activeFilter === cat ? '#66c0f4' : '#8f98a0';
+                    }}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
 
 
         {/* Steam game grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 relative" style={{ zIndex: 0 }}>
           {filtered.map((project) => {
             const githubLink = project.links.find(
               (link) =>
