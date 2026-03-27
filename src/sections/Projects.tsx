@@ -15,6 +15,24 @@ import {
 gsap.registerPlugin(ScrollTrigger);
 
 type ImageLoadState = 'loading' | 'loaded' | 'failed';
+const PROJECT_HASH_PREFIX = '#project/';
+
+const getProjectIdFromHash = (hash: string): string | null => {
+  if (!hash.startsWith(PROJECT_HASH_PREFIX)) {
+    return null;
+  }
+
+  const rawId = hash.slice(PROJECT_HASH_PREFIX.length).trim();
+  if (!rawId) {
+    return null;
+  }
+
+  try {
+    return decodeURIComponent(rawId);
+  } catch {
+    return rawId;
+  }
+};
 
 const Projects = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -161,6 +179,49 @@ const Projects = () => {
     window.addEventListener('open-project', handler);
     return () => window.removeEventListener('open-project', handler);
   }, []);
+
+  useEffect(() => {
+    const syncFromHash = () => {
+      const projectId = getProjectIdFromHash(window.location.hash);
+
+      if (!projectId) {
+        setSelectedProject((current) => (current ? null : current));
+        return;
+      }
+
+      const project = data.projects.find((item) => item.id === projectId);
+      if (!project) {
+        return;
+      }
+
+      setSelectedProject((current) => (current?.id === project.id ? current : project));
+    };
+
+    syncFromHash();
+    window.addEventListener('hashchange', syncFromHash);
+
+    return () => {
+      window.removeEventListener('hashchange', syncFromHash);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (selectedProject) {
+      const nextHash = `${PROJECT_HASH_PREFIX}${encodeURIComponent(selectedProject.id)}`;
+      if (window.location.hash !== nextHash) {
+        if (window.location.hash.startsWith(PROJECT_HASH_PREFIX)) {
+          window.history.replaceState(null, '', nextHash);
+        } else {
+          window.history.pushState(null, '', nextHash);
+        }
+      }
+      return;
+    }
+
+    if (window.location.hash.startsWith(PROJECT_HASH_PREFIX)) {
+      window.history.replaceState(null, '', '#projects');
+    }
+  }, [selectedProject]);
 
   useEffect(() => {
     let cancelled = false;
@@ -391,25 +452,27 @@ const Projects = () => {
       >
         <DialogContent
           showCloseButton={false}
-          className="w-[98vw] max-w-[1600px] max-h-[94vh] h-[94vh] bg-slate-950 border border-slate-700/60 p-0 gap-0 flex flex-col overflow-hidden"
+          className="w-screen max-w-none h-screen max-h-none rounded-none bg-slate-950/95 border-0 p-0 gap-0 flex flex-col overflow-hidden backdrop-blur-xl"
           onPointerDownOutside={(e) => { if (lightbox) e.preventDefault(); }}
           onInteractOutside={(e) => { if (lightbox) e.preventDefault(); }}
           onEscapeKeyDown={(e) => { if (lightbox) { e.preventDefault(); setLightbox(null); } }}
         >
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,229,255,0.12),transparent_45%),radial-gradient(circle_at_bottom_left,rgba(139,92,246,0.10),transparent_45%)]" />
+
           {/* ── Top bar: title + close ── */}
-          <div className="relative shrink-0 min-h-[170px] sm:min-h-[190px] border-b border-slate-800 overflow-hidden">
+          <div className="relative z-10 shrink-0 min-h-[190px] sm:min-h-[210px] border-b border-slate-800/80 overflow-hidden">
             {selectedProject?.image && (
               <img
                 src={selectedProject.image}
                 alt={selectedProject.name}
-                className="absolute inset-0 w-full h-full object-cover opacity-60"
+                className="absolute inset-0 w-full h-full object-cover opacity-55"
               />
             )}
-            <div className="absolute inset-0 bg-slate-950/45" />
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/35 to-slate-950/65" />
-            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/30 via-transparent to-slate-950/80" />
+            <div className="absolute inset-0 bg-slate-950/50" />
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/45 to-slate-950/80" />
+            <div className="absolute inset-0 bg-gradient-to-b from-slate-900/15 via-transparent to-slate-950/90" />
 
-            <div className="relative z-10 flex items-start justify-between gap-4 px-6 pt-5 pb-4">
+            <div className="relative z-10 flex items-start justify-between gap-4 px-6 sm:px-8 pt-6 pb-5">
               <DialogHeader className="p-0 m-0 flex-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-1.5 mb-1.5">
                   {selectedProject?.platforms?.map((p) => (
@@ -422,14 +485,14 @@ const Projects = () => {
                 <DialogTitle className="text-2xl sm:text-3xl font-black text-white leading-tight">
                   {selectedProject?.name}
                 </DialogTitle>
-                <DialogDescription className="text-slate-200/90 text-sm mt-1 max-w-4xl">
+                <DialogDescription className="text-slate-200/95 text-sm sm:text-base mt-2 max-w-4xl leading-relaxed">
                   {selectedProject?.shortDescription}
                 </DialogDescription>
               </DialogHeader>
               <div className="shrink-0 mt-1">
                 <button
                   onClick={() => setSelectedProject(null)}
-                  className="shrink-0 text-slate-300 hover:text-white transition-colors border border-slate-700/80 hover:border-slate-500 bg-slate-950/60 backdrop-blur-sm p-1.5"
+                  className="shrink-0 text-slate-300 hover:text-white transition-all border border-slate-700/80 hover:border-cyan-400/50 bg-slate-950/70 backdrop-blur-sm p-2"
                 >
                   <X size={16} />
                 </button>
@@ -438,15 +501,15 @@ const Projects = () => {
           </div>
 
           {/* ── Two-panel body ── */}
-          <div className="flex flex-1 overflow-hidden">
+          <div className="relative z-10 flex flex-1 overflow-hidden">
 
             {/* ── LEFT SIDEBAR ── */}
-            <aside className="hidden lg:flex flex-col w-64 xl:w-72 shrink-0 border-r border-slate-800 overflow-y-auto">
+            <aside className="hidden lg:flex flex-col w-72 xl:w-80 shrink-0 border-r border-slate-800/80 bg-slate-950/55 backdrop-blur-sm overflow-y-auto">
 
               <div className="p-5 space-y-6 flex-1">
                 {/* Links */}
                 {hasProjectLinks && (
-                  <div className="space-y-2 game-card clip-tl p-3">
+                  <div className="space-y-2 game-card clip-tl p-3 border border-slate-800/80 bg-slate-900/35">
                     {selectedProject?.links?.map((link) => {
                       const isGithubLink = link.type?.toLowerCase() === 'github' || link.icon?.toLowerCase() === 'github';
                       const linkLabel = (link.label || link.text || 'VIEW').replace(/`+/g, '').trim();
@@ -519,20 +582,20 @@ const Projects = () => {
             </aside>
 
             {/* ── RIGHT MAIN SCROLL ── */}
-            <div className="flex-1 overflow-y-auto">
-              <div className="p-6 sm:p-8 flex flex-col gap-12">
+            <div className="flex-1 overflow-y-auto bg-gradient-to-b from-slate-900/10 to-slate-950/20">
+              <div className="p-6 sm:p-8 lg:p-10 flex flex-col gap-12">
 
                 {selectedProjectGitHubStats && (
-                  <div className="flex flex-wrap items-center gap-4 text-xs mono text-slate-400">
-                    <span className="flex items-center gap-1.5">
+                  <div className="flex flex-wrap items-center gap-3 text-xs mono text-slate-300/90">
+                    <span className="flex items-center gap-1.5 border border-slate-700/70 bg-slate-900/55 px-2.5 py-1.5">
                       <Star size={12} className="text-slate-400" />
                       {selectedProjectGitHubStats.stars.toLocaleString()} STARS
                     </span>
-                    <span className="flex items-center gap-1.5">
+                    <span className="flex items-center gap-1.5 border border-slate-700/70 bg-slate-900/55 px-2.5 py-1.5">
                       <GitFork size={12} className="text-slate-400" />
                       {selectedProjectGitHubStats.forks.toLocaleString()} FORKS
                     </span>
-                    <span className="flex items-center gap-1.5">
+                    <span className="flex items-center gap-1.5 border border-slate-700/70 bg-slate-900/55 px-2.5 py-1.5">
                       <Users size={12} className="text-slate-400" />
                       {selectedProjectGitHubStats.contributors.toLocaleString()} CONTRIBUTORS
                     </span>
@@ -636,7 +699,7 @@ const Projects = () => {
                         const loadedContributionScreenshots = c.screenshot.filter((src) => isImageLoaded(src));
 
                         return (
-                        <div key={i} className="group border border-slate-800 hover:border-slate-700 bg-slate-900/20 hover:bg-slate-900/40 transition-all duration-200">
+                        <div key={i} className="group border border-slate-800/90 hover:border-slate-600 bg-slate-900/30 hover:bg-slate-900/50 transition-all duration-200">
                           <div className="flex items-start gap-4 p-5 pb-4">
                             <span className="mono text-3xl font-black text-slate-800/80 group-hover:text-slate-700 tabular-nums shrink-0 leading-none select-none">
                               {String(i + 1).padStart(2, '0')}
