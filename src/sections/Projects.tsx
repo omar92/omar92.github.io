@@ -294,7 +294,7 @@ const Projects = () => {
             <article
               key={project.id}
               data-project-id={project.id}
-              className="pj-card pokemon-card game-card clip-tl group cursor-pointer flex flex-col"
+              className="pj-card game-card clip-tl group cursor-pointer flex flex-col"
               onClick={() => setSelectedProject(project)}
             >
               <div className="pokemon-card-inner">
@@ -445,7 +445,7 @@ const Projects = () => {
               <div className="p-5 space-y-6 flex-1">
                 {/* Links */}
                 {hasProjectLinks && (
-                  <div className="space-y-2 pokemon-card game-card clip-tl p-3">
+                  <div className="space-y-2 game-card clip-tl p-3">
                     {selectedProject?.links?.map((link) => {
                       const isGithubLink = link.type?.toLowerCase() === 'github' || link.icon?.toLowerCase() === 'github';
                       const linkLabel = (link.label || link.text || 'VIEW').replace(/`+/g, '').trim();
