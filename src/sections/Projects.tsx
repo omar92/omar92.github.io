@@ -290,89 +290,123 @@ const Projects = () => {
             );
             const githubStats = getProjectGitHubStats(project);
 
+            const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+              const card = e.currentTarget;
+              const rect = card.getBoundingClientRect();
+              const x = e.clientX - rect.left;
+              const y = e.clientY - rect.top;
+
+              const centerX = rect.width / 2;
+              const centerY = rect.height / 2;
+              const normalizedX = (x - centerX) / centerX;
+              const normalizedY = (y - centerY) / centerY;
+
+              const rotateX = (y - centerY) / 12;
+              const rotateY = (centerX - x) / 12;
+
+              card.style.transform = `perspective(1000px) translateY(-8px) scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+              card.style.setProperty('--shine-x', `${normalizedX * 22}px`);
+              card.style.setProperty('--shine-y', `${normalizedY * 22}px`);
+              card.style.setProperty('--shine-angle', `${-45 + normalizedX * 20}deg`);
+              card.style.setProperty('--shine-opacity', '0.28');
+            };
+
+            const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+              e.currentTarget.style.transform = '';
+              e.currentTarget.style.setProperty('--shine-x', '0px');
+              e.currentTarget.style.setProperty('--shine-y', '0px');
+              e.currentTarget.style.setProperty('--shine-angle', '-45deg');
+              e.currentTarget.style.setProperty('--shine-opacity', '0');
+            };
+
             return (
             <article
               key={project.id}
-              className="pj-card game-card clip-tl group cursor-pointer flex flex-col"
+              data-project-id={project.id}
+              className="pj-card pokemon-card game-card clip-tl group cursor-pointer flex flex-col"
               onClick={() => setSelectedProject(project)}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
             >
-              {/* Image */}
-              {project.image && isImageLoaded(project.image) && (
-                <div className="relative overflow-hidden h-44 shrink-0">
-                  <img
-                    src={project.image}
-                    alt={project.name}
-                    className="w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-transparent to-slate-950/80" />
-                  <div className="absolute top-3 right-3 flex flex-wrap justify-end gap-1 max-w-[80%]">
-                    {project.platforms.map((platform) => (
-                      <span
-                        key={platform}
-                        className="tag-violet bg-slate-950/90 text-violet-200 border-violet-300/45 backdrop-blur-sm shadow-sm"
-                      >
-                        {platform}
+              <div className="pokemon-card-inner">
+                {/* Image */}
+                {project.image && isImageLoaded(project.image) && (
+                  <div className="relative overflow-hidden h-44 shrink-0">
+                    <img
+                      src={project.image}
+                      alt={project.name}
+                      className="w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-transparent to-slate-950/80" />
+                    <div className="absolute top-3 right-3 flex flex-wrap justify-end gap-1 max-w-[80%]">
+                      {project.platforms.map((platform) => (
+                        <span
+                          key={platform}
+                          className="tag-violet bg-slate-950/90 text-violet-200 border-violet-300/45 backdrop-blur-sm shadow-sm"
+                        >
+                          {platform}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Body */}
+                <div className="p-5 flex flex-col flex-1 gap-3 relative">
+                  {githubStats && (
+                    <div className="absolute top-4 right-4 flex items-center gap-2 text-[10px] mono text-slate-400 bg-slate-950/70 border border-slate-800 px-2 py-1 rounded-sm">
+                      <span className="flex items-center gap-1">
+                        <Star size={10} className="text-slate-400" />
+                        {githubStats.stars.toLocaleString()}
                       </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Body */}
-              <div className="p-5 flex flex-col flex-1 gap-3 relative">
-                {githubStats && (
-                  <div className="absolute top-4 right-4 flex items-center gap-2 text-[10px] mono text-slate-400 bg-slate-950/70 border border-slate-800 px-2 py-1 rounded-sm">
-                    <span className="flex items-center gap-1">
-                      <Star size={10} className="text-slate-400" />
-                      {githubStats.stars.toLocaleString()}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <GitFork size={10} className="text-slate-400" />
-                      {githubStats.forks.toLocaleString()}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Users size={10} className="text-slate-400" />
-                      {githubStats.contributors.toLocaleString()}
-                    </span>
-                  </div>
-                )}
-                {(!project.image || isImageFailed(project.image) || getImageState(project.image) === 'loading') && (
-                  <div className="flex flex-wrap gap-1.5 self-start">
-                    {project.platforms.map((platform) => (
-                      <span key={platform} className="tag-violet">{platform}</span>
-                    ))}
-                  </div>
-                )}
-                <h3 className={`font-bold text-white group-hover:text-cyan-400 transition-colors leading-snug ${githubStats ? 'pr-28' : ''}`}>{project.name}</h3>
-                <p className="text-sm text-slate-400 leading-relaxed flex-1 line-clamp-3">{project.description}</p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-1.5">
-                  {project.skills.slice(0, 4).map((t) => (
-                    <span key={t} className="tag-cyan text-[10px]">{t}</span>
-                  ))}
-                  {project.skills.length > 4 && (
-                    <span className="tag-cyan text-[10px]">+{project.skills.length - 4}</span>
+                      <span className="flex items-center gap-1">
+                        <GitFork size={10} className="text-slate-400" />
+                        {githubStats.forks.toLocaleString()}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Users size={10} className="text-slate-400" />
+                        {githubStats.contributors.toLocaleString()}
+                      </span>
+                    </div>
                   )}
-                </div>
+                  {(!project.image || isImageFailed(project.image) || getImageState(project.image) === 'loading') && (
+                    <div className="flex flex-wrap gap-1.5 self-start">
+                      {project.platforms.map((platform) => (
+                        <span key={platform} className="tag-violet">{platform}</span>
+                      ))}
+                    </div>
+                  )}
+                  <h3 className={`font-bold text-white group-hover:text-cyan-400 transition-colors leading-snug ${githubStats ? 'pr-28' : ''}`}>{project.name}</h3>
+                  <p className="text-sm text-slate-400 leading-relaxed flex-1 line-clamp-3">{project.description}</p>
 
-                {/* Footer */}
-                <div className="flex items-center justify-between pt-2 border-t border-slate-800">
-                  <div className="flex gap-3">
-                    {githubLink && (
-                      <a href={githubLink.url} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-white transition-colors">
-                        <Github size={15} />
-                      </a>
-                    )}
-                    {websiteLink && (
-                      <a href={websiteLink.url} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-cyan-400 transition-colors">
-                        <ExternalLink size={15} />
-                      </a>
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.skills.slice(0, 4).map((t) => (
+                      <span key={t} className="tag-cyan text-[10px]">{t}</span>
+                    ))}
+                    {project.skills.length > 4 && (
+                      <span className="tag-cyan text-[10px]">+{project.skills.length - 4}</span>
                     )}
                   </div>
-                  <span className="flex items-center gap-1 text-slate-600 group-hover:text-cyan-400 transition-colors mono text-xs">
-                    VIEW <ChevronRight size={12} />
-                  </span>
+
+                  {/* Footer */}
+                  <div className="flex items-center justify-between pt-2 border-t border-slate-800">
+                    <div className="flex gap-3">
+                      {githubLink && (
+                        <a href={githubLink.url} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-white transition-colors">
+                          <Github size={15} />
+                        </a>
+                      )}
+                      {websiteLink && (
+                        <a href={websiteLink.url} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-cyan-400 transition-colors">
+                          <ExternalLink size={15} />
+                        </a>
+                      )}
+                    </div>
+                    <span className="flex items-center gap-1 text-slate-600 group-hover:text-cyan-400 transition-colors mono text-xs">
+                      VIEW <ChevronRight size={12} />
+                    </span>
+                  </div>
                 </div>
               </div>
             </article>
