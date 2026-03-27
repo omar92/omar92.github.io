@@ -263,7 +263,7 @@
   .pokemon-card {
     perspective: 1000px;
     position: relative;
-    background: linear-gradient(135deg, #111428 0%, #151a32 50%, #0f1122 100%);
+    background: rgba(8, 8, 22, 0.82);
     border: 1px solid rgba(0, 229, 255, 0.09);
     transition: transform 0.1s ease-out, box-shadow 0.3s ease;
     transform-style: preserve-3d;
@@ -310,6 +310,7 @@
   }
 
   .pokemon-card:hover {
+    background: rgba(10, 10, 28, 0.92);
     box-shadow: 
       0 0 40px rgba(0, 229, 255, 0.3),
       0 0 80px rgba(0, 229, 255, 0.15),
