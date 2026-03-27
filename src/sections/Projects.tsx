@@ -397,30 +397,43 @@ const Projects = () => {
           onEscapeKeyDown={(e) => { if (lightbox) { e.preventDefault(); setLightbox(null); } }}
         >
           {/* ── Top bar: title + close ── */}
-          <div className="shrink-0 flex items-start justify-between gap-4 px-6 pt-5 pb-4 border-b border-slate-800">
-            <DialogHeader className="p-0 m-0 flex-1 min-w-0">
-              <div className="flex flex-wrap items-center gap-1.5 mb-1.5">
-                {selectedProject?.platforms?.map((p) => (
-                  <span key={p} className="tag-cyan text-[10px]">{p}</span>
-                ))}
-                {selectedProject?.genre?.map((g) => (
-                  <span key={g} className="tag-violet text-[10px]">{g}</span>
-                ))}
+          <div className="relative shrink-0 min-h-[170px] sm:min-h-[190px] border-b border-slate-800 overflow-hidden">
+            {selectedProject?.image && (
+              <img
+                src={selectedProject.image}
+                alt={selectedProject.name}
+                className="absolute inset-0 w-full h-full object-cover opacity-60"
+              />
+            )}
+            <div className="absolute inset-0 bg-slate-950/45" />
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/35 to-slate-950/65" />
+            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/30 via-transparent to-slate-950/80" />
+
+            <div className="relative z-10 flex items-start justify-between gap-4 px-6 pt-5 pb-4">
+              <DialogHeader className="p-0 m-0 flex-1 min-w-0">
+                <div className="flex flex-wrap items-center gap-1.5 mb-1.5">
+                  {selectedProject?.platforms?.map((p) => (
+                    <span key={p} className="tag-cyan text-[10px]">{p}</span>
+                  ))}
+                  {selectedProject?.genre?.map((g) => (
+                    <span key={g} className="tag-violet text-[10px]">{g}</span>
+                  ))}
+                </div>
+                <DialogTitle className="text-2xl sm:text-3xl font-black text-white leading-tight">
+                  {selectedProject?.name}
+                </DialogTitle>
+                <DialogDescription className="text-slate-200/90 text-sm mt-1 max-w-4xl">
+                  {selectedProject?.shortDescription}
+                </DialogDescription>
+              </DialogHeader>
+              <div className="shrink-0 mt-1">
+                <button
+                  onClick={() => setSelectedProject(null)}
+                  className="shrink-0 text-slate-300 hover:text-white transition-colors border border-slate-700/80 hover:border-slate-500 bg-slate-950/60 backdrop-blur-sm p-1.5"
+                >
+                  <X size={16} />
+                </button>
               </div>
-              <DialogTitle className="text-2xl sm:text-3xl font-black text-white leading-tight">
-                {selectedProject?.name}
-              </DialogTitle>
-              <DialogDescription className="text-slate-400 text-sm mt-1">
-                {selectedProject?.shortDescription}
-              </DialogDescription>
-            </DialogHeader>
-            <div className="shrink-0 mt-1">
-              <button
-                onClick={() => setSelectedProject(null)}
-                className="shrink-0 text-slate-500 hover:text-white transition-colors border border-slate-800 hover:border-slate-600 p-1.5"
-              >
-                <X size={16} />
-              </button>
             </div>
           </div>
 
@@ -429,18 +442,6 @@ const Projects = () => {
 
             {/* ── LEFT SIDEBAR ── */}
             <aside className="hidden lg:flex flex-col w-64 xl:w-72 shrink-0 border-r border-slate-800 overflow-y-auto">
-
-              {/* Cover image */}
-              {selectedProject?.image && isImageLoaded(selectedProject.image) && (
-                <div className="relative overflow-hidden h-40 shrink-0">
-                  <img
-                    src={selectedProject.image}
-                    alt={selectedProject.name}
-                    className="w-full h-full object-cover opacity-60"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent" />
-                </div>
-              )}
 
               <div className="p-5 space-y-6 flex-1">
                 {/* Links */}
