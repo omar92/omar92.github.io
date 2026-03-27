@@ -40,10 +40,13 @@ const getProjectIdFromHash = (hash: string): string | null => {
 
 const Projects = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const projectDialogScrollRef = useRef<HTMLDivElement>(null);
+  const projectDetailHeaderRef = useRef<HTMLDivElement>(null);
   const [activeFilter, setActiveFilter] = useState('Showcase');
   const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
   const [lightbox, setLightbox] = useState<string | null>(null);
   const [activeMediaId, setActiveMediaId] = useState<string | null>(null);
+  const [activeDetailSection, setActiveDetailSection] = useState<'pd-media' | 'pd-about' | 'pd-contributions'>('pd-media');
   const [projectGitHubStats, setProjectGitHubStats] = useState<Record<string, GitHubRepoStats>>({});
   const [imageStates, setImageStates] = useState<Record<string, ImageLoadState>>({});
   const loadingImageUrlsRef = useRef(new Set<string>());
@@ -150,6 +153,7 @@ const Projects = () => {
     ...contribution,
     screenshot: contribution.screenshot.filter((src) => !isImageFailed(src)),
   })) ?? [];
+  const hasProjectContributions = (selectedProject?.contributions?.length ?? 0) > 0;
   const selectedProjectVisibleMediaCount = (selectedProject?.videos?.length ?? 0) + visibleSelectedProjectScreenshots.length;
   const selectedProjectGithubLink = selectedProject?.links.find(
     (link) =>
@@ -160,9 +164,89 @@ const Projects = () => {
 
   const selectedProjectNonGithubLinks = selectedProject?.links.filter((link) => link !== selectedProjectGithubLink) ?? [];
 
+  const getActiveDetailSectionFromScroll = (): 'pd-media' | 'pd-about' | 'pd-contributions' => {
+    const scrollContainer = projectDialogScrollRef.current;
+    if (!scrollContainer) {
+      return 'pd-media';
+    }
+
+    const sectionIds: Array<'pd-media' | 'pd-about' | 'pd-contributions'> = hasProjectContributions
+      ? ['pd-media', 'pd-about', 'pd-contributions']
+      : ['pd-media', 'pd-about'];
+
+    const containerRect = scrollContainer.getBoundingClientRect();
+    const headerOffset = (projectDetailHeaderRef.current?.offsetHeight ?? 0) + 8;
+    const targetScroll = scrollContainer.scrollTop + headerOffset + 20;
+
+    let nextActive: 'pd-media' | 'pd-about' | 'pd-contributions' = sectionIds[0];
+
+    sectionIds.forEach((sectionId) => {
+      const section = document.getElementById(sectionId);
+      if (!section) {
+        return;
+      }
+
+      const sectionTop = section.getBoundingClientRect().top - containerRect.top + scrollContainer.scrollTop;
+      if (sectionTop <= targetScroll) {
+        nextActive = sectionId;
+      }
+    });
+
+    const bottomThreshold = scrollContainer.scrollHeight - scrollContainer.clientHeight - 2;
+    if (scrollContainer.scrollTop >= bottomThreshold) {
+      return sectionIds[sectionIds.length - 1];
+    }
+
+    return nextActive;
+  };
+
+  const updateActiveDetailSectionFromScroll = () => {
+    const nextActive = getActiveDetailSectionFromScroll();
+    setActiveDetailSection((current) => (current === nextActive ? current : nextActive));
+  };
+
+  const scrollToDetailSection = (sectionId: 'pd-media' | 'pd-about' | 'pd-contributions') => {
+    const scrollContainer = projectDialogScrollRef.current;
+    const section = document.getElementById(sectionId);
+    if (!scrollContainer || !section) {
+      return;
+    }
+
+    setActiveDetailSection(sectionId);
+    const headerOffset = (projectDetailHeaderRef.current?.offsetHeight ?? 0) + 8;
+    const containerTop = scrollContainer.getBoundingClientRect().top;
+    const sectionTop = section.getBoundingClientRect().top - containerTop + scrollContainer.scrollTop;
+
+    scrollContainer.scrollTo({
+      top: Math.max(0, sectionTop - headerOffset),
+      behavior: 'smooth',
+    });
+  };
+
   useEffect(() => {
     setActiveMediaId(null);
   }, [selectedProject?.id]);
+
+  useEffect(() => {
+    setActiveDetailSection('pd-media');
+  }, [selectedProject?.id]);
+
+  useEffect(() => {
+    if (!selectedProject) {
+      return;
+    }
+
+    const handleResize = () => {
+      updateActiveDetailSectionFromScroll();
+    };
+
+    updateActiveDetailSectionFromScroll();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [selectedProject, hasProjectContributions]);
 
   useEffect(() => {
     if (selectedProjectMedia.length === 0) {
@@ -516,27 +600,72 @@ const Projects = () => {
         >
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,229,255,0.12),transparent_45%),radial-gradient(circle_at_bottom_left,rgba(139,92,246,0.10),transparent_45%)]" />
           
-          <div className="relative z-10 flex-1 overflow-y-auto bg-gradient-to-b from-slate-900/10 to-slate-950/30">
-            <div className="sticky top-0 z-20 w-full bg-gradient-to-b from-slate-950/95 via-slate-950/88 to-slate-950/72 backdrop-blur-md border-b border-slate-700/60 shadow-[0_10px_30px_rgba(2,6,23,0.45)]">
-              <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6">
-                <div className="flex items-start justify-between gap-6 mb-4">
+          <div
+            ref={projectDialogScrollRef}
+            onScroll={updateActiveDetailSectionFromScroll}
+            className="relative z-10 flex-1 overflow-y-auto bg-gradient-to-b from-slate-900/10 to-slate-950/30"
+          >
+            <div ref={projectDetailHeaderRef} className="sticky top-0 z-20 w-full bg-gradient-to-b from-slate-950/95 via-slate-950/88 to-slate-950/72 backdrop-blur-md border-b border-slate-700/60 shadow-[0_10px_30px_rgba(2,6,23,0.45)]">
+              <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-3.5">
+                <div className="flex items-start justify-between gap-4 mb-2">
                   <div className="flex-1 min-w-0">
-                    <div className="section-label mb-2 text-slate-400/80">STORE PAGE // PROJECT</div>
-                    <h2 className="text-2xl sm:text-3xl font-black text-white">{selectedProject?.name}</h2>
+                    <div className="section-label mb-1 text-slate-400/80">STORE PAGE // PROJECT</div>
+                    <h2 className="text-xl sm:text-2xl font-black text-white">{selectedProject?.name}</h2>
                   </div>
 
                   <button
                     onClick={() => setSelectedProject(null)}
-                    className="shrink-0 mt-1 text-slate-400 hover:text-white transition-all border border-slate-700/80 hover:border-cyan-400/50 bg-slate-900/45 hover:bg-slate-900/80 p-2"
+                    className="shrink-0 text-slate-400 hover:text-white transition-all border border-slate-700/80 hover:border-cyan-400/50 bg-slate-900/45 hover:bg-slate-900/80 p-1.5"
                   >
-                    <X size={18} />
+                    <X size={16} />
                   </button>
                 </div>
 
-                <div className="flex items-center gap-3 sm:gap-4 text-xs mono">
-                  <a href="#pd-media" onClick={(e) => { e.preventDefault(); document.getElementById('pd-media')?.scrollIntoView({ behavior: 'smooth' }); }} className="text-slate-300/90 hover:text-cyan-300 transition-colors whitespace-nowrap px-2.5 py-1.5 border border-slate-700/70 bg-slate-900/30 hover:border-cyan-400/40 hover:bg-slate-900/60">GALLERY</a>
-                  <a href="#pd-about" onClick={(e) => { e.preventDefault(); document.getElementById('pd-about')?.scrollIntoView({ behavior: 'smooth' }); }} className="text-slate-300/90 hover:text-cyan-300 transition-colors whitespace-nowrap px-2.5 py-1.5 border border-slate-700/70 bg-slate-900/30 hover:border-cyan-400/40 hover:bg-slate-900/60">ABOUT</a>
-                  <a href="#pd-contributions" onClick={(e) => { e.preventDefault(); document.getElementById('pd-contributions')?.scrollIntoView({ behavior: 'smooth' }); }} className="text-slate-300/90 hover:text-cyan-300 transition-colors whitespace-nowrap px-2.5 py-1.5 border border-slate-700/70 bg-slate-900/30 hover:border-cyan-400/40 hover:bg-slate-900/60">MY CONTRIBUTION</a>
+                <div className="flex items-center text-xs">
+                  <a
+                    href="#pd-media"
+                    onClick={(e) => { e.preventDefault(); scrollToDetailSection('pd-media'); }}
+                    className={`nav-link relative px-3 py-1 mono text-xs tracking-widest transition-all ${
+                      activeDetailSection === 'pd-media'
+                        ? 'text-cyan-400'
+                        : 'text-slate-400 hover:text-slate-200'
+                    }`}
+                  >
+                    GALLERY
+                    {activeDetailSection === 'pd-media' && (
+                      <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-cyan-400 rounded-full" />
+                    )}
+                  </a>
+                  <a
+                    href="#pd-about"
+                    onClick={(e) => { e.preventDefault(); scrollToDetailSection('pd-about'); }}
+                    className={`nav-link relative px-3 py-1 mono text-xs tracking-widest transition-all ${
+                      activeDetailSection === 'pd-about'
+                        ? 'text-cyan-400'
+                        : 'text-slate-400 hover:text-slate-200'
+                    }`}
+                  >
+                    ABOUT
+                    {activeDetailSection === 'pd-about' && (
+                      <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-cyan-400 rounded-full" />
+                    )}
+                  </a>
+                  {hasProjectContributions && (
+                    <a
+                      href="#pd-contributions"
+                      onClick={(e) => { e.preventDefault(); scrollToDetailSection('pd-contributions'); }}
+                      className={`nav-link relative px-3 py-1 mono text-xs tracking-widest transition-all ${
+                        activeDetailSection === 'pd-contributions'
+                          ? 'text-cyan-400'
+                          : 'text-slate-400 hover:text-slate-200'
+                      }`}
+                    >
+                      CONTRIBUTION
+                      {activeDetailSection === 'pd-contributions' && (
+                        <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-cyan-400 rounded-full" />
+                      )}
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
