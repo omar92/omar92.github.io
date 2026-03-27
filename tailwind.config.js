@@ -50,8 +50,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        orbitron: ['Orbitron', 'monospace'],
-        jetbrains: ['JetBrains Mono', 'monospace'],
+        sans: ['Inter', 'sans-serif'],
       },
       borderRadius: {
         xl: "calc(var(--radius) + 4px)",

@@ -28,34 +28,30 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer ref={footerRef} className="relative py-12 border-t border-slate-800/60">
-      <div className="divider-cyan mb-12 mx-6 lg:mx-12" />
-      <div className="w-full px-6 lg:px-12">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-
-          {/* Brand */}
-          <div>
-            <div className="font-black text-white tracking-widest mb-1" style={{ fontFamily: 'Orbitron, monospace' }}>
-              {data.personal.name.toUpperCase().replace(' ', ' ')}
-            </div>
-            <div className="section-label">{data.personal.title}</div>
+    <footer ref={footerRef} className="relative py-8" style={{ background: '#171a21', borderTop: '1px solid #000' }}>
+      <div className="w-full px-4 lg:px-8">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-5">
+          <div className="text-center md:text-left">
+            <div className="text-sm font-semibold" style={{ color: '#c6d4df' }}>{data.personal.name}</div>
+            <div className="text-xs" style={{ color: '#8f98a0' }}>{data.personal.title}</div>
           </div>
 
-          {/* Nav links */}
-          <nav className="flex gap-8">
+          <nav className="flex items-center gap-5">
             {['about', 'projects', 'experience', 'contact'].map((id) => (
               <a
                 key={id}
                 href={`#${id}`}
-                className="mono text-xs text-slate-500 hover:text-cyan-400 transition-colors tracking-widest uppercase"
+                className="text-xs font-medium transition-colors"
+                style={{ color: '#8f98a0' }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#66c0f4'; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#8f98a0'; }}
               >
                 {id}
               </a>
             ))}
           </nav>
 
-          {/* Socials + scroll top */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             {data.personal.contacts.links.map((link) => {
               const Icon = getSocialIcon(link);
               if (!Icon) return null;
@@ -65,15 +61,21 @@ const Footer = () => {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-slate-600 hover:text-cyan-400 transition-colors"
+                  className="w-8 h-8 rounded-sm flex items-center justify-center transition-all"
+                  style={{ color: '#8f98a0', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#c6d4df'; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#8f98a0'; }}
                 >
-                  <Icon size={15} />
+                  <Icon size={14} />
                 </a>
               );
             })}
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="w-8 h-8 flex items-center justify-center border border-slate-700 hover:border-cyan-400/50 hover:text-cyan-400 text-slate-500 transition-all ml-2"
+              className="w-8 h-8 rounded-sm flex items-center justify-center transition-all ml-1"
+              style={{ color: '#8f98a0', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = '#66c0f4'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = '#8f98a0'; }}
               aria-label="Scroll to top"
             >
               <ArrowUp size={13} />
@@ -81,8 +83,8 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-10 pt-6 border-t border-slate-800/40 mono text-xs text-slate-600 text-center">
-          &copy; {new Date().getFullYear()} {data.personal.name} -- All rights reserved
+        <div className="mt-6 pt-4 text-xs text-center" style={{ color: '#6b7a87', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+          © {new Date().getFullYear()} {data.personal.name}. All rights reserved.
         </div>
       </div>
     </footer>

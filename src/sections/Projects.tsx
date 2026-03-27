@@ -439,34 +439,31 @@ const Projects = () => {
   }, []);
 
   return (
-    <section id="projects" ref={sectionRef} className="relative py-28 lg:py-36 reveal-section">
-      <div className="divider-cyan mb-24 mx-6 lg:mx-12" />
-      <div className="w-full px-6 lg:px-12">
+<section id="projects" ref={sectionRef} className="relative py-12 reveal-section" style={{ background: '#1b2838', borderTop: '1px solid rgba(0,0,0,0.3)' }}>
+      <div className="w-full px-4 lg:px-8">
 
-        {/* Header */}
-        <div className="pj-header mb-12 flex items-end justify-between flex-wrap gap-4">
-          <div>
-            <div className="section-label mb-3">02 // PROJECTS</div>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white">
-              BUILT <span className="text-gradient-cyan">SYSTEMS</span>
-            </h2>
-          </div>
-          <div className="mono text-xs text-slate-500 pb-2">
-            SHOWING <span className="text-cyan-400">{filtered.length}</span> / {data.projects.length} PROJECTS
+        {/* Steam section header */}
+        <div className="pj-header mb-6 flex items-center justify-between flex-wrap gap-4">
+          <div className="steam-section-header flex items-center gap-4">
+            <span className="text-sm font-semibold" style={{ color: '#c6d4df' }}>Projects</span>
+            <span className="text-xs" style={{ color: '#4a6b8a' }}>
+              {filtered.length} of {data.projects.length}
+            </span>
           </div>
         </div>
 
-        {/* Filters */}
-        <div className="pj-filters flex flex-wrap gap-2 mb-4">
+        {/* Steam-style category tabs */}
+        <div className="pj-filters flex flex-wrap gap-1.5 mb-5">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveFilter(cat)}
-              className={`pj-filter mono text-xs px-4 py-2 border transition-all ${
-                activeFilter === cat
-                  ? 'border-cyan-400/60 bg-cyan-400/10 text-cyan-400'
-                  : 'border-slate-700 text-slate-500 hover:border-slate-500 hover:text-slate-300'
-              }`}
+              className="pj-filter text-xs px-3 py-1.5 rounded-sm font-medium transition-all"
+              style={{
+                background: activeFilter === cat ? '#4a7ebf' : 'rgba(255,255,255,0.07)',
+                color: activeFilter === cat ? '#fff' : '#8f98a0',
+                border: '1px solid ' + (activeFilter === cat ? 'rgba(74,126,191,0.6)' : 'rgba(255,255,255,0.08)'),
+              }}
             >
               {cat}
             </button>
@@ -475,8 +472,8 @@ const Projects = () => {
 
 
 
-        {/* Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Steam game grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
           {filtered.map((project) => {
             const githubLink = project.links.find(
               (link) =>
@@ -493,94 +490,113 @@ const Projects = () => {
             const githubStats = getProjectGitHubStats(project);
 
             return (
-            <article
-              key={project.id}
-              data-project-id={project.id}
-              className="pj-card game-card clip-tl group cursor-pointer flex flex-col"
-              onClick={() => setSelectedProject(project)}
-            >
-              <div className="pokemon-card-inner">
-                {/* Image */}
-                {project.image && isImageLoaded(project.image) && (
-                  <div className="relative overflow-hidden h-44 shrink-0">
+              <article
+                key={project.id}
+                data-project-id={project.id}
+                className="pj-card cursor-pointer flex flex-col rounded-sm overflow-hidden transition-all group"
+                style={{ background: '#16202d', border: '1px solid rgba(0,0,0,0.3)' }}
+                onClick={() => setSelectedProject(project)}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#1e3048'; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = '#16202d'; }}
+              >
+                {/* Capsule image */}
+                <div className="relative overflow-hidden" style={{ aspectRatio: '16/9', background: '#0d1926' }}>
+                  {project.image && isImageLoaded(project.image) ? (
                     <img
                       src={project.image}
                       alt={project.name}
-                      className="w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-500"
+                      className="w-full h-full object-cover opacity-80 group-hover:opacity-95 transition-opacity duration-300"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-transparent to-slate-950/80" />
-                    <div className="absolute top-3 right-3 flex flex-wrap justify-end gap-1 max-w-[80%]">
-                      {project.platforms.map((platform) => (
-                        <span
-                          key={platform}
-                          className="tag-violet bg-slate-950/90 text-violet-200 border-violet-300/45 backdrop-blur-sm shadow-sm"
-                        >
-                          {platform}
-                        </span>
-                      ))}
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-2xl font-bold" style={{ color: '#2a475e' }}>
+                      {project.name[0]}
                     </div>
+                  )}
+                  {/* Platform badges top-right */}
+                  <div className="absolute top-2 right-2 flex flex-wrap justify-end gap-1">
+                    {project.platforms.slice(0, 2).map((platform) => (
+                      <span key={platform} className="text-[10px] px-1.5 py-0.5 rounded-sm font-medium"
+                        style={{ background: 'rgba(0,0,0,0.75)', color: '#8f98a0' }}>
+                        {platform}
+                      </span>
+                    ))}
                   </div>
-                )}
+                  {/* Published badge */}
+                  {project.published && (
+                    <div className="absolute top-2 left-2">
+                      <span className="text-[10px] px-1.5 py-0.5 rounded-sm font-semibold"
+                        style={{ background: 'rgba(106,184,13,0.85)', color: '#fff' }}>
+                        Released
+                      </span>
+                    </div>
+                  )}
+                </div>
 
-                {/* Body */}
-                <div className="p-5 flex flex-col flex-1 gap-3 relative">
-                  {githubStats && (
-                    <div className="absolute top-4 right-4 flex items-center gap-2 text-[10px] mono text-slate-400 bg-slate-950/70 border border-slate-800 px-2 py-1 rounded-sm">
-                      <span className="flex items-center gap-1">
-                        <Star size={10} className="text-slate-400" />
+                {/* Card body */}
+                <div className="p-3 flex flex-col flex-1 gap-2">
+                  <h3 className="text-sm font-semibold leading-snug" style={{ color: '#e8f4fd' }}>{project.name}</h3>
+
+                  {/* Review score */}
+                  {githubStats ? (
+                    <div className="flex items-center gap-2 text-[11px]" style={{ color: '#8f98a0' }}>
+                      <span className="flex items-center gap-1" style={{ color: '#66c0f4' }}>
+                        <Star size={10} />
                         {githubStats.stars.toLocaleString()}
                       </span>
                       <span className="flex items-center gap-1">
-                        <GitFork size={10} className="text-slate-400" />
+                        <GitFork size={10} />
                         {githubStats.forks.toLocaleString()}
                       </span>
                       <span className="flex items-center gap-1">
-                        <Users size={10} className="text-slate-400" />
+                        <Users size={10} />
                         {githubStats.contributors.toLocaleString()}
                       </span>
                     </div>
+                  ) : (
+                    <p className="text-xs line-clamp-2 flex-1" style={{ color: '#8f98a0', lineHeight: 1.5 }}>
+                      {project.shortDescription}
+                    </p>
                   )}
-                  {(!project.image || isImageFailed(project.image) || getImageState(project.image) === 'loading') && (
-                    <div className="flex flex-wrap gap-1.5 self-start">
-                      {project.platforms.map((platform) => (
-                        <span key={platform} className="tag-violet">{platform}</span>
-                      ))}
-                    </div>
-                  )}
-                  <h3 className={`font-bold text-white group-hover:text-cyan-400 transition-colors leading-snug ${githubStats ? 'pr-28' : ''}`}>{project.name}</h3>
-                  <p className="text-sm text-slate-400 leading-relaxed flex-1 line-clamp-3">{project.shortDescription}</p>
 
                   {/* Tags */}
-                  <div className="flex flex-wrap gap-1.5">
-                    {project.skills.slice(0, 4).map((t) => (
+                  <div className="flex flex-wrap gap-1 mt-auto">
+                    {project.skills.slice(0, 3).map((t) => (
                       <span key={t} className="tag-cyan text-[10px]">{t}</span>
                     ))}
-                    {project.skills.length > 4 && (
-                      <span className="tag-cyan text-[10px]">+{project.skills.length - 4}</span>
+                    {project.skills.length > 3 && (
+                      <span className="tag-cyan text-[10px]">+{project.skills.length - 3}</span>
                     )}
                   </div>
 
-                  {/* Footer */}
-                  <div className="flex items-center justify-between pt-2 border-t border-slate-800">
-                    <div className="flex gap-3">
+                  {/* Bottom row */}
+                  <div className="flex items-center justify-between pt-2" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                    <div className="flex gap-2">
                       {githubLink && (
-                        <a href={githubLink.url} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-white transition-colors">
-                          <Github size={15} />
+                        <a href={githubLink.url} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer"
+                          className="transition-colors" style={{ color: '#4a6b8a' }}
+                          onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#c6d4df'; }}
+                          onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#4a6b8a'; }}>
+                          <Github size={13} />
                         </a>
                       )}
                       {websiteLink && (
-                        <a href={websiteLink.url} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-cyan-400 transition-colors">
-                          <ExternalLink size={15} />
+                        <a href={websiteLink.url} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer"
+                          className="transition-colors" style={{ color: '#4a6b8a' }}
+                          onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#66c0f4'; }}
+                          onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#4a6b8a'; }}>
+                          <ExternalLink size={13} />
                         </a>
                       )}
                     </div>
-                    <span className="flex items-center gap-1 text-slate-600 group-hover:text-cyan-400 transition-colors mono text-xs">
-                      VIEW <ChevronRight size={12} />
+                    <span className="flex items-center gap-0.5 text-[11px] font-medium transition-colors"
+                      style={{ color: '#4a6b8a' }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLSpanElement).style.color = '#66c0f4'; }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLSpanElement).style.color = '#4a6b8a'; }}>
+                      View <ChevronRight size={11} />
                     </span>
                   </div>
                 </div>
-              </div>
-            </article>
+              </article>
             );
           })}
         </div>
@@ -593,79 +609,54 @@ const Projects = () => {
       >
         <DialogContent
           showCloseButton={false}
-          className="w-screen max-w-none h-screen max-h-none rounded-none bg-slate-950/95 border-0 p-0 gap-0 flex flex-col overflow-hidden backdrop-blur-xl"
+          className="w-screen max-w-none h-screen max-h-none rounded-none border-0 p-0 gap-0 flex flex-col overflow-hidden"
+          style={{ background: '#1b2838' }}
           onPointerDownOutside={(e) => { if (lightbox) e.preventDefault(); }}
           onInteractOutside={(e) => { if (lightbox) e.preventDefault(); }}
           onEscapeKeyDown={(e) => { if (lightbox) { e.preventDefault(); setLightbox(null); } }}
         >
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,229,255,0.12),transparent_45%),radial-gradient(circle_at_bottom_left,rgba(139,92,246,0.10),transparent_45%)]" />
+          <div />
           
           <div
             ref={projectDialogScrollRef}
             onScroll={updateActiveDetailSectionFromScroll}
-            className="relative z-10 flex-1 overflow-y-auto bg-gradient-to-b from-slate-900/10 to-slate-950/30"
+            className="relative z-10 flex-1 overflow-y-auto"
+            style={{ background: '#1b2838' }}
           >
-            <div ref={projectDetailHeaderRef} className="sticky top-0 z-20 w-full bg-gradient-to-b from-slate-950/95 via-slate-950/88 to-slate-950/72 backdrop-blur-md border-b border-slate-700/60 shadow-[0_10px_30px_rgba(2,6,23,0.45)]">
+            <div ref={projectDetailHeaderRef} className="sticky top-0 z-20 w-full" style={{ background: '#171a21', borderBottom: '1px solid rgba(0,0,0,0.5)' }}>
               <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-3.5">
                 <div className="flex items-start justify-between gap-4 mb-2">
                   <div className="flex-1 min-w-0">
-                    <div className="section-label mb-1 text-slate-400/80">STORE PAGE // PROJECT</div>
-                    <h2 className="text-xl sm:text-2xl font-black text-white">{selectedProject?.name}</h2>
+                    <div className="text-[10px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#4a6b8a' }}>Store Page</div>
+                    <h2 className="text-xl sm:text-2xl font-bold" style={{ color: '#e8f4fd' }}>{selectedProject?.name}</h2>
                   </div>
 
                   <button
                     onClick={() => setSelectedProject(null)}
-                    className="shrink-0 text-slate-400 hover:text-white transition-all border border-slate-700/80 hover:border-cyan-400/50 bg-slate-900/45 hover:bg-slate-900/80 p-1.5"
+                    className="shrink-0 p-1.5 rounded-sm transition-colors"
+                    style={{ color: '#8f98a0', background: 'rgba(255,255,255,0.07)' }}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = '#e8f4fd'; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = '#8f98a0'; }}
                   >
                     <X size={16} />
                   </button>
                 </div>
 
                 <div className="flex items-center text-xs">
-                  <a
-                    href="#pd-media"
-                    onClick={(e) => { e.preventDefault(); scrollToDetailSection('pd-media'); }}
-                    className={`nav-link relative px-3 py-1 mono text-xs tracking-widest transition-all ${
-                      activeDetailSection === 'pd-media'
-                        ? 'text-cyan-400'
-                        : 'text-slate-400 hover:text-slate-200'
-                    }`}
-                  >
-                    GALLERY
-                    {activeDetailSection === 'pd-media' && (
-                      <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-cyan-400 rounded-full" />
-                    )}
-                  </a>
-                  <a
-                    href="#pd-about"
-                    onClick={(e) => { e.preventDefault(); scrollToDetailSection('pd-about'); }}
-                    className={`nav-link relative px-3 py-1 mono text-xs tracking-widest transition-all ${
-                      activeDetailSection === 'pd-about'
-                        ? 'text-cyan-400'
-                        : 'text-slate-400 hover:text-slate-200'
-                    }`}
-                  >
-                    ABOUT
-                    {activeDetailSection === 'pd-about' && (
-                      <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-cyan-400 rounded-full" />
-                    )}
-                  </a>
-                  {hasProjectContributions && (
+                  {(['pd-media', 'pd-about', ...(hasProjectContributions ? ['pd-contributions'] : [])] as const).map((sid) => (
                     <a
-                      href="#pd-contributions"
-                      onClick={(e) => { e.preventDefault(); scrollToDetailSection('pd-contributions'); }}
-                      className={`nav-link relative px-3 py-1 mono text-xs tracking-widest transition-all ${
-                        activeDetailSection === 'pd-contributions'
-                          ? 'text-cyan-400'
-                          : 'text-slate-400 hover:text-slate-200'
-                      }`}
+                      key={sid}
+                      href={`#${sid}`}
+                      onClick={(e) => { e.preventDefault(); scrollToDetailSection(sid as 'pd-media' | 'pd-about' | 'pd-contributions'); }}
+                      className="relative px-3 py-1 text-xs font-semibold tracking-wide transition-all border-b-2"
+                      style={{
+                        color: activeDetailSection === sid ? '#c6d4df' : '#8f98a0',
+                        borderBottomColor: activeDetailSection === sid ? '#66c0f4' : 'transparent',
+                      }}
                     >
-                      CONTRIBUTION
-                      {activeDetailSection === 'pd-contributions' && (
-                        <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-cyan-400 rounded-full" />
-                      )}
+                      {sid === 'pd-media' ? 'Gallery' : sid === 'pd-about' ? 'About' : 'Contributions'}
                     </a>
-                  )}
+                  ))}
                 </div>
               </div>
             </div>
@@ -674,13 +665,13 @@ const Projects = () => {
               <div className="pt-2 sm:pt-3 lg:pt-4 space-y-8">
               <section className="grid xl:grid-cols-[minmax(0,1fr)_340px] gap-5 lg:gap-6 items-stretch" id="pd-media">
                 <div className="h-full flex flex-col min-h-0 self-stretch">
-                  <div className="border border-slate-800 bg-slate-950/70 overflow-hidden flex-1 min-h-[260px] sm:min-h-[380px] lg:min-h-[460px] relative">
+                  <div className="overflow-hidden flex-1 min-h-[260px] sm:min-h-[380px] lg:min-h-[460px] relative" style={{ background: '#0d1926', border: '1px solid rgba(0,0,0,0.4)' }}>
                     <div className="absolute inset-0 flex items-center justify-center">
                     {!activeSelectedMedia && selectedProject?.image ? (
                       <img src={selectedProject.image} alt={selectedProject.name} className="max-w-full max-h-full w-auto h-auto object-contain" />
                     ) : activeSelectedMedia?.kind === 'video' ? (
                       activeSelectedMedia.videoType === 'local' ? (
-                        <video src={activeSelectedMedia.src} controls className="w-full h-full object-contain bg-slate-900" />
+                        <video src={activeSelectedMedia.src} controls className="w-full h-full object-contain" style={{ background: '#0d1926' }} />
                       ) : activeSelectedMedia.videoType === 'youtube' ? (
                         <iframe src={activeSelectedMedia.src} className="w-full h-full" allowFullScreen title={activeSelectedMedia.label} />
                       ) : null
@@ -700,18 +691,18 @@ const Projects = () => {
                           onClick={() => setActiveMediaId(media.id)}
                           className={`relative shrink-0 w-36 h-20 border transition-all ${
                             activeSelectedMedia?.id === media.id
-                              ? 'border-cyan-400/80 shadow-[0_0_0_1px_rgba(0,229,255,0.25)]'
-                              : 'border-slate-800 hover:border-slate-600'
+                              ? 'border-[#66c0f4]'
+                              : 'border-transparent hover:border-[#4a6b8a]'
                           }`}
                         >
                           {media.kind === 'video' ? (
-                            <div className="w-full h-full bg-slate-900 flex items-center justify-center">
-                              <Play size={16} className="text-cyan-300" />
+                            <div className="w-full h-full flex items-center justify-center" style={{ background: '#0d1926' }}>
+                              <Play size={16} style={{ color: '#66c0f4' }} />
                             </div>
                           ) : (
                             <img src={media.src} alt={media.label} className="w-full h-full object-cover opacity-80" />
                           )}
-                          <span className="absolute bottom-1 left-1 right-1 mono text-[9px] leading-tight text-white bg-slate-950/85 border border-slate-700/70 px-1 py-0.5 truncate text-left">
+                          <span className="absolute bottom-1 left-1 right-1 text-[9px] leading-tight truncate text-left px-1 py-0.5" style={{ color: '#c6d4df', background: 'rgba(13,25,38,0.9)' }}>
                             {media.label}
                           </span>
                         </button>
@@ -720,46 +711,46 @@ const Projects = () => {
                   )}
                 </div>
 
-                <aside className="game-card border border-slate-800/90 bg-slate-900/55 p-4 sm:p-5 space-y-4 h-full self-stretch">
+                <aside className="p-4 sm:p-5 space-y-4 h-full self-stretch rounded-sm" style={{ background: '#16202d', border: '1px solid rgba(0,0,0,0.3)' }}>
                   {selectedProject?.image && (
-                    <img src={selectedProject.image} alt={selectedProject.name} className="w-full border border-slate-800 object-cover max-h-44" />
+                    <img src={selectedProject.image} alt={selectedProject.name} className="w-full object-cover" style={{ maxHeight: '176px', border: '1px solid rgba(0,0,0,0.4)' }} />
                   )}
 
-                  <p className="text-sm text-slate-300 leading-relaxed">{selectedProject?.shortDescription}</p>
+                  <p className="text-sm leading-relaxed" style={{ color: '#c6d4df' }}>{selectedProject?.shortDescription}</p>
 
                   {selectedProjectGitHubStats && (
-                    <div className="grid grid-cols-3 gap-2 text-[10px] mono text-slate-300/90">
-                      <span className="flex flex-col items-center justify-center border border-slate-700/70 bg-slate-950/60 px-2 py-2">
-                        <Star size={12} className="text-slate-400 mb-1" />
-                        {selectedProjectGitHubStats.stars.toLocaleString()} STARS
+                    <div className="grid grid-cols-3 gap-1 text-[10px]">
+                      <span className="flex flex-col items-center justify-center px-2 py-2" style={{ border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(0,0,0,0.2)', color: '#8f98a0' }}>
+                        <Star size={12} className="mb-1" style={{ color: '#66c0f4' }} />
+                        {selectedProjectGitHubStats.stars.toLocaleString()}
                       </span>
-                      <span className="flex flex-col items-center justify-center border border-slate-700/70 bg-slate-950/60 px-2 py-2">
-                        <GitFork size={12} className="text-slate-400 mb-1" />
-                        {selectedProjectGitHubStats.forks.toLocaleString()} FORKS
+                      <span className="flex flex-col items-center justify-center px-2 py-2" style={{ border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(0,0,0,0.2)', color: '#8f98a0' }}>
+                        <GitFork size={12} className="mb-1" style={{ color: '#66c0f4' }} />
+                        {selectedProjectGitHubStats.forks.toLocaleString()}
                       </span>
-                      <span className="flex flex-col items-center justify-center border border-slate-700/70 bg-slate-950/60 px-2 py-2">
-                        <Users size={12} className="text-slate-400 mb-1" />
-                        {selectedProjectGitHubStats.contributors.toLocaleString()} CONTRIB
+                      <span className="flex flex-col items-center justify-center px-2 py-2" style={{ border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(0,0,0,0.2)', color: '#8f98a0' }}>
+                        <Users size={12} className="mb-1" style={{ color: '#66c0f4' }} />
+                        {selectedProjectGitHubStats.contributors.toLocaleString()}
                       </span>
                     </div>
                   )}
 
-                  <div className="space-y-2 text-xs">
+                  <div className="space-y-2 text-xs" style={{ color: '#c6d4df' }}>
                     <div className="flex items-start gap-2">
-                      <span className="mono text-slate-500 min-w-[86px]">Category:</span>
-                      <span className="text-slate-300">{selectedProject?.category || 'Project'}</span>
+                      <span className="min-w-[80px]" style={{ color: '#8f98a0' }}>Category:</span>
+                      <span>{selectedProject?.category || 'Project'}</span>
                     </div>
                     <div className="flex items-start gap-2">
-                      <span className="mono text-slate-500 min-w-[86px]">Status:</span>
-                      <span className="text-slate-300">{selectedProject?.published ? 'Published' : 'In Development'}</span>
+                      <span className="min-w-[80px]" style={{ color: '#8f98a0' }}>Status:</span>
+                      <span style={{ color: selectedProject?.published ? '#a4d007' : '#c6d4df' }}>{selectedProject?.published ? 'Released' : 'In Development'}</span>
                     </div>
                     <div className="flex items-start gap-2">
-                      <span className="mono text-slate-500 min-w-[86px]">Platforms:</span>
-                      <span className="text-slate-300">{selectedProject?.platforms.join(', ') || 'N/A'}</span>
+                      <span className="min-w-[80px]" style={{ color: '#8f98a0' }}>Platforms:</span>
+                      <span>{selectedProject?.platforms.join(', ') || 'N/A'}</span>
                     </div>
                     <div className="flex items-start gap-2">
-                      <span className="mono text-slate-500 min-w-[86px]">Genre:</span>
-                      <span className="text-slate-300">{selectedProject?.genre.join(', ') || 'N/A'}</span>
+                      <span className="min-w-[80px]" style={{ color: '#8f98a0' }}>Genre:</span>
+                      <span>{selectedProject?.genre.join(', ') || 'N/A'}</span>
                     </div>
                   </div>
 
@@ -792,8 +783,8 @@ const Projects = () => {
                   )}
 
                   {selectedProject?.platforms?.length || selectedProject?.genre?.length ? (
-                    <div className="pt-2 border-t border-slate-800 space-y-2">
-                      <div className="flex flex-wrap gap-1.5">
+                    <div className="pt-2 space-y-2" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                      <div className="flex flex-wrap gap-1">
                         {selectedProject?.platforms?.map((p) => <span key={p} className="tag-cyan text-[10px]">{p}</span>)}
                         {selectedProject?.genre?.map((g) => <span key={g} className="tag-violet text-[10px]">{g}</span>)}
                       </div>
@@ -802,65 +793,68 @@ const Projects = () => {
                 </aside>
               </section>
 
-              <section id="pd-about" className="game-card border border-slate-800/90 bg-slate-900/35 p-5 sm:p-6 space-y-5">
-                <div className="flex items-center gap-3">
-                  <div className="section-label">ABOUT THIS PROJECT</div>
-                  <div className="flex-1 h-px bg-slate-800" />
-                  <span className="mono text-[10px] text-slate-600">{selectedProjectVisibleMediaCount} media</span>
+              <section id="pd-about" className="rounded-sm overflow-hidden" style={{ background: '#16202d', border: '1px solid rgba(0,0,0,0.3)' }}>
+                <div className="px-5 py-3 flex items-center justify-between" style={{ background: '#2a475e' }}>
+                  <span className="text-sm font-semibold" style={{ color: '#c6d4df' }}>About This Project</span>
+                  <span className="text-xs" style={{ color: '#8f98a0' }}>{selectedProjectVisibleMediaCount} media files</span>
                 </div>
+                <div className="p-5 space-y-5">
+                  <p className="text-sm leading-relaxed" style={{ color: '#c6d4df' }}>{selectedProject?.shortDescription}</p>
 
-                <p className="text-sm text-slate-300 leading-relaxed">{selectedProject?.shortDescription}</p>
+                  {selectedProject?.features && selectedProject.features.length > 0 && (
+                    <div>
+                      <div className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: '#8f98a0' }}>Key Features</div>
+                      <ul className="grid md:grid-cols-2 gap-x-8 gap-y-2">
+                        {selectedProject.features.map((feature, index) => (
+                          <li key={index} className="flex items-start gap-2 text-sm leading-relaxed" style={{ color: '#c6d4df' }}>
+                            <span className="shrink-0 mt-0.5" style={{ color: '#66c0f4' }}>&#9656;</span>
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
 
-                {selectedProject?.features && selectedProject.features.length > 0 && (
                   <div>
-                    <div className="section-label mb-2.5">KEY FEATURES</div>
-                    <ul className="grid md:grid-cols-2 gap-x-8 gap-y-2">
-                      {selectedProject.features.map((feature, index) => (
-                        <li key={index} className="flex items-start gap-2 text-sm text-slate-400 leading-relaxed">
-                          <span className="text-cyan-400 shrink-0 mt-0.5">&#9656;</span>
-                          {feature}
-                        </li>
+                    <div className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: '#8f98a0' }}>Technologies</div>
+                    <div className="flex flex-wrap gap-1">
+                      {selectedProject?.skills.map((skill) => (
+                        <span key={skill} className="tag-cyan text-[10px]">{skill}</span>
                       ))}
-                    </ul>
-                  </div>
-                )}
-
-                <div>
-                  <div className="section-label mb-2.5">TECHNOLOGIES</div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {selectedProject?.skills.map((skill) => (
-                      <span key={skill} className="tag-cyan text-[10px]">{skill}</span>
-                    ))}
+                    </div>
                   </div>
                 </div>
               </section>
 
               {selectedProject?.contributions && selectedProject.contributions.length > 0 && (
-                <section id="pd-contributions" className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <Wrench size={14} className="text-cyan-400 shrink-0" />
-                    <div className="section-label">MY WORK ON THIS PROJECT</div>
-                    <div className="flex-1 h-px bg-slate-800" />
-                    <span className="mono text-[10px] text-slate-600">{selectedProject.contributions.length} entries</span>
+                <section id="pd-contributions" className="rounded-sm overflow-hidden" style={{ border: '1px solid rgba(0,0,0,0.3)' }}>
+                  <div className="px-5 py-3 flex items-center justify-between" style={{ background: '#2a475e' }}>
+                    <span className="text-sm font-semibold flex items-center gap-2" style={{ color: '#c6d4df' }}>
+                      <Wrench size={13} />
+                      My Contributions
+                    </span>
+                    <span className="text-xs" style={{ color: '#8f98a0' }}>{selectedProject.contributions.length} entries</span>
                   </div>
-                  <div className="space-y-4">
+                  <div className="divide-y" style={{ background: '#16202d', borderColor: 'rgba(0,0,0,0.3)' }}>
                     {visibleSelectedProjectContributionScreenshots.map((contribution, contributionIndex) => {
                       const loadedContributionScreenshots = contribution.screenshot.filter((src) => isImageLoaded(src));
 
                       return (
-                        <article key={contributionIndex} className="border border-slate-800/90 bg-slate-900/35 hover:bg-slate-900/50 transition-colors">
+                        <article key={contributionIndex} className="transition-colors" style={{ borderColor: 'rgba(0,0,0,0.3)' }}
+                          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#1e3048'; }}
+                          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = ''; }}>
                           <div className="p-5 pb-4 flex items-start gap-4">
-                            <span className="mono text-3xl font-black text-slate-800/80 tabular-nums shrink-0 leading-none select-none">
+                            <span className="text-2xl font-black tabular-nums shrink-0 leading-none select-none" style={{ color: 'rgba(74,107,138,0.5)' }}>
                               {String(contributionIndex + 1).padStart(2, '0')}
                             </span>
                             <div className="min-w-0">
-                              <h4 className="font-bold text-cyan-300 text-sm sm:text-base leading-snug mb-2">{contribution.title}</h4>
-                              <p className="text-sm text-slate-400 leading-relaxed">{contribution.description}</p>
+                              <h4 className="font-semibold text-sm sm:text-base leading-snug mb-2" style={{ color: '#66c0f4' }}>{contribution.title}</h4>
+                              <p className="text-sm leading-relaxed" style={{ color: '#8f98a0' }}>{contribution.description}</p>
                             </div>
                           </div>
                           {loadedContributionScreenshots.length > 0 && (
                             <div className="px-5 pb-5 pl-[calc(1.25rem+3rem+1rem)]">
-                              <div className="mono text-[10px] text-slate-600 mb-2 uppercase tracking-wider">
+                              <div className="text-[10px] mb-2 uppercase tracking-wider" style={{ color: '#4a6b8a' }}>
                                 {loadedContributionScreenshots.length} screenshot{loadedContributionScreenshots.length > 1 ? 's' : ''}
                               </div>
                               <div className="flex gap-2 overflow-x-auto pb-1">
@@ -868,17 +862,16 @@ const Projects = () => {
                                   <button
                                     key={screenshotIndex}
                                     onClick={() => setLightbox(src)}
-                                    className="group/img relative shrink-0 overflow-hidden border border-slate-800 hover:border-cyan-400/50 transition-all duration-200"
-                                    style={{ width: '160px', height: '90px' }}
+                                    className="group/img relative shrink-0 overflow-hidden transition-all duration-200"
+                                    style={{ width: '160px', height: '90px', border: '1px solid rgba(0,0,0,0.4)' }}
+                                    onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.borderColor = '#66c0f4'; }}
+                                    onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(0,0,0,0.4)'; }}
                                   >
                                     <img
                                       src={src}
                                       alt={`${contribution.title} ${screenshotIndex + 1}`}
-                                      className="w-full h-full object-cover opacity-70 group-hover/img:opacity-100 group-hover/img:scale-105 transition-all duration-300"
+                                      className="w-full h-full object-cover opacity-75 group-hover/img:opacity-100 group-hover/img:scale-105 transition-all duration-300"
                                     />
-                                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity bg-slate-950/40">
-                                      <span className="mono text-[9px] text-white bg-slate-950/80 border border-slate-700 px-1.5 py-0.5">EXPAND</span>
-                                    </div>
                                   </button>
                                 ))}
                               </div>

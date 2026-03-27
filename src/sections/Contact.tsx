@@ -22,9 +22,6 @@ const Contact = () => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const isOpenToWork = data.personal.openToWork;
   const availabilityHeading = isOpenToWork ? 'AVAILABLE FOR WORK' : 'NOT CURRENTLY AVAILABLE';
-  const availabilityBody = isOpenToWork
-    ? 'Open to new opportunities -- game industry, simulation, or system-level engineering.'
-    : 'Not taking new full-time or contract opportunities at the moment, but important messages are still welcome.';
   const availabilityIntro = isOpenToWork
     ? 'Available for contract work, full-time roles, and interesting collaborations. Reach out through any channel.'
     : 'Currently not open for new roles, but you can still reach out for select collaborations or important inquiries.';
@@ -74,154 +71,149 @@ const Contact = () => {
     }
   };
 
-  const inputClass = 'w-full bg-slate-900/50 border border-slate-700 focus:border-cyan-400/50 focus:outline-none px-4 py-3 mono text-sm text-slate-200 placeholder-slate-600 transition-colors';
-
   return (
-    <section id="contact" ref={sectionRef} className="relative py-28 lg:py-36 reveal-section">
-      <div className="divider-cyan mb-24 mx-6 lg:mx-12" />
-      <div className="w-full px-6 lg:px-12">
-
-        <div className="ct-header mb-16">
-          <div className="section-label mb-3">04 // CONTACT</div>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white">
-            INITIATE <span className="text-gradient-cyan">CONTACT</span>
-          </h2>
+    <section id="contact" ref={sectionRef} className="relative py-12 reveal-section" style={{ background: '#1b2838', borderTop: '1px solid rgba(0,0,0,0.3)' }}>
+      <div className="w-full px-4 lg:px-8">
+        <div className="ct-header mb-6">
+          <div className="steam-section-header">
+            <span className="text-sm font-semibold" style={{ color: '#c6d4df' }}>Contact</span>
+          </div>
         </div>
 
-        <div className="ct-content grid lg:grid-cols-2 gap-16 lg:gap-24">
+        <div className="ct-content grid lg:grid-cols-2 gap-6 lg:gap-10">
           {/* Info panel */}
-          <div className="ct-info flex flex-col gap-10 lg:h-full lg:justify-between">
-            <div className="space-y-10">
-              <p className="text-lg text-slate-300 leading-relaxed">
-                {availabilityIntro}
-              </p>
-
-              <div className="space-y-5">
-                <a href={`mailto:${data.personal.contacts.email}`} className="flex items-center gap-4 group">
-                  <div className="w-10 h-10 flex items-center justify-center border border-slate-700 group-hover:border-cyan-400/50 group-hover:bg-cyan-400/5 transition-all">
-                    <Mail size={16} className="text-slate-600 group-hover:text-cyan-400 transition-colors" />
-                  </div>
-                  <span className="mono text-sm text-slate-400 group-hover:text-cyan-400 transition-colors">{data.personal.contacts.email}</span>
-                </a>
-                {data.personal.contacts.phone && (
-                  <a href={`tel:${data.personal.contacts.phone}`} className="flex items-center gap-4 group">
-                    <div className="w-10 h-10 flex items-center justify-center border border-slate-700 group-hover:border-cyan-400/50 group-hover:bg-cyan-400/5 transition-all">
-                      <Phone size={16} className="text-slate-600 group-hover:text-cyan-400 transition-colors" />
-                    </div>
-                    <span className="mono text-sm text-slate-400 group-hover:text-cyan-400 transition-colors">{data.personal.contacts.phone}</span>
-                  </a>
-                )}
-                {data.personal.location && (
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 flex items-center justify-center border border-slate-700">
-                      <MapPin size={16} className="text-slate-600" />
-                    </div>
-                    <span className="mono text-sm text-slate-400">{data.personal.location}</span>
-                  </div>
-                )}
+          <div className="ct-info space-y-4">
+            <div className="rounded-sm overflow-hidden" style={{ background: '#16202d', border: '1px solid rgba(0,0,0,0.3)' }}>
+              <div className="px-4 py-3 flex items-center gap-2" style={{ background: '#2a475e', borderBottom: '1px solid rgba(0,0,0,0.3)' }}>
+                <span className={`w-2 h-2 rounded-full ${isOpenToWork ? 'bg-green-400 animate-pulse' : 'bg-amber-400'}`} />
+                <span className="text-xs font-semibold" style={{ color: isOpenToWork ? '#a4d007' : '#f59e0b' }}>{availabilityHeading}</span>
               </div>
-
-              <div>
-                <div className="section-label mb-5">SOCIAL LINKS</div>
-                <div className="flex gap-3">
-                  {data.personal.contacts.links.map((link) => {
-                    const Icon = getSocialIcon(link);
-                    if (!Icon) return null;
-                    return (
-                      <a
-                        key={link.url}
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-10 h-10 flex items-center justify-center border border-slate-700 hover:border-cyan-400/50 hover:bg-cyan-400/5 transition-all"
-                      >
-                        <Icon size={15} className="text-slate-400 hover:text-cyan-400 transition-colors" />
-                      </a>
-                    );
-                  })}
+              <div className="p-4 space-y-4">
+                <p className="text-sm leading-relaxed" style={{ color: '#c6d4df' }}>{availabilityIntro}</p>
+                <div className="space-y-3">
+                  <a href={`mailto:${data.personal.contacts.email}`} className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-sm flex items-center justify-center shrink-0" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                      <Mail size={14} style={{ color: '#66c0f4' }} />
+                    </div>
+                    <span className="text-sm" style={{ color: '#8f98a0' }}>{data.personal.contacts.email}</span>
+                  </a>
+                  {data.personal.contacts.phone && (
+                    <a href={`tel:${data.personal.contacts.phone}`} className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-sm flex items-center justify-center shrink-0" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                        <Phone size={14} style={{ color: '#66c0f4' }} />
+                      </div>
+                      <span className="text-sm" style={{ color: '#8f98a0' }}>{data.personal.contacts.phone}</span>
+                    </a>
+                  )}
+                  {data.personal.location && (
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-sm flex items-center justify-center shrink-0" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                        <MapPin size={14} style={{ color: '#8f98a0' }} />
+                      </div>
+                      <span className="text-sm" style={{ color: '#8f98a0' }}>{data.personal.location}</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
 
-            <div className="game-card p-6 clip-tl">
-              <div className="flex items-center gap-2 mb-3">
-                <span className={`w-2 h-2 rounded-full ${isOpenToWork ? 'bg-green-400 animate-pulse' : 'bg-amber-400'}`} />
-                <span className={`mono text-xs ${isOpenToWork ? 'text-green-400' : 'text-amber-300'}`}>{availabilityHeading}</span>
+            <div className="rounded-sm overflow-hidden" style={{ background: '#16202d', border: '1px solid rgba(0,0,0,0.3)' }}>
+              <div className="px-4 py-3" style={{ background: '#2a475e', borderBottom: '1px solid rgba(0,0,0,0.3)' }}>
+                <span className="text-xs font-semibold" style={{ color: '#c6d4df' }}>Social Links</span>
               </div>
-              <p className="text-sm text-slate-400">{availabilityBody}</p>
+              <div className="p-4 flex flex-wrap gap-2">
+                {data.personal.contacts.links.map((link) => {
+                  const Icon = getSocialIcon(link);
+                  if (!Icon) return null;
+                  return (
+                    <a
+                      key={link.url}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-3 py-2 rounded-sm text-xs font-medium transition-all"
+                      style={{ background: 'rgba(255,255,255,0.07)', color: '#8f98a0', border: '1px solid rgba(255,255,255,0.08)' }}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLAnchorElement).style.color = '#c6d4df';
+                        (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(255,255,255,0.12)';
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLAnchorElement).style.color = '#8f98a0';
+                        (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(255,255,255,0.07)';
+                      }}
+                    >
+                      <Icon size={13} />
+                      {link.label || link.type || ''}
+                    </a>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
-          {/* Terminal form */}
-          <div className="ct-form">
-            {/* Window chrome */}
-            <div className="flex items-center gap-2 px-4 py-2.5 bg-slate-900 border border-slate-700 border-b-0">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
-              <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
-              <span className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
-              <span className="mono text-xs text-slate-500 ml-3">SEND_MESSAGE.exe</span>
+          {/* Message form */}
+          <div className="ct-form rounded-sm overflow-hidden" style={{ border: '1px solid rgba(0,0,0,0.3)' }}>
+            <div className="px-4 py-3" style={{ background: '#2a475e', borderBottom: '1px solid rgba(0,0,0,0.3)' }}>
+              <span className="text-xs font-semibold" style={{ color: '#c6d4df' }}>Send Message</span>
             </div>
-
             {status === 'success' ? (
-              <div className="border border-slate-700 bg-slate-900/50 p-12 flex flex-col items-center justify-center gap-4">
-                <CheckCircle size={40} className="text-cyan-400" />
-                <div className="text-white font-bold text-lg">MESSAGE TRANSMITTED</div>
-                <p className="mono text-sm text-slate-400 text-center">Packet received. Expect a response within 24h.</p>
-                <button onClick={() => setStatus('idle')} className="btn-ghost text-sm mt-2">SEND ANOTHER</button>
+              <div className="p-10 flex flex-col items-center justify-center gap-4" style={{ background: '#16202d' }}>
+                <CheckCircle size={36} style={{ color: '#a4d007' }} />
+                <div className="font-semibold" style={{ color: '#e8f4fd' }}>Message Sent</div>
+                <p className="text-sm text-center" style={{ color: '#8f98a0' }}>Your email client should have opened. Expect a reply within 24h.</p>
+                <button onClick={() => setStatus('idle')} className="btn-ghost text-sm mt-2">Send Another</button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="border border-slate-700 bg-slate-900/30 p-6 space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+              <form onSubmit={handleSubmit} className="p-5 space-y-4" style={{ background: '#16202d' }}>
+                <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="section-label block mb-1.5">NAME *</label>
+                    <label className="block text-xs font-semibold mb-1.5" style={{ color: '#8f98a0' }}>Name *</label>
                     <input
                       type="text"
                       required
                       placeholder="Your name"
                       value={formState.name}
                       onChange={(e) => setFormState((s) => ({ ...s, name: e.target.value }))}
-                      className={inputClass}
+                      className="steam-input w-full"
                     />
                   </div>
                   <div>
-                    <label className="section-label block mb-1.5">EMAIL *</label>
+                    <label className="block text-xs font-semibold mb-1.5" style={{ color: '#8f98a0' }}>Email *</label>
                     <input
                       type="email"
                       required
                       placeholder="you@example.com"
                       value={formState.email}
                       onChange={(e) => setFormState((s) => ({ ...s, email: e.target.value }))}
-                      className={inputClass}
+                      className="steam-input w-full"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="section-label block mb-1.5">SUBJECT</label>
+                  <label className="block text-xs font-semibold mb-1.5" style={{ color: '#8f98a0' }}>Subject</label>
                   <input
                     type="text"
                     placeholder="What's this about?"
                     value={formState.subject}
                     onChange={(e) => setFormState((s) => ({ ...s, subject: e.target.value }))}
-                    className={inputClass}
+                    className="steam-input w-full"
                   />
                 </div>
                 <div>
-                  <label className="section-label block mb-1.5">MESSAGE *</label>
+                  <label className="block text-xs font-semibold mb-1.5" style={{ color: '#8f98a0' }}>Message *</label>
                   <textarea
                     required
-                    rows={9}
+                    rows={8}
                     placeholder="Type your message..."
                     value={formState.message}
                     onChange={(e) => setFormState((s) => ({ ...s, message: e.target.value }))}
-                    className={`${inputClass} resize-none`}
+                    className="steam-input w-full resize-none"
                   />
                 </div>
-                <button type="submit" disabled={status === 'loading'} className={`w-full flex items-center justify-center gap-2 ${isOpenToWork ? 'btn-primary' : 'btn-ghost border border-amber-400/40 text-amber-100 hover:bg-amber-400/10'}`}>
-                  {status === 'loading' ? <><Loader2 size={14} className="animate-spin" />TRANSMITTING...</> : <><Send size={14} />{isOpenToWork ? 'SEND MESSAGE' : 'SEND INQUIRY'}</>}
+                <button type="submit" disabled={status === 'loading'} className="w-full flex items-center justify-center gap-2 btn-primary">
+                  {status === 'loading' ? <><Loader2 size={14} className="animate-spin" />Sending...</> : <><Send size={14} />{isOpenToWork ? 'Send Message' : 'Send Inquiry'}</>}
                 </button>
-                {status === 'error' && (
-                  <p className="mono text-xs text-rose-400 text-center">Unable to open your mail app. Please email me directly.</p>
-                )}
+                {status === 'error' && <p className="text-xs text-rose-400 text-center">Unable to open mail app. Please email directly.</p>}
               </form>
             )}
           </div>

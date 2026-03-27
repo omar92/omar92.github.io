@@ -1,6 +1,6 @@
 ﻿import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { Github, Linkedin, Twitter, Youtube, Facebook, ChevronDown, Zap, MapPin, Mail, UserCircle2 } from 'lucide-react';
+import { Github, Linkedin, Twitter, Youtube, Facebook, ChevronDown, ThumbsUp, Monitor } from 'lucide-react';
 import data from '../lib/portfolio';
 
 const getSocialIcon = (link: typeof data.personal.contacts.links[0]): typeof Github | null => {
@@ -18,20 +18,12 @@ const Hero = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ delay: 0.4 });
-
-      tl.fromTo('.h-status',  { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' });
-      tl.fromTo('.h-line',    { opacity: 0, y: 60, skewX: -3 }, { opacity: 1, y: 0, skewX: 0, duration: 0.9, stagger: 0.1, ease: 'expo.out' }, 0.2);
-      tl.fromTo('.h-role',    { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: 'expo.out' }, 0.7);
-      tl.fromTo('.h-tagline', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, 0.9);
-      tl.fromTo('.h-cta',     { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'expo.out' }, 1.1);
-      tl.fromTo('.h-social',  { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.4, stagger: 0.06, ease: 'elastic.out(1,0.5)' }, 1.3);
-      tl.fromTo('.h-stat',    { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.08, ease: 'expo.out' }, 1.2);
-      tl.fromTo('.h-panel',   { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.7, ease: 'expo.out' }, 0.6);
-
-      gsap.to('.h-float', { y: -14, duration: 3.5, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1 });
+      const tl = gsap.timeline({ delay: 0.2 });
+      tl.fromTo('.h-featured-label', { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' });
+      tl.fromTo('.h-main-banner',    { opacity: 0 },          { opacity: 1, duration: 0.6, ease: 'power2.out' }, 0.1);
+      tl.fromTo('.h-sidebar',        { opacity: 0, x: 20 },  { opacity: 1, x: 0, duration: 0.5, ease: 'power2.out' }, 0.3);
+      tl.fromTo('.h-capsule',        { opacity: 0, y: 16 },  { opacity: 1, y: 0, duration: 0.4, stagger: 0.07, ease: 'power2.out' }, 0.5);
     }, heroRef);
-
     return () => ctx.revert();
   }, []);
 
@@ -39,184 +31,180 @@ const Hero = () => {
 
   const firstName = data.personal.firstName ?? data.personal.name.split(' ')[0];
   const lastName  = data.personal.lastName  ?? data.personal.name.split(' ').slice(1).join(' ');
-  const allFeaturedProjects = data.projects.filter((project) => project.featured);
-  const featuredProjects = allFeaturedProjects.slice(0, 3);
-  const releasedProjectsCount = data.projects.filter((project) => project.published).length;
-  const availabilityText = data.personal.openToWork ? 'Seeking New Challenges' : 'Currently not open for new work';
+  const featuredProject = data.projects.find((p) => p.featured && p.image) ?? data.projects.find((p) => p.featured) ?? data.projects[0];
+  const recentProjects  = data.projects.filter((p) => p.id !== featuredProject?.id).slice(0, 4);
+  const releasedCount   = data.projects.filter((p) => p.published).length;
 
   return (
-    <section id="home" ref={heroRef} className="relative min-h-screen flex flex-col justify-center pt-16 overflow-hidden">
-      {/* Scanline overlay */}
-      <div className="absolute inset-0 pointer-events-none z-[1]"
-        style={{ background: 'repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.04) 3px,rgba(0,0,0,0.04) 4px)' }} />
+    <section id="home" ref={heroRef} className="relative pt-[52px]" style={{ background: '#1b2838' }}>
 
-      {/* Radial ambient glow */}
-      <div className="absolute inset-0 pointer-events-none z-[1]"
-        style={{ background: 'radial-gradient(ellipse 70% 55% at 50% 45%, rgba(0,229,255,0.04) 0%, transparent 70%)' }} />
-
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none z-[2]"
-        style={{ background: 'linear-gradient(to top, #050510, transparent)' }} />
-
-      <div className="relative z-10 w-full px-6 lg:px-16 xl:px-24">
-        {/* Status bar */}
-        <div className="h-status flex items-center gap-3 mb-10">
-          <span className="inline-block w-2 h-2 bg-green-400 rounded-full"
-            style={{ boxShadow: '0 0 8px rgba(74,222,128,0.8)', animation: 'pulse 2s infinite' }} />
-          <span className="mono text-xs tracking-[0.3em] text-green-400/80">SYSTEM : ONLINE</span>
-          <span className="mono text-xs text-slate-700 ml-auto hidden sm:block">{'// build 2026.03'}</span>
+      {/* ── "Featured & Recommended" section label ── */}
+      <div className="h-featured-label w-full px-4 lg:px-8 pt-6 pb-3">
+        <div className="flex items-center gap-3">
+          <h2 className="text-base font-semibold" style={{ color: '#c6d4df', letterSpacing: '0.02em' }}>
+            Featured Developer
+          </h2>
+          <span className="text-xs px-2 py-0.5 rounded-sm font-medium" style={{ background: 'rgba(102,192,244,0.15)', color: '#66c0f4', border: '1px solid rgba(102,192,244,0.25)' }}>
+            {data.personal.openToWork ? 'Available for Work' : 'Not Available'}
+          </span>
         </div>
+      </div>
 
-        <div className="grid lg:grid-cols-5 gap-10 lg:gap-16 items-center">
-          {/* Left -- 3 cols: Name + info */}
-          <div className="lg:col-span-3">
-            <div className="overflow-hidden mb-1">
-              <h1
-                className="h-line glitch-text text-[clamp(3.8rem,11vw,9rem)] font-black leading-none text-white tracking-tight"
-                data-text={firstName}
-              >
-                {firstName}
-              </h1>
-            </div>
-            <div className="overflow-hidden mb-6">
-              <h1
-                className="h-line text-[clamp(3.8rem,11vw,9rem)] font-black leading-none text-gradient-cyan tracking-tight"
-                data-text={lastName}
-              >
-                {lastName}
-              </h1>
-            </div>
+      {/* ── Main featured banner ── */}
+      <div className="w-full px-4 lg:px-8 pb-4">
+        <div className="flex gap-4 lg:gap-6 items-start">
 
-            {/* Role */}
-            <div className="h-role flex items-center gap-3 mb-6">
-              <div className="w-10 h-px bg-cyan-400/60" />
-              <span className="mono uppercase tracking-[0.3em] text-cyan-400 text-sm">{data.personal.title}</span>
-            </div>
-
-            {/* Tagline */}
-            <p className="h-tagline text-lg text-slate-400 max-w-lg mb-10 leading-relaxed">
-              {data.personal.tagline}
-            </p>
-
-            {/* CTAs */}
-            <div className="flex flex-wrap gap-4 mb-10">
-              <button onClick={() => scrollTo('#projects')} className="h-cta btn-primary inline-flex items-center gap-2">
-                <Zap size={14} />
-                VIEW PROJECTS
-              </button>
-              <button onClick={() => scrollTo('#contact')} className="h-cta btn-ghost">
-                CONTACT ME
-              </button>
-            </div>
-
-            {/* Social links */}
-            <div className="flex gap-2.5">
-              {data.personal.contacts.links.map((link) => {
-                const Icon = getSocialIcon(link);
-                if (!Icon) return null;
-
-                return (
-                  <a
-                    key={link.url}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="h-social p-2.5 border border-slate-700/60 text-slate-500 hover:text-cyan-400 hover:border-cyan-400/40 transition-all"
-                    aria-label={link.label}
-                  >
-                    <Icon size={18} />
-                  </a>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Right -- 2 cols: Stats + Panel */}
-          <div className="lg:col-span-2 space-y-4">
-            <div className="h-panel pokemon-card pokemon-card-main game-card clip-tl p-6 space-y-6">
-              <div>
-                <div className="section-label mb-2">OPERATOR PROFILE</div>
-                <div className="text-xl font-bold text-white">{data.personal.title}</div>
-                {data.personal.subtitle && (
-                  <div className="mono text-xs text-slate-500 mt-1">{data.personal.subtitle}</div>
-                )}
-              </div>
-
-              <div className="space-y-3">
-                {data.personal.location && (
-                  <div className="h-stat flex items-center gap-3 text-slate-400">
-                    <MapPin size={15} className="text-cyan-400" />
-                    <span className="mono text-xs">{data.personal.location}</span>
+          {/* ── Left: big banner ── */}
+          <div className="h-main-banner flex-1 min-w-0">
+            <div className="relative rounded-sm overflow-hidden" style={{ aspectRatio: '16/7', background: '#16202d', minHeight: 240 }}>
+              {featuredProject?.image ? (
+                <img src={featuredProject.image} alt={featuredProject.name} className="absolute inset-0 w-full h-full object-cover opacity-30" />
+              ) : null}
+              <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(27,40,56,0.97) 40%, rgba(27,40,56,0.6) 75%, rgba(27,40,56,0.1) 100%)' }} />
+              <div className="relative z-10 h-full flex flex-col justify-end p-6 lg:p-10">
+                <p className="text-xs font-semibold tracking-widest mb-2 uppercase" style={{ color: '#66c0f4' }}>
+                  {data.personal.title}
+                </p>
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-none mb-1" style={{ color: '#e8f4fd' }}>
+                  {firstName}
+                </h1>
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-none text-gradient-cyan mb-4">
+                  {lastName}
+                </h1>
+                <p className="text-sm lg:text-base mb-5 max-w-md" style={{ color: '#8f98a0', lineHeight: 1.6 }}>
+                  {data.personal.tagline}
+                </p>
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="flex items-center gap-1.5">
+                    <ThumbsUp size={14} style={{ color: '#66c0f4' }} />
+                    <span className="text-sm font-semibold" style={{ color: '#66c0f4' }}>Overwhelmingly Positive</span>
                   </div>
-                )}
-                {data.personal.email && (
-                  <div className="h-stat flex items-center gap-3 text-slate-400">
-                    <Mail size={15} className="text-cyan-400" />
-                    <span className="mono text-xs break-all">{data.personal.email}</span>
+                  <span className="text-xs" style={{ color: '#8f98a0' }}>
+                    ({data.projects.length} Projects, {releasedCount} Released)
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-3 mb-4">
+                  <button onClick={() => scrollTo('#projects')} className="btn-primary text-sm px-6 py-2.5">
+                    View Projects
+                  </button>
+                  <button onClick={() => scrollTo('#contact')} className="btn-ghost text-sm px-6 py-2.5">
+                    Contact
+                  </button>
+                  <div className="flex gap-2 items-center">
+                    {data.personal.contacts.links.map((link) => {
+                      const Icon = getSocialIcon(link);
+                      if (!Icon) return null;
+                      return (
+                        <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer"
+                          className="w-8 h-8 flex items-center justify-center rounded-sm transition-all"
+                          style={{ background: 'rgba(255,255,255,0.08)', color: '#8f98a0' }}
+                          onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#c6d4df'; (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(255,255,255,0.14)'; }}
+                          onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#8f98a0'; (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(255,255,255,0.08)'; }}
+                        >
+                          <Icon size={15} />
+                        </a>
+                      );
+                    })}
                   </div>
-                )}
-                <div className="h-stat flex items-center gap-3 text-slate-400">
-                  <UserCircle2 size={15} className="text-cyan-400" />
-                  <span className={`mono text-xs ${data.personal.openToWork ? 'text-green-300' : 'text-amber-200'}`}>{availabilityText}</span>
                 </div>
-              </div>
-            </div>
-
-            <div className="h-panel h-float game-card clip-card hud-corners p-6 space-y-5">
-              <div className="flex items-center justify-between">
-                <div className="section-label">ACTIVE MISSION LOG</div>
-                <span className="mono text-[10px] text-green-400/80">LIVE</span>
-              </div>
-
-              <div className="grid grid-cols-3 gap-2">
-                <div className="h-stat border border-slate-800/80 bg-slate-950/50 px-3 py-2">
-                  <div className="mono text-lg font-black text-white">{data.projects.length}</div>
-                  <div className="section-label text-[9px]">PROJECTS</div>
-                </div>
-                <div className="h-stat border border-slate-800/80 bg-slate-950/50 px-3 py-2">
-                  <div className="mono text-lg font-black text-white">{data.experience.length}</div>
-                  <div className="section-label text-[9px]">ROLES</div>
-                </div>
-                <div className="h-stat border border-slate-800/80 bg-slate-950/50 px-3 py-2">
-                  <div className="mono text-lg font-black text-white">{releasedProjectsCount}</div>
-                  <div className="section-label text-[9px]">PUBLISHED</div>
-                </div>
-              </div>
-
-              <div>
-                <div className="section-label mb-2">FEATURED BUILDS</div>
-                <div className="space-y-2">
-                  {featuredProjects.length > 0 ? (
-                    featuredProjects.map((project) => (
-                      <button
-                        key={project.id}
-                        onClick={() => scrollTo('#projects')}
-                        className="h-stat w-full text-left border border-slate-800/80 bg-slate-950/40 hover:border-cyan-400/35 hover:bg-cyan-400/5 transition-all px-3 py-2"
-                      >
-                        <div className="mono text-xs text-slate-200">{project.name}</div>
-                        <div className="mono text-[10px] text-slate-500 mt-0.5">{project.category || 'Project'}</div>
-                      </button>
-                    ))
-                  ) : (
-                    <div className="h-stat border border-slate-800/80 bg-slate-950/40 px-3 py-2">
-                      <div className="mono text-xs text-slate-400">View projects to explore latest work.</div>
-                    </div>
+                <div className="flex items-center gap-2">
+                  <Monitor size={12} style={{ color: '#8f98a0' }} />
+                  <span className="text-xs" style={{ color: '#8f98a0' }}>Web · Mobile · Desktop · VR</span>
+                  {data.personal.openToWork && (
+                    <span className="ml-2 text-xs px-1.5 py-0.5 rounded-sm" style={{ background: 'rgba(106,184,13,0.15)', color: '#a4d007', border: '1px solid rgba(106,184,13,0.3)' }}>
+                      Open to Work
+                    </span>
                   )}
                 </div>
               </div>
             </div>
+
+            {/* Mini capsule row */}
+            <div className="mt-3">
+              <p className="text-xs mb-2 font-medium" style={{ color: '#8f98a0' }}>More Projects</p>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                {recentProjects.map((project) => (
+                  <button key={project.id} onClick={() => scrollTo('#projects')}
+                    className="h-capsule text-left rounded-sm overflow-hidden transition-all"
+                    style={{ background: '#16202d', border: '1px solid rgba(0,0,0,0.3)' }}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#1e3048'; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#16202d'; }}
+                  >
+                    {project.image ? (
+                      <div className="h-16 overflow-hidden">
+                        <img src={project.image} alt={project.name} className="w-full h-full object-cover opacity-70" />
+                      </div>
+                    ) : (
+                      <div className="h-16 flex items-center justify-center text-lg font-bold" style={{ background: '#0d1926', color: '#4a6d8c' }}>
+                        {project.name[0]}
+                      </div>
+                    )}
+                    <div className="px-2 py-1.5">
+                      <p className="text-xs font-medium leading-snug truncate" style={{ color: '#c6d4df' }}>{project.name}</p>
+                      <p className="text-[10px] mt-0.5 truncate" style={{ color: '#8f98a0' }}>{project.category || 'Project'}</p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* ── Right sidebar ── */}
+          <div className="h-sidebar hidden lg:flex flex-col gap-3 w-[220px] xl:w-[260px] shrink-0">
+            <div className="rounded-sm overflow-hidden" style={{ background: '#16202d', border: '1px solid rgba(0,0,0,0.3)' }}>
+              <div className="px-4 py-2.5" style={{ background: '#2a475e', borderBottom: '1px solid rgba(0,0,0,0.3)' }}>
+                <span className="text-xs font-semibold" style={{ color: '#c6d4df' }}>Developer Profile</span>
+              </div>
+              <div className="p-4 space-y-3 text-sm">
+                <div>
+                  <p className="text-[10px] uppercase font-semibold mb-1" style={{ color: '#4a6b8a' }}>Title</p>
+                  <p style={{ color: '#c6d4df' }}>{data.personal.title}</p>
+                </div>
+                {data.personal.location && (
+                  <div>
+                    <p className="text-[10px] uppercase font-semibold mb-1" style={{ color: '#4a6b8a' }}>Location</p>
+                    <p style={{ color: '#c6d4df' }}>{data.personal.location}</p>
+                  </div>
+                )}
+                <div>
+                  <p className="text-[10px] uppercase font-semibold mb-1" style={{ color: '#4a6b8a' }}>Status</p>
+                  <p style={{ color: data.personal.openToWork ? '#a4d007' : '#c6d4df' }}>
+                    {data.personal.openToWork ? 'Open to Work' : 'Not Available'}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase font-semibold mb-1" style={{ color: '#4a6b8a' }}>Portfolio</p>
+                  <p style={{ color: '#c6d4df' }}>{data.projects.length} projects · {releasedCount} released</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-sm overflow-hidden" style={{ background: '#16202d', border: '1px solid rgba(0,0,0,0.3)' }}>
+              <div className="px-4 py-2.5" style={{ background: '#2a475e', borderBottom: '1px solid rgba(0,0,0,0.3)' }}>
+                <span className="text-xs font-semibold" style={{ color: '#c6d4df' }}>Popular Tags</span>
+              </div>
+              <div className="p-3 flex flex-wrap gap-1.5">
+                {data.skills.slice(0, 3).flatMap((sg) => sg.items.slice(0, 3)).slice(0, 9).map((skill) => (
+                  <span key={skill} className="tag-cyan text-[10px]">{skill}</span>
+                ))}
+              </div>
+            </div>
+
+            <button onClick={() => scrollTo('#contact')} className="w-full btn-primary text-sm py-2.5">
+              Add to Network
+            </button>
+            <button onClick={() => scrollTo('#about')} className="w-full btn-ghost text-sm py-2.5">
+              View Profile
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Scroll cue */}
-      <button
-        onClick={() => scrollTo('#about')}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 group"
-      >
-        <span className="section-label text-[10px] group-hover:opacity-100 opacity-50 transition-opacity">SCROLL</span>
-        <ChevronDown size={18} className="text-slate-600 group-hover:text-cyan-400 transition-colors animate-float" />
-      </button>
+      <div className="flex justify-center pb-4">
+        <button onClick={() => scrollTo('#about')} className="flex flex-col items-center gap-1 group">
+          <ChevronDown size={18} className="animate-float" style={{ color: '#4a6b8a' }} />
+        </button>
+      </div>
     </section>
   );
 };

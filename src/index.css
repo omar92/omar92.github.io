@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,37 +6,37 @@
 
 @layer base {
   :root {
-    /* ── Game Dev Portfolio — "PROTOCOL" Design System ── */
-    --background: 238 40% 3%;
-    --foreground: 200 60% 92%;
-    --card: 238 40% 5%;
-    --card-foreground: 200 60% 92%;
-    --popover: 238 40% 5%;
-    --popover-foreground: 200 60% 92%;
-    --primary: 185 100% 50%;
-    --primary-foreground: 238 40% 3%;
-    --secondary: 262 84% 65%;
-    --secondary-foreground: 200 60% 92%;
-    --muted: 238 30% 10%;
-    --muted-foreground: 215 20% 50%;
-    --accent: 185 100% 50%;
-    --accent-foreground: 238 40% 3%;
+    /* ── Steam Store Design System ── */
+    --background: 215 28% 17%;
+    --foreground: 207 27% 82%;
+    --card: 215 38% 12%;
+    --card-foreground: 207 27% 82%;
+    --popover: 215 38% 12%;
+    --popover-foreground: 207 27% 82%;
+    --primary: 199 89% 68%;
+    --primary-foreground: 215 28% 17%;
+    --secondary: 86 100% 32%;
+    --secondary-foreground: 215 28% 17%;
+    --muted: 215 32% 15%;
+    --muted-foreground: 210 15% 56%;
+    --accent: 203 84% 37%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 200 60% 92%;
-    --border: 238 40% 14%;
-    --input: 238 40% 7%;
-    --ring: 185 100% 50%;
-    --radius: 0.125rem;
-    
+    --destructive-foreground: 207 27% 82%;
+    --border: 215 28% 22%;
+    --input: 215 38% 12%;
+    --ring: 199 89% 68%;
+    --radius: 0.1875rem;
+
     /* ── Sidebar (kept for compatibility) ── */
-    --sidebar-background: 238 40% 4%;
-    --sidebar-foreground: 200 60% 92%;
-    --sidebar-primary: 185 100% 50%;
-    --sidebar-primary-foreground: 238 40% 3%;
-    --sidebar-accent: 238 40% 8%;
-    --sidebar-accent-foreground: 200 60% 92%;
-    --sidebar-border: 238 40% 14%;
-    --sidebar-ring: 185 100% 50%;
+    --sidebar-background: 215 38% 10%;
+    --sidebar-foreground: 207 27% 82%;
+    --sidebar-primary: 199 89% 68%;
+    --sidebar-primary-foreground: 215 28% 17%;
+    --sidebar-accent: 215 38% 15%;
+    --sidebar-accent-foreground: 207 27% 82%;
+    --sidebar-border: 215 28% 22%;
+    --sidebar-ring: 199 89% 68%;
   }
 }
 
@@ -47,389 +47,312 @@
 
   body {
     @apply antialiased;
-    font-family: 'Inter', sans-serif;
-    background-color: #050510;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    background-color: #1b2838;
     overflow-x: hidden;
-    color: #b0cce0;
+    color: #c6d4df;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Orbitron', monospace;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    color: #e8f4fd;
   }
 
   ::selection {
-    background: rgba(0, 229, 255, 0.2);
-    color: #00e5ff;
+    background: rgba(102, 192, 244, 0.25);
+    color: #e8f4fd;
   }
 }
 
 @layer components {
 
-  /* ─── Layout / Glass ─── */
+  /* ─── Steam Nav ─── */
   .glass-nav {
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    background: rgba(5, 5, 16, 0.92);
-    border-bottom: 1px solid rgba(0, 229, 255, 0.12);
+    background: #171a21;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
   }
 
   /* ─── Text gradients ─── */
   .text-gradient {
-    background: linear-gradient(135deg, #00e5ff 0%, #8b5cf6 100%);
+    background: linear-gradient(180deg, #c6d4df 0%, #66c0f4 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .text-gradient-cyan {
-    background: linear-gradient(135deg, #00e5ff 0%, #0ea5e9 100%);
+    background: linear-gradient(180deg, #d2e9fc 0%, #66c0f4 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .text-gradient-violet {
-    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+    background: linear-gradient(180deg, #d2e9fc 0%, #66c0f4 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .text-gradient-gold {
-    background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+    background: linear-gradient(180deg, #d2e9fc 0%, #66c0f4 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  /* ─── Glow effects ─── */
+  /* ─── Glow effects (repurposed Steam style) ─── */
   .glow-cyan {
-    box-shadow:
-      0 0 12px rgba(0, 229, 255, 0.4),
-      0 0 28px rgba(0, 229, 255, 0.15),
-      0 0 56px rgba(0, 229, 255, 0.06);
+    box-shadow: 0 0 6px rgba(102, 192, 244, 0.3), 0 0 16px rgba(102, 192, 244, 0.1);
   }
+  .glow-violet { box-shadow: 0 0 6px rgba(102, 192, 244, 0.3); }
+  .glow-gold   { box-shadow: 0 0 6px rgba(180, 197, 62, 0.3); }
+  .text-glow-cyan { text-shadow: 0 0 10px rgba(102, 192, 244, 0.45); }
 
-  .glow-violet {
-    box-shadow:
-      0 0 12px rgba(139, 92, 246, 0.4),
-      0 0 28px rgba(139, 92, 246, 0.15);
-  }
+  /* ─── Clip paths (kept for compatibility, but not visually prominent) ─── */
+  .clip-tl  { border-radius: 3px; }
+  .clip-tr  { border-radius: 3px; }
+  .clip-br  { border-radius: 3px; }
+  .clip-card { border-radius: 3px; }
 
-  .glow-gold {
-    box-shadow:
-      0 0 12px rgba(245, 158, 11, 0.4),
-      0 0 28px rgba(245, 158, 11, 0.15);
-  }
-
-  .text-glow-cyan {
-    text-shadow:
-      0 0 8px rgba(0, 229, 255, 0.7),
-      0 0 18px rgba(0, 229, 255, 0.35);
-  }
-
-  /* ─── Clipped corners (game card aesthetic) ─── */
-  .clip-tl {
-    clip-path: polygon(16px 0, 100% 0, 100% 100%, 0 100%, 0 16px);
-  }
-
-  .clip-tr {
-    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
-  }
-
-  .clip-br {
-    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%);
-  }
-
-  .clip-card {
-    clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
-  }
-
-  /* ─── HUD corner brackets ─── */
+  /* ─── HUD corners (turned off) ─── */
   .hud-corners { position: relative; }
+  .hud-corners::before, .hud-corners::after { display: none; }
 
-  .hud-corners::before,
-  .hud-corners::after {
-    content: '';
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    border-color: rgba(0, 229, 255, 0.5);
-    border-style: solid;
-    pointer-events: none;
-    transition: border-color 0.3s ease;
-  }
-  .hud-corners:hover::before,
-  .hud-corners:hover::after {
-    border-color: rgba(0, 229, 255, 0.9);
-  }
-
-  .hud-corners::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
-  .hud-corners::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
-
-  /* ─── Buttons ─── */
+  /* ─── Steam Buttons ─── */
   .btn-primary {
     position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.75rem 2rem;
-    font-family: 'Orbitron', monospace;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: #050510;
-    background: #00e5ff;
-    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
-    transition: background 0.2s ease, box-shadow 0.2s ease;
+    gap: 0.4rem;
+    padding: 0.6rem 1.5rem;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: #beee11;
+    background: linear-gradient(to bottom right, #75b022, #3d6b0f);
+    border-radius: 3px;
+    border: none;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 1px 3px rgba(0,0,0,0.5);
+    transition: filter 0.15s ease;
     cursor: pointer;
+    white-space: nowrap;
   }
 
   .btn-primary:hover {
-    background: #40eeff;
-    box-shadow: 0 0 22px rgba(0, 229, 255, 0.55), 0 0 48px rgba(0, 229, 255, 0.2);
+    filter: brightness(1.12);
   }
 
-  .btn-primary::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 55%);
-    clip-path: inherit;
-    pointer-events: none;
-  }
+  .btn-primary::before { display: none; }
 
   .btn-ghost {
     position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.75rem 2rem;
-    font-family: 'Orbitron', monospace;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: #00e5ff;
-    background: transparent;
-    border: 1px solid rgba(0, 229, 255, 0.35);
-    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
-    transition: all 0.2s ease;
+    gap: 0.4rem;
+    padding: 0.6rem 1.5rem;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: #c6d4df;
+    background: linear-gradient(to bottom right, #4a5c6b, #2a3d4e);
+    border-radius: 3px;
+    border: none;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 1px 3px rgba(0,0,0,0.5);
+    transition: filter 0.15s ease;
     cursor: pointer;
+    white-space: nowrap;
   }
 
   .btn-ghost:hover {
-    background: rgba(0, 229, 255, 0.08);
-    border-color: rgba(0, 229, 255, 0.75);
-    box-shadow: 0 0 16px rgba(0, 229, 255, 0.2);
+    filter: brightness(1.15);
   }
 
-  /* ─── Divider ─── */
+  /* ─── Steam section divider ─── */
   .divider-cyan {
     height: 1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(0,229,255,0.35) 30%, rgba(0,229,255,0.35) 70%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, rgba(102, 192, 244, 0.25) 40%, rgba(102, 192, 244, 0.25) 60%, transparent 100%);
   }
 
   /* ─── Section label ─── */
   .section-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.22em;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #00e5ff;
-    opacity: 0.7;
+    color: #8f98a0;
   }
 
   /* ─── Mono text ─── */
   .mono {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Segoe UI', Arial, sans-serif;
   }
 
-  /* ─── Game card ─── */
+  /* ─── Steam Game Card ─── */
   .game-card {
-    background: rgba(8, 8, 22, 0.82);
-    border: 1px solid rgba(0, 229, 255, 0.09);
-    transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    background: #16202d;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    transition: background 0.15s ease, box-shadow 0.15s ease;
   }
 
   .game-card:hover {
-    border-color: rgba(0, 229, 255, 0.25);
-    background: rgba(10, 10, 28, 0.92);
-    box-shadow: 0 0 24px rgba(0, 229, 255, 0.06), 0 24px 64px rgba(0, 0, 0, 0.55);
+    background: #1e3048;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.55);
   }
 
-  /* ─── Pokemon Card Effect ─── */
+  /* ─── Steam "Pokemon" Card (repurposed as hover-lift card) ─── */
   .pokemon-card {
-    perspective: 1000px;
     position: relative;
-    background: rgba(8, 8, 22, 0.82);
-    border: 1px solid rgba(0, 229, 255, 0.09);
-    transition: transform 0.18s ease-out, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
-    transform-style: preserve-3d;
-    transform: perspective(1000px) translateY(0) scale(1) rotateX(0deg) rotateY(0deg);
+    background: #16202d;
+    border: 1px solid rgba(0, 0, 0, 0.35);
+    border-radius: 3px;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.15s ease;
     will-change: transform;
-    --shine-x: 0px;
-    --shine-y: 0px;
-    --shine-angle: -45deg;
     --shine-opacity: 0;
-    box-shadow: 
-      0 8px 16px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
   }
 
   .pokemon-card-inner {
     position: relative;
     width: 100%;
     height: 100%;
-    transition: transform 0.1s ease-out;
-  }
-
-  /* Holographic shine effect - diagonal sweep */
-  .pokemon-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-      45deg,
-      transparent 0%,
-      rgba(0, 229, 255, 0) 44%,
-      rgba(0, 229, 255, 0.08) 49%,
-      rgba(168, 85, 247, 0.12) 50%,
-      rgba(0, 229, 255, 0.08) 51%,
-      rgba(0, 229, 255, 0) 56%,
-      transparent 100%
-    );
-    opacity: var(--shine-opacity);
-    transform: translate3d(var(--shine-x), var(--shine-y), 22px) rotate(var(--shine-angle));
-    transition: opacity 0.2s ease-out, transform 0.16s ease-out;
-    pointer-events: none;
-    transform-style: preserve-3d;
-    z-index: 2;
-  }
-
-  .pokemon-card:hover {
-    background: rgba(10, 10, 28, 0.92);
-    box-shadow: 
-      0 0 18px rgba(0, 229, 255, 0.14),
-      0 14px 34px rgba(0, 0, 0, 0.62);
-    border-color: rgba(0, 229, 255, 0.18);
-  }
-
-  .pokemon-card.pokemon-card-calm:hover {
-    box-shadow:
-      0 0 10px rgba(0, 229, 255, 0.08),
-      0 10px 24px rgba(0, 0, 0, 0.56);
-    border-color: rgba(0, 229, 255, 0.14);
-  }
-
-  /* Sparkle effect on card */
-  .pokemon-sparkle {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
-    border-radius: 50%;
-    opacity: 0;
-    pointer-events: none;
-    box-shadow: 0 0 8px rgba(251, 191, 36, 0.6);
-  }
-
-  .pokemon-sparkle.active {
-    animation: sparkle-burst 0.8s ease-out forwards;
-  }
-
-  @keyframes sparkle-burst {
-    0% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    100% {
-      opacity: 0;
-      transform: scale(0) translate(var(--tx, 0), var(--ty, 0));
-    }
-  }
-
-  /* Enhanced depth effect */
-  .pokemon-card {
-    border-radius: 8px;
-  }
-
-  .pokemon-card-inner {
-    border-radius: 6px;
+    border-radius: 3px;
     overflow: hidden;
   }
 
-  /* ─── Tags / Badges ─── */
+  /* Subtle sheen on hover */
+  .pokemon-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%);
+    opacity: var(--shine-opacity);
+    pointer-events: none;
+    z-index: 2;
+    border-radius: 3px;
+    transition: opacity 0.2s ease;
+  }
+
+  .pokemon-card:hover {
+    background: #1e3048;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6);
+    transform: translateY(-2px);
+  }
+
+  .pokemon-card.pokemon-card-calm:hover {
+    transform: none;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Sparkle (hidden in Steam theme) */
+  .pokemon-sparkle { display: none; }
+
+  /* ─── Steam Tags ─── */
   .tag-cyan {
     display: inline-block;
-    padding: 0.15rem 0.55rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    color: #00e5ff;
-    background: rgba(0, 229, 255, 0.07);
-    border: 1px solid rgba(0, 229, 255, 0.2);
-    letter-spacing: 0.05em;
+    padding: 0.15rem 0.5rem;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 0.6875rem;
+    color: #66c0f4;
+    background: rgba(102, 192, 244, 0.1);
+    border: 1px solid rgba(102, 192, 244, 0.2);
+    border-radius: 2px;
   }
 
   .tag-violet {
     display: inline-block;
-    padding: 0.15rem 0.55rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    color: #a855f7;
-    background: rgba(139, 92, 246, 0.07);
-    border: 1px solid rgba(139, 92, 246, 0.2);
-    letter-spacing: 0.05em;
+    padding: 0.15rem 0.5rem;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 0.6875rem;
+    color: #c6d4df;
+    background: rgba(60, 85, 105, 0.5);
+    border: 1px solid rgba(102, 144, 192, 0.25);
+    border-radius: 2px;
   }
 
   .tag-gold {
     display: inline-block;
-    padding: 0.15rem 0.55rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    color: #f59e0b;
-    background: rgba(245, 158, 11, 0.07);
-    border: 1px solid rgba(245, 158, 11, 0.2);
-    letter-spacing: 0.05em;
+    padding: 0.15rem 0.5rem;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 0.6875rem;
+    color: #b8c840;
+    background: rgba(180, 197, 62, 0.1);
+    border: 1px solid rgba(180, 197, 62, 0.25);
+    border-radius: 2px;
   }
 
-  /* ─── Scrollbar ─── */
-  ::-webkit-scrollbar { width: 4px; height: 4px; }
-  ::-webkit-scrollbar-track { background: #050510; }
-  ::-webkit-scrollbar-thumb { background: rgba(0, 229, 255, 0.25); }
-  ::-webkit-scrollbar-thumb:hover { background: rgba(0, 229, 255, 0.55); }
+  /* ─── Steam Scrollbar ─── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #1b2838; }
+  ::-webkit-scrollbar-thumb { background: #3d5266; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #4a6680; }
+
+  /* ─── Steam section header stripe ─── */
+  .steam-section-header {
+    background: linear-gradient(to right, #2a475e, #1b2838 70%);
+    border-left: 3px solid #66c0f4;
+    padding: 0.6rem 1rem;
+    border-radius: 0 2px 2px 0;
+  }
+
+  /* ─── Steam review badge ─── */
+  .steam-review-positive {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.6875rem;
+    color: #66c0f4;
+    font-weight: 500;
+  }
+
+  /* ─── Steam panel (sidebar/info box) ─── */
+  .steam-panel {
+    background: #16202d;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+  }
+
+  /* ─── Steam input ─── */
+  .steam-input {
+    width: 100%;
+    background: #32404e;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 3px;
+    padding: 0.6rem 0.875rem;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 0.875rem;
+    color: #c6d4df;
+    outline: none;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .steam-input:focus {
+    background: #3d4f5e;
+    border-color: rgba(102, 192, 244, 0.5);
+    box-shadow: 0 0 0 1px rgba(102, 192, 244, 0.2);
+  }
+
+  .steam-input::placeholder {
+    color: #556677;
+  }
 }
 
 @layer utilities {
 
-  /* ─── Keyframes ─── */
-  @keyframes glitch-base {
-    0%,14%,100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); transform: translate(0); }
-    2%  { clip-path: polygon(0 12%, 100% 12%, 100% 24%, 0 24%); transform: translate(-3px,  2px); }
-    6%  { clip-path: polygon(0 55%, 100% 55%, 100% 70%, 0 70%); transform: translate( 3px, -2px); }
-    10% { clip-path: polygon(0  2%, 100%  2%, 100%  8%, 0  8%); transform: translate(-2px,  1px); }
-  }
-
-  @keyframes glitch-r {
-    0%,14%,100% { transform: translate(0); opacity: 0; }
-    2%  { transform: translate(-4px,  2px); color: #00e5ff; opacity: 0.6; }
-    6%  { transform: translate( 4px, -2px); color: #ef4444; opacity: 0.6; }
-    10% { transform: translate(-2px,  1px); color: #00e5ff; opacity: 0.5; }
-  }
-
-  @keyframes glitch-b {
-    0%,14%,100% { transform: translate(0); opacity: 0; }
-    2%  { transform: translate( 4px, -2px); color: #ef4444; opacity: 0.6; }
-    6%  { transform: translate(-4px,  2px); color: #00e5ff; opacity: 0.6; }
-    10% { transform: translate( 2px, -1px); color: #ef4444; opacity: 0.5; }
+  @keyframes float-y {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-8px); }
   }
 
   @keyframes pulse-glow-kf {
-    0%, 100% { box-shadow: 0 0 6px rgba(0,229,255,0.2); }
-    50%       { box-shadow: 0 0 22px rgba(0,229,255,0.65), 0 0 48px rgba(0,229,255,0.2); }
+    0%, 100% { box-shadow: 0 0 4px rgba(102, 192, 244, 0.2); }
+    50%       { box-shadow: 0 0 16px rgba(102, 192, 244, 0.5), 0 0 32px rgba(102, 192, 244, 0.15); }
   }
 
   @keyframes ring-out {
@@ -437,24 +360,9 @@
     100% { transform: scale(1.6); opacity: 0; }
   }
 
-  @keyframes float-y {
-    0%, 100% { transform: translateY(0px); }
-    50%       { transform: translateY(-12px); }
-  }
-
   @keyframes spin-slow {
     from { transform: rotate(0deg); }
     to   { transform: rotate(360deg); }
-  }
-
-  @keyframes cursor-blink {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0; }
-  }
-
-  @keyframes scan-line {
-    0%   { transform: translateY(-100%); }
-    100% { transform: translateY(100vh); }
   }
 
   @keyframes gradient-pan {
@@ -463,42 +371,18 @@
     100% { background-position: 0% 50%; }
   }
 
-  /* ─── Glitch text utility ─── */
-  .glitch-text {
-    position: relative;
-    animation: glitch-base 6s infinite;
-  }
+  /* keep glitch-text class-names for any remaining usage */
+  .glitch-text { position: relative; }
+  .glitch-text::before, .glitch-text::after { display: none; }
 
-  .glitch-text::before,
-  .glitch-text::after {
-    content: attr(data-text);
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    pointer-events: none;
-  }
-
-  .glitch-text::before {
-    clip-path: polygon(0 12%, 100% 12%, 100% 24%, 0 24%);
-    animation: glitch-r 6s infinite;
-  }
-
-  .glitch-text::after {
-    clip-path: polygon(0 55%, 100% 55%, 100% 70%, 0 70%);
-    animation: glitch-b 6s infinite;
-  }
-
-  /* ─── Animation utilities ─── */
-  .animate-pulse-glow  { animation: pulse-glow-kf 2.4s ease-in-out infinite; }
+  .animate-pulse-glow  { animation: pulse-glow-kf 2.5s ease-in-out infinite; }
   .animate-ring-out    { animation: ring-out 1.6s ease-out infinite; }
   .animate-float       { animation: float-y 4s ease-in-out infinite; }
   .animate-spin-slow   { animation: spin-slow 14s linear infinite; }
-  .cursor-blink        { animation: cursor-blink 1s step-end infinite; }
   .animate-gradient    { background-size: 200% 200%; animation: gradient-pan 4s ease infinite; }
+  .cursor-blink        { animation: none; }
 }
 
-/* ─── Reduced motion ─── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
