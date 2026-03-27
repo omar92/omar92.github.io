@@ -1,7 +1,7 @@
-﻿import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ExternalLink, Github, X, ChevronRight, Play, Monitor, Wrench, Star, GitFork, Users } from 'lucide-react';
+import { ExternalLink, Github, X, ChevronRight, Play, Wrench, Star, GitFork, Users } from 'lucide-react';
 import data, { type PortfolioProject } from '../lib/portfolio';
 import { fetchGitHubRepoStats, parseGitHubRepoFromUrl, type GitHubRepoStats } from '@/lib/github';
 import {
@@ -15,6 +15,13 @@ import {
 gsap.registerPlugin(ScrollTrigger);
 
 type ImageLoadState = 'loading' | 'loaded' | 'failed';
+type ProjectMediaItem = {
+  id: string;
+  kind: 'video' | 'screenshot';
+  label: string;
+  src: string;
+  videoType?: string;
+};
 const PROJECT_HASH_PREFIX = '#project/';
 
 const getProjectIdFromHash = (hash: string): string | null => {
@@ -39,6 +46,7 @@ const Projects = () => {
   const [activeFilter, setActiveFilter] = useState('Showcase');
   const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
   const [lightbox, setLightbox] = useState<string | null>(null);
+  const [activeMediaId, setActiveMediaId] = useState<string | null>(null);
   const [projectGitHubStats, setProjectGitHubStats] = useState<Record<string, GitHubRepoStats>>({});
   const [imageStates, setImageStates] = useState<Record<string, ImageLoadState>>({});
   const loadingImageUrlsRef = useRef(new Set<string>());
@@ -118,11 +126,63 @@ const Projects = () => {
   const selectedProjectGitHubStats = selectedProject ? getProjectGitHubStats(selectedProject) : undefined;
   const hasProjectLinks = (selectedProject?.links?.length ?? 0) > 0;
   const visibleSelectedProjectScreenshots = selectedProject?.screenshots.filter((src) => isImageLoaded(src)) ?? [];
+  const selectedProjectMedia = useMemo<ProjectMediaItem[]>(() => {
+    if (!selectedProject) {
+      return [];
+    }
+
+    const videoMedia = selectedProject.videos.map((video, index) => ({
+      id: `video-${index}`,
+      kind: 'video' as const,
+      label: video.text || `Video ${index + 1}`,
+      src: video.url,
+      videoType: video.type,
+    }));
+
+    const screenshotMedia = visibleSelectedProjectScreenshots.map((src, index) => ({
+      id: `screenshot-${index}`,
+      kind: 'screenshot' as const,
+      label: `Screenshot ${index + 1}`,
+      src,
+    }));
+
+    return [...videoMedia, ...screenshotMedia];
+  }, [selectedProject, visibleSelectedProjectScreenshots]);
+  const activeSelectedMedia = selectedProjectMedia.find((media) => media.id === activeMediaId) ?? selectedProjectMedia[0] ?? null;
   const visibleSelectedProjectContributionScreenshots = selectedProject?.contributions?.map((contribution) => ({
     ...contribution,
     screenshot: contribution.screenshot.filter((src) => !isImageFailed(src)),
   })) ?? [];
   const selectedProjectVisibleMediaCount = (selectedProject?.videos?.length ?? 0) + visibleSelectedProjectScreenshots.length;
+  const selectedProjectGithubLink = selectedProject?.links.find(
+    (link) =>
+      link.type?.toLowerCase() === 'github' ||
+      link.icon?.toLowerCase() === 'github' ||
+      link.url.toLowerCase().includes('github.com/'),
+  );
+
+  const selectedProjectNonGithubLinks = selectedProject?.links.filter((link) => link !== selectedProjectGithubLink) ?? [];
+
+  useEffect(() => {
+    setActiveMediaId(null);
+  }, [selectedProject?.id]);
+
+  useEffect(() => {
+    if (selectedProjectMedia.length === 0) {
+      if (activeMediaId !== null) {
+        setActiveMediaId(null);
+      }
+      return;
+    }
+
+    const hasActiveMedia = activeMediaId
+      ? selectedProjectMedia.some((media) => media.id === activeMediaId)
+      : false;
+
+    if (!hasActiveMedia) {
+      setActiveMediaId(selectedProjectMedia[0].id);
+    }
+  }, [selectedProjectMedia, activeMediaId]);
 
   useEffect(() => {
     const imageUrls = new Set<string>();
@@ -458,255 +518,210 @@ const Projects = () => {
           onEscapeKeyDown={(e) => { if (lightbox) { e.preventDefault(); setLightbox(null); } }}
         >
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,229,255,0.12),transparent_45%),radial-gradient(circle_at_bottom_left,rgba(139,92,246,0.10),transparent_45%)]" />
-
-          {/* ── Top bar: title + close ── */}
-          <div className="relative z-10 shrink-0 min-h-[190px] sm:min-h-[210px] border-b border-slate-800/80 overflow-hidden">
-            {selectedProject?.image && (
-              <img
-                src={selectedProject.image}
-                alt={selectedProject.name}
-                className="absolute inset-0 w-full h-full object-cover opacity-55"
-              />
-            )}
-            <div className="absolute inset-0 bg-slate-950/50" />
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/45 to-slate-950/80" />
-            <div className="absolute inset-0 bg-gradient-to-b from-slate-900/15 via-transparent to-slate-950/90" />
-
-            <div className="relative z-10 flex items-start justify-between gap-4 px-6 sm:px-8 pt-6 pb-5">
-              <DialogHeader className="p-0 m-0 flex-1 min-w-0">
-                <div className="flex flex-wrap items-center gap-1.5 mb-1.5">
-                  {selectedProject?.platforms?.map((p) => (
-                    <span key={p} className="tag-cyan text-[10px]">{p}</span>
-                  ))}
-                  {selectedProject?.genre?.map((g) => (
-                    <span key={g} className="tag-violet text-[10px]">{g}</span>
-                  ))}
-                </div>
-                <DialogTitle className="text-2xl sm:text-3xl font-black text-white leading-tight">
+          <div className="relative z-10 shrink-0 border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-sm">
+            <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-start justify-between gap-4">
+              <DialogHeader className="p-0 m-0 flex-1 min-w-0 text-left">
+                <div className="section-label mb-1">STORE PAGE // PROJECT</div>
+                <DialogTitle className="text-2xl sm:text-3xl font-black text-white leading-tight truncate">
                   {selectedProject?.name}
                 </DialogTitle>
-                <DialogDescription className="text-slate-200/95 text-sm sm:text-base mt-2 max-w-4xl leading-relaxed">
+                <DialogDescription className="text-slate-300 text-sm mt-1.5 line-clamp-2">
                   {selectedProject?.shortDescription}
                 </DialogDescription>
               </DialogHeader>
-              <div className="shrink-0 mt-1">
-                <button
-                  onClick={() => setSelectedProject(null)}
-                  className="shrink-0 text-slate-300 hover:text-white transition-all border border-slate-700/80 hover:border-cyan-400/50 bg-slate-950/70 backdrop-blur-sm p-2"
-                >
-                  <X size={16} />
-                </button>
-              </div>
+              <button
+                onClick={() => setSelectedProject(null)}
+                className="shrink-0 text-slate-300 hover:text-white transition-all border border-slate-700/80 hover:border-cyan-400/50 bg-slate-950/70 p-2"
+              >
+                <X size={16} />
+              </button>
             </div>
           </div>
 
-          {/* ── Two-panel body ── */}
-          <div className="relative z-10 flex flex-1 overflow-hidden">
+          <div className="relative z-10 flex-1 overflow-y-auto bg-gradient-to-b from-slate-900/10 to-slate-950/30">
+            <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10 space-y-8">
+              <section className="grid xl:grid-cols-[minmax(0,1fr)_340px] gap-5 lg:gap-6 items-stretch">
+                <div className="h-full flex flex-col min-h-0">
+                  <div className="border border-slate-800 bg-slate-950/70 overflow-hidden flex-1 min-h-[260px] sm:min-h-[380px] lg:min-h-[460px]">
+                    {!activeSelectedMedia && selectedProject?.image ? (
+                      <img src={selectedProject.image} alt={selectedProject.name} className="w-full h-full object-cover" />
+                    ) : activeSelectedMedia?.kind === 'video' ? (
+                      activeSelectedMedia.videoType === 'local' ? (
+                        <video src={activeSelectedMedia.src} controls className="w-full h-full object-contain bg-slate-900" />
+                      ) : activeSelectedMedia.videoType === 'youtube' ? (
+                        <iframe src={activeSelectedMedia.src} className="w-full h-full min-h-[260px] sm:min-h-[380px] lg:min-h-[460px]" allowFullScreen title={activeSelectedMedia.label} />
+                      ) : null
+                    ) : activeSelectedMedia?.kind === 'screenshot' ? (
+                      <button className="w-full h-full" onClick={() => setLightbox(activeSelectedMedia.src)}>
+                        <img src={activeSelectedMedia.src} alt={activeSelectedMedia.label} className="w-full h-full object-cover hover:opacity-90 transition-opacity" />
+                      </button>
+                    ) : null}
+                  </div>
 
-            {/* ── LEFT SIDEBAR ── */}
-            <aside className="hidden lg:flex flex-col w-72 xl:w-80 shrink-0 border-r border-slate-800/80 bg-slate-950/55 backdrop-blur-sm overflow-y-auto">
+                  {selectedProjectMedia.length > 0 && (
+                    <div className="flex gap-2 overflow-x-auto pb-1 mt-3">
+                      {selectedProjectMedia.map((media) => (
+                        <button
+                          key={media.id}
+                          onClick={() => setActiveMediaId(media.id)}
+                          className={`relative shrink-0 w-36 h-20 border transition-all ${
+                            activeSelectedMedia?.id === media.id
+                              ? 'border-cyan-400/80 shadow-[0_0_0_1px_rgba(0,229,255,0.25)]'
+                              : 'border-slate-800 hover:border-slate-600'
+                          }`}
+                        >
+                          {media.kind === 'video' ? (
+                            <div className="w-full h-full bg-slate-900 flex items-center justify-center">
+                              <Play size={16} className="text-cyan-300" />
+                            </div>
+                          ) : (
+                            <img src={media.src} alt={media.label} className="w-full h-full object-cover opacity-80" />
+                          )}
+                          <span className="absolute bottom-1 left-1 right-1 mono text-[9px] leading-tight text-white bg-slate-950/85 border border-slate-700/70 px-1 py-0.5 truncate text-left">
+                            {media.label}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
 
-              <div className="p-5 space-y-6 flex-1">
-                {/* Links */}
-                {hasProjectLinks && (
-                  <div className="space-y-2 game-card clip-tl p-3 border border-slate-800/80 bg-slate-900/35">
-                    {selectedProject?.links?.map((link) => {
-                      const isGithubLink = link.type?.toLowerCase() === 'github' || link.icon?.toLowerCase() === 'github';
-                      const linkLabel = (link.label || link.text || 'VIEW').replace(/`+/g, '').trim();
+                <aside className="game-card border border-slate-800/90 bg-slate-900/55 p-4 sm:p-5 space-y-4 h-full self-stretch">
+                  {selectedProject?.image && (
+                    <img src={selectedProject.image} alt={selectedProject.name} className="w-full border border-slate-800 object-cover max-h-44" />
+                  )}
 
-                      return (
+                  <p className="text-sm text-slate-300 leading-relaxed">{selectedProject?.shortDescription}</p>
+
+                  {selectedProjectGitHubStats && (
+                    <div className="grid grid-cols-3 gap-2 text-[10px] mono text-slate-300/90">
+                      <span className="flex flex-col items-center justify-center border border-slate-700/70 bg-slate-950/60 px-2 py-2">
+                        <Star size={12} className="text-slate-400 mb-1" />
+                        {selectedProjectGitHubStats.stars.toLocaleString()} STARS
+                      </span>
+                      <span className="flex flex-col items-center justify-center border border-slate-700/70 bg-slate-950/60 px-2 py-2">
+                        <GitFork size={12} className="text-slate-400 mb-1" />
+                        {selectedProjectGitHubStats.forks.toLocaleString()} FORKS
+                      </span>
+                      <span className="flex flex-col items-center justify-center border border-slate-700/70 bg-slate-950/60 px-2 py-2">
+                        <Users size={12} className="text-slate-400 mb-1" />
+                        {selectedProjectGitHubStats.contributors.toLocaleString()} CONTRIB
+                      </span>
+                    </div>
+                  )}
+
+                  <div className="space-y-2 text-xs">
+                    <div className="flex items-start gap-2">
+                      <span className="mono text-slate-500 min-w-[86px]">Category:</span>
+                      <span className="text-slate-300">{selectedProject?.category || 'Project'}</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="mono text-slate-500 min-w-[86px]">Status:</span>
+                      <span className="text-slate-300">{selectedProject?.published ? 'Published' : 'In Development'}</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="mono text-slate-500 min-w-[86px]">Platforms:</span>
+                      <span className="text-slate-300">{selectedProject?.platforms.join(', ') || 'N/A'}</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="mono text-slate-500 min-w-[86px]">Genre:</span>
+                      <span className="text-slate-300">{selectedProject?.genre.join(', ') || 'N/A'}</span>
+                    </div>
+                  </div>
+
+                  {hasProjectLinks && (
+                    <div className="space-y-2 pt-1">
+                      {selectedProjectNonGithubLinks.map((link) => (
                         <a
                           key={link.url}
                           href={link.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className={
-                            `${isGithubLink ? 'btn-ghost' : 'btn-primary'} flex items-center gap-2 text-sm w-full justify-center ` +
-                            'px-3 py-2 text-center leading-tight normal-case tracking-[0.08em] whitespace-normal break-words'
-                          }
+                          className="btn-primary w-full text-xs flex items-center gap-2 justify-center"
                         >
-                          {isGithubLink ? <Github size={14} /> : <ExternalLink size={14} />}
-                          <span className="min-w-0">{linkLabel}</span>
+                          <ExternalLink size={14} />
+                          {(link.label || link.text || 'Visit Link').replace(/`+/g, '').trim()}
                         </a>
-                      );
-                    })}
-                  </div>
-                )}
+                      ))}
+                      {selectedProjectGithubLink && (
+                        <a
+                          href={selectedProjectGithubLink.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-ghost w-full text-xs flex items-center gap-2 justify-center"
+                        >
+                          <Github size={14} />
+                          {(selectedProjectGithubLink.label || selectedProjectGithubLink.text || 'GitHub').replace(/`+/g, '').trim()}
+                        </a>
+                      )}
+                    </div>
+                  )}
 
-                {/* Technologies */}
-                <div>
-                  <div className="section-label mb-2.5">TECHNOLOGIES</div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {selectedProject?.skills.map((t) => (
-                      <span key={t} className="tag-cyan text-[10px]">{t}</span>
-                    ))}
-                  </div>
+                  {selectedProject?.platforms?.length || selectedProject?.genre?.length ? (
+                    <div className="pt-2 border-t border-slate-800 space-y-2">
+                      <div className="flex flex-wrap gap-1.5">
+                        {selectedProject?.platforms?.map((p) => <span key={p} className="tag-cyan text-[10px]">{p}</span>)}
+                        {selectedProject?.genre?.map((g) => <span key={g} className="tag-violet text-[10px]">{g}</span>)}
+                      </div>
+                    </div>
+                  ) : null}
+                </aside>
+              </section>
+
+              <section className="game-card border border-slate-800/90 bg-slate-900/35 p-5 sm:p-6 space-y-5">
+                <div className="flex items-center gap-3">
+                  <div className="section-label">ABOUT THIS PROJECT</div>
+                  <div className="flex-1 h-px bg-slate-800" />
+                  <span className="mono text-[10px] text-slate-600">{selectedProjectVisibleMediaCount} media</span>
                 </div>
 
-                {/* Key features */}
+                <p className="text-sm text-slate-300 leading-relaxed">{selectedProject?.shortDescription}</p>
+
                 {selectedProject?.features && selectedProject.features.length > 0 && (
                   <div>
                     <div className="section-label mb-2.5">KEY FEATURES</div>
-                    <ul className="space-y-2">
-                      {selectedProject.features.map((f, i) => (
-                        <li key={i} className="flex items-start gap-2 text-xs text-slate-400 leading-snug">
+                    <ul className="grid md:grid-cols-2 gap-x-8 gap-y-2">
+                      {selectedProject.features.map((feature, index) => (
+                        <li key={index} className="flex items-start gap-2 text-sm text-slate-400 leading-relaxed">
                           <span className="text-cyan-400 shrink-0 mt-0.5">&#9656;</span>
-                          {f}
+                          {feature}
                         </li>
                       ))}
                     </ul>
                   </div>
                 )}
 
-                {/* Contents index */}
                 <div>
-                  <div className="section-label mb-2.5">CONTENTS</div>
-                  <div className="space-y-1">
-                    {selectedProjectVisibleMediaCount > 0 && (
-                      <a href="#pd-media" className="flex items-center gap-2 text-xs text-slate-500 hover:text-cyan-400 transition-colors py-0.5">
-                        <span className="w-1 h-1 bg-slate-600 rounded-full shrink-0" /> Media
-                        <span className="ml-auto mono text-[10px] text-slate-600">
-                          {selectedProjectVisibleMediaCount}
-                        </span>
-                      </a>
-                    )}
-                    {selectedProject?.contributions && selectedProject.contributions.length > 0 && (
-                      <a href="#pd-contributions" className="flex items-center gap-2 text-xs text-slate-500 hover:text-cyan-400 transition-colors py-0.5">
-                        <span className="w-1 h-1 bg-slate-600 rounded-full shrink-0" /> My Work
-                        <span className="ml-auto mono text-[10px] text-slate-600">{selectedProject.contributions.length}</span>
-                      </a>
-                    )}
+                  <div className="section-label mb-2.5">TECHNOLOGIES</div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {selectedProject?.skills.map((skill) => (
+                      <span key={skill} className="tag-cyan text-[10px]">{skill}</span>
+                    ))}
                   </div>
                 </div>
-              </div>
-            </aside>
+              </section>
 
-            {/* ── RIGHT MAIN SCROLL ── */}
-            <div className="flex-1 overflow-y-auto bg-gradient-to-b from-slate-900/10 to-slate-950/20">
-              <div className="p-6 sm:p-8 lg:p-10 flex flex-col gap-12">
-
-                {selectedProjectGitHubStats && (
-                  <div className="flex flex-wrap items-center gap-3 text-xs mono text-slate-300/90">
-                    <span className="flex items-center gap-1.5 border border-slate-700/70 bg-slate-900/55 px-2.5 py-1.5">
-                      <Star size={12} className="text-slate-400" />
-                      {selectedProjectGitHubStats.stars.toLocaleString()} STARS
-                    </span>
-                    <span className="flex items-center gap-1.5 border border-slate-700/70 bg-slate-900/55 px-2.5 py-1.5">
-                      <GitFork size={12} className="text-slate-400" />
-                      {selectedProjectGitHubStats.forks.toLocaleString()} FORKS
-                    </span>
-                    <span className="flex items-center gap-1.5 border border-slate-700/70 bg-slate-900/55 px-2.5 py-1.5">
-                      <Users size={12} className="text-slate-400" />
-                      {selectedProjectGitHubStats.contributors.toLocaleString()} CONTRIBUTORS
-                    </span>
+              {selectedProject?.contributions && selectedProject.contributions.length > 0 && (
+                <section id="pd-contributions" className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <Wrench size={14} className="text-cyan-400 shrink-0" />
+                    <div className="section-label">MY WORK ON THIS PROJECT</div>
+                    <div className="flex-1 h-px bg-slate-800" />
+                    <span className="mono text-[10px] text-slate-600">{selectedProject.contributions.length} entries</span>
                   </div>
-                )}
+                  <div className="space-y-4">
+                    {visibleSelectedProjectContributionScreenshots.map((contribution, contributionIndex) => {
+                      const loadedContributionScreenshots = contribution.screenshot.filter((src) => isImageLoaded(src));
 
-                  {/* Mobile-only: features + tech + links */}
-                  {selectedProject?.features && selectedProject.features.length > 0 && (
-                    <div className="mt-6 lg:hidden">
-                      <div className="section-label mb-2.5">KEY FEATURES</div>
-                      <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-2">
-                        {selectedProject.features.map((f, i) => (
-                          <li key={i} className="flex items-start gap-2 text-sm text-slate-400">
-                            <span className="text-cyan-400 mono shrink-0 mt-0.5 text-[10px]">&#9656;</span>{f}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  <div className="mt-5 lg:hidden">
-                    <div className="section-label mb-2.5">TECHNOLOGIES</div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {selectedProject?.skills.map((t) => <span key={t} className="tag-cyan text-[10px]">{t}</span>)}
-                    </div>
-                  </div>
-                  {selectedProject?.links && selectedProject.links.length > 0 && (
-                    <div className="mt-5 flex flex-wrap gap-3 lg:hidden">
-                      {selectedProject.links.map((link) => (
-                        <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer"
-                          className={(link.type?.toLowerCase() === 'github' || link.icon?.toLowerCase() === 'github') ? 'btn-ghost flex items-center gap-2 text-sm' : 'btn-primary flex items-center gap-2 text-sm'}>
-                          {(link.type?.toLowerCase() === 'github' || link.icon?.toLowerCase() === 'github') ? <Github size={14} /> : <ExternalLink size={14} />}
-                          {link.label || link.text || 'VIEW'}
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                {/* ── Media (videos + screenshots) ── */}
-                {selectedProjectVisibleMediaCount > 0 && (
-                  <section id="pd-media">
-                    <div className="flex items-center gap-3 mb-5">
-                      <Play size={14} className="text-cyan-400 shrink-0" />
-                      <div className="section-label">MEDIA</div>
-                      <div className="flex-1 h-px bg-slate-800" />
-                      <span className="mono text-[10px] text-slate-600">
-                        {selectedProjectVisibleMediaCount} items — click screenshots to expand
-                      </span>
-                    </div>
-                    <div className="flex gap-3 overflow-x-auto pb-2 items-start">
-                      {/* Videos first */}
-                      {selectedProject?.videos?.map((v, i) => (
-                        <div key={`v-${i}`} className="shrink-0 space-y-1.5" style={{ width: '320px' }}>
-                          <div className="mono text-[10px] text-slate-500 tracking-wider uppercase flex items-center gap-1.5">
-                            <Play size={9} className="text-cyan-400/70" />{v.text}
-                          </div>
-                          {v.type === 'local' ? (
-                            <video src={v.url} controls className="w-full border border-slate-800 bg-slate-900" style={{ height: '180px', objectFit: 'contain' }} />
-                          ) : v.type === 'youtube' ? (
-                            <div className="border border-slate-800 bg-slate-900" style={{ height: '180px' }}>
-                              <iframe src={v.url} className="w-full h-full" allowFullScreen title={v.text} />
-                            </div>
-                          ) : null}
-                        </div>
-                      ))}
-                      {/* Screenshots */}
-                      {visibleSelectedProjectScreenshots.filter((src) => isImageLoaded(src)).map((src, i, screenshots) => (
-                        <div key={`s-${i}`} className="shrink-0 space-y-1.5" style={{ width: '320px' }}>
-                          <div className="mono text-[10px] text-slate-500 tracking-wider uppercase flex items-center gap-1.5">
-                            <Monitor size={9} className="text-cyan-400/70" />Screenshot {i + 1} / {screenshots.length}
-                          </div>
-                          <button
-                            onClick={() => setLightbox(src)}
-                            className="group relative w-full overflow-hidden border border-slate-800 hover:border-cyan-400/50 transition-all duration-200"
-                            style={{ height: '180px' }}
-                          >
-                            <img
-                              src={src}
-                              alt={`Screenshot ${i + 1}`}
-                              className="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
-                            />
-                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-slate-950/40">
-                              <span className="mono text-[10px] text-white bg-slate-950/80 border border-slate-700 px-2 py-1">EXPAND</span>
-                            </div>
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  </section>
-                )}
-
-                {/* ── My Contributions ── */}
-                {selectedProject?.contributions && selectedProject.contributions.length > 0 && (
-                  <section id="pd-contributions">
-                    <div className="flex items-center gap-3 mb-5">
-                      <Wrench size={14} className="text-cyan-400 shrink-0" />
-                      <div className="section-label">MY WORK ON THIS PROJECT</div>
-                      <div className="flex-1 h-px bg-slate-800" />
-                      <span className="mono text-[10px] text-slate-600">{selectedProject.contributions.length} contributions</span>
-                    </div>
-                    <div className="space-y-4">
-                      {visibleSelectedProjectContributionScreenshots.map((c, i) => {
-                        const loadedContributionScreenshots = c.screenshot.filter((src) => isImageLoaded(src));
-
-                        return (
-                        <div key={i} className="group border border-slate-800/90 hover:border-slate-600 bg-slate-900/30 hover:bg-slate-900/50 transition-all duration-200">
-                          <div className="flex items-start gap-4 p-5 pb-4">
-                            <span className="mono text-3xl font-black text-slate-800/80 group-hover:text-slate-700 tabular-nums shrink-0 leading-none select-none">
-                              {String(i + 1).padStart(2, '0')}
+                      return (
+                        <article key={contributionIndex} className="border border-slate-800/90 bg-slate-900/35 hover:bg-slate-900/50 transition-colors">
+                          <div className="p-5 pb-4 flex items-start gap-4">
+                            <span className="mono text-3xl font-black text-slate-800/80 tabular-nums shrink-0 leading-none select-none">
+                              {String(contributionIndex + 1).padStart(2, '0')}
                             </span>
-                            <div className="flex-1 min-w-0">
-                              <h4 className="font-bold text-cyan-300 text-sm sm:text-base leading-snug mb-2">{c.title}</h4>
-                              <p className="text-sm text-slate-400 leading-relaxed">{c.description}</p>
+                            <div className="min-w-0">
+                              <h4 className="font-bold text-cyan-300 text-sm sm:text-base leading-snug mb-2">{contribution.title}</h4>
+                              <p className="text-sm text-slate-400 leading-relaxed">{contribution.description}</p>
                             </div>
                           </div>
                           {loadedContributionScreenshots.length > 0 && (
@@ -715,17 +730,17 @@ const Projects = () => {
                                 {loadedContributionScreenshots.length} screenshot{loadedContributionScreenshots.length > 1 ? 's' : ''}
                               </div>
                               <div className="flex gap-2 overflow-x-auto pb-1">
-                                {loadedContributionScreenshots.map((src, si) => (
+                                {loadedContributionScreenshots.map((src, screenshotIndex) => (
                                   <button
-                                    key={si}
+                                    key={screenshotIndex}
                                     onClick={() => setLightbox(src)}
                                     className="group/img relative shrink-0 overflow-hidden border border-slate-800 hover:border-cyan-400/50 transition-all duration-200"
                                     style={{ width: '160px', height: '90px' }}
                                   >
                                     <img
                                       src={src}
-                                      alt={`${c.title} ${si + 1}`}
-                                      className="w-full h-full object-cover opacity-60 group-hover/img:opacity-100 group-hover/img:scale-105 transition-all duration-300"
+                                      alt={`${contribution.title} ${screenshotIndex + 1}`}
+                                      className="w-full h-full object-cover opacity-70 group-hover/img:opacity-100 group-hover/img:scale-105 transition-all duration-300"
                                     />
                                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity bg-slate-950/40">
                                       <span className="mono text-[9px] text-white bg-slate-950/80 border border-slate-700 px-1.5 py-0.5">EXPAND</span>
@@ -735,14 +750,12 @@ const Projects = () => {
                               </div>
                             </div>
                           )}
-                        </div>
-                        );
-                      })}
-                    </div>
-                  </section>
-                )}
-
-              </div>
+                        </article>
+                      );
+                    })}
+                  </div>
+                </section>
+              )}
             </div>
           </div>
         </DialogContent>
