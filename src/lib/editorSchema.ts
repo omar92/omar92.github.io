@@ -130,7 +130,6 @@ export const portfolioSchema: Record<string, FieldSchema> = {
       category: { type: 'string' },
       image: { type: 'string' },
       shortDescription: { type: 'string' },
-      description: { type: 'string' },
       platforms: {
         type: 'array',
         isArray: true,

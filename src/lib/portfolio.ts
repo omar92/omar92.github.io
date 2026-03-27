@@ -58,7 +58,6 @@ export interface PortfolioProject {
   tags: string[];
   filterTags: string[];
   shortDescription: string;
-  description: string;
   links: PortfolioLink[];
   features: string[];
   videos: { text: string; type: string; url: string }[];
@@ -243,7 +242,6 @@ const normalizedProjects = asRecordArray(root.projects).map((project, index) => 
     tags: uniqueStrings([...legacyTags, ...platforms, ...genre, ...skills]),
     filterTags,
     shortDescription: asString(project.shortDescription),
-    description: asString(project.description || project.shortDescription),
     links,
     features: asStringArray(project.features),
     videos: asRecordArray(project.videos).map((v) => ({

@@ -402,7 +402,6 @@
         "Social hub for players to connect and show off achievements"
       ],
       "shortDescription": "Highstreet: Calamity – VR Roguelike Arena Combat in a Manic Metaverse. Protect the FOMO DUCKS! Highstreet: Calamity is a fast-paced, class-based VR roguelike brawler set in Solera, a chaotic world where talking ducks run businesses, pelicans have strong opinions, and monster portals are “just an average Tuesday.”",
-      "description": "Highstreet: Calamity is a fast-paced, class-based VR roguelike brawler set in Solera, a chaotic world where talking ducks run businesses, pelicans have strong opinions, and monster portals are “just an average Tuesday.” Players choose from unique classes with distinct abilities to battle waves of unpredictable enemies and bosses. Progression includes gear upgrades and branching skill paths. The game supports solo or co-op multiplayer with dynamic server allocation using GameLift. Social features include a lobby to connect with friends and enjoy the mayhem together.",
       "contributions": [
         {
           "title": "DOTS Architecture Design",
@@ -540,7 +539,6 @@
         "Dynamic environment changes based on in-game events"
       ],
       "shortDescription": "Highstreet Campus was built as the company's metaverse entry point: a large-scale WebGL social hub with MMO-oriented networking, NFT commerce, and connected world travel into Highstreet Homes.",
-      "description": "Highstreet Campus started as a social metaverse hub and strategic entry point for the company, with an early goal of building networking and infrastructure that could scale toward MMO requirements. The world combined social interaction spaces with NFT purchasing experiences, then expanded to include travel pods linking players to their homes in the previous Highstreet Homes project. The campus later introduced a VIP rooftop section with an outdoor garden, additional social activities, and a salon shop. One notable multiplayer challenge was a dynamic lab feature where players could switch lab interiors from an in-world console, requiring synchronized environment swaps while correctly handling other users already inside the affected area.",
       "contributions": [
         {
           "title": "Custom MMO-Oriented Networking Layer",
@@ -671,7 +669,6 @@
         "Designed for large-scale employee training programs"
       ],
       "shortDescription": "A suite of serious games for cybersecurity awareness training, delivered for enterprise clients across multiple platforms.",
-      "description": "As Team Lead at Zinad, I led the development of a comprehensive suite of serious games for cybersecurity awareness training. The games translated complex security concepts into engaging, interactive learning experiences used by major enterprise clients.\n\nKey projects included:\n- Phishing Mania: An interactive game that teaches employees to identify phishing attempts\n- Who Will Be Millionaire - Security Edition: A game-show format focused on cybersecurity knowledge\n- The Office VR: An immersive VR experience for identifying clean desk policy violations\n- Password Ninja: A fast-paced action game about password security\n- Security Archery VR: A VR archery game for security question training",
       "contributions": [
         {
           "title": "Game Team Lead",
@@ -784,7 +781,6 @@
         "Player pets with interactive behaviors"
       ],
       "shortDescription": "Highstreet Homes was designed as a social experience where players could purchase and customize their own homes with NFTs, interact with friends, and connect to the main campus through travel pods.",
-      "description": "Highstreet Homes was designed as a social experience where players could purchase and customize their own homes with NFTs, interact with friends, and connect to the main campus through travel pods. The project presented significant challenges in adapting Unity's native network system, which required extensive custom work to meet the experience's needs. The game supported cross-platform interactions between web and VR users, allowing them to socialize together regardless of their chosen platform. Players could decorate their homes with furniture and items purchased as NFTs, and also had interactive pets that added life to their virtual spaces.",
       "contributions": [
         {
           "title": "Cross-Platform Multiplayer Architecture",
@@ -886,7 +882,6 @@
         "Free-to-play with ethical monetization"
       ],
       "shortDescription": "A polished multiplayer card game Published on Google Play. Features online matchmaking, progression system, social features, and cross-platform play.",
-      "description": "Estimation Kings is a professionally Published multiplayer card game that brings the popular Middle Eastern trick-taking game to mobile platforms. Built with Phaser.js and featuring robust server architecture for real-time multiplayer gameplay.\n\nThe game successfully launched on Google Play and attracted a dedicated player base with its smooth gameplay, social features, and competitive progression system.",
       "contributions": [
         {
           "title": "Flash-to-cocos2d-js Migration",
@@ -976,7 +971,6 @@
         "Cross-platform progression"
       ],
       "shortDescription": "Modern take on the classic Middle Eastern backgammon game featuring online multiplayer, advanced AI, and extensive customization options.",
-      "description": "3ashara Tawla is a comprehensive online multiplayer game based on Middle Eastern backgammon rules. The game features two distinct modes: 'Ma7bosa' and 'Thirteen', each offering unique gameplay experiences.\n\nWith sophisticated AI opponents, extensive character customization, and various game modes, 3ashara Tawla aims to be the definitive digital version of this beloved traditional game.",
       "contributions": [
         {
           "title": "Core Gameplay Systems",
@@ -1046,7 +1040,6 @@
         "Open-source and well-documented"
       ],
       "shortDescription": "A comprehensive suite of quality-of-life nodes for ComfyUI, the powerful stable diffusion GUI. Featured in the ComfyUI ecosystem with 176 stars and 23 forks on GitHub.",
-      "description": "ComfyUI-QualityOfLifeSuit is a collection of custom nodes designed to enhance the ComfyUI experience for AI artists and developers. This toolkit provides essential utilities and workflow improvements for stable diffusion workflows.\n\nWith over 176 stars on GitHub, this project has become a valuable resource in the ComfyUI community, helping artists and developers streamline their creative workflows.",
       "contributions": [
         {
           "title": "Ai prompt enhancer node",
@@ -1130,7 +1123,6 @@
         "Media preview support for images and screenshots during editing"
       ],
       "shortDescription": "A vibe coded portfolio project built with React and TypeScript, featuring a full visual editor for managing portfolio content safely.",
-      "description": "This portfolio is a vibe coded project focused on both presentation quality and practical content management. Beyond the public-facing portfolio pages, it includes an integrated visual editor that lets content be updated through structured UI controls instead of manual JSON text editing. The editor is schema-aware, supports nested sections, and helps prevent structural mistakes while editing projects, experience, education, and media fields.",
       "contributions": [
         {
           "title": "Vibe Coded UX and Frontend Architecture",
@@ -1194,7 +1186,6 @@
         "Dungeon Escape: Atmospheric puzzle-action game"
       ],
       "shortDescription": "Personal projects built to learn Unreal Engine, featuring a multiplayer shooter, an AI-driven third-person shooter, and a puzzle-action game.",
-      "description": "These projects were developed as part of my self-driven learning journey with Unreal Engine. Each game focused on different aspects of Unreal's capabilities, from multiplayer networking and combat systems in Battle Blaster, to AI behavior and third-person mechanics in ShooterSam, and atmospheric design in Dungeon Escape. These projects allowed me to gain hands-on experience with Unreal Engine's C++ programming, Blueprints visual scripting, and overall game development workflows within the engine.",
       "contributions": [
         {
           "title": "Obstacle Assault",
@@ -1297,7 +1288,6 @@
         "Award-winning ITI graduation project"
       ],
       "shortDescription": "Award-winning VR rhythm game combining music, action, and innovative gameplay. ITI graduation project featuring custom art, music, and VFX - 100% original content.",
-      "description": "Rhythm Attack is an innovative VR rhythm game that merges music, action, and strategy. Players must defeat rhythm monsters by slicing projectiles to the beat, then attacking when enemies are vulnerable. The game features escalating difficulty that adapts to player performance.\n\nThis project was our graduation project from the ITI Game Development program, showcasing our skills across all aspects of game development including programming, art, music composition, and visual effects - all created entirely by our team.",
       "contributions": [
         {
           "title": "Lead Developer & Co-Designer",
@@ -1393,7 +1383,6 @@
         "Script templates for custom Action, Condition, Composite, and Interrupt nodes"
       ],
       "shortDescription": "A high-performance Behaviour Tree framework for Unity DOTS/ECS with a visual editor, runtime inspector, interrupts, and extensible custom node templates.",
-      "description": "Dots Behaviour Tree is a Behaviour Tree framework built for Unity DOTS (Data-Oriented Technology Stack) on top of ECS architecture. It focuses on high-performance AI decision-making by baking authoring nodes into ECS entities and executing them through ECS systems. The framework includes a visual editor for graph-based authoring, a runtime inspector for live debugging, rich composite nodes, condition combinators, and interrupt support for high-priority behaviour preemption. It also provides script templates to accelerate creation of custom Action, Condition, Composite, and Interrupt nodes.\n\nRequirements from the README include Unity 6000.0.23f1+ with Entities 1.3.2+ (Burst compatible), and the demo scene runs with URP 17.0.4+.",
       "contributions": [
         {
           "title": "ECS-Native Behaviour Tree Runtime",
@@ -1452,7 +1441,6 @@
         "SO System: Comprehensive Scriptable Object framework for data-driven design"
       ],
       "shortDescription": "A suite of Unity tools leveraging Scriptable Objects to enable data-driven development, decoupled architecture, and visual debugging for game systems.",
-      "description": "This collection of Unity tools is designed to enhance game development workflows by leveraging the power of Scriptable Objects. The tools include a state machine system with visual debugging, an event-driven architecture for decoupled communication, and a comprehensive framework for data-driven design. These tools are open-source  and have been used in various projects to improve code organization, flexibility, and maintainability.",
       "contributions": [
         {
           "title": "SO State Machine",
@@ -1538,7 +1526,6 @@
         "Includes a decoupled ScriptableObject-based demo architecture"
       ],
       "shortDescription": "High-performance Unity scroll list system with pooled, virtualized items for large datasets and smooth scrolling.",
-      "description": "Optimized Unity Scroll List is a Unity UI tooling project focused on rendering very large ScrollRect datasets efficiently by recycling a fixed pool of item views instead of instantiating one object per entry. The repo includes a working inventory demo, lifecycle callbacks for rebinding pooled items, support for horizontal and vertical lists, and a lightweight ScriptableObject-driven architecture for decoupled UI communication.",
       "contributions": [
         {
           "title": "Virtualized ScrollRect Pooling System",

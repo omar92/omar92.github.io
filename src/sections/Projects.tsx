@@ -346,7 +346,7 @@ const Projects = () => {
                     </div>
                   )}
                   <h3 className={`font-bold text-white group-hover:text-cyan-400 transition-colors leading-snug ${githubStats ? 'pr-28' : ''}`}>{project.name}</h3>
-                  <p className="text-sm text-slate-400 leading-relaxed flex-1 line-clamp-3">{project.description}</p>
+                  <p className="text-sm text-slate-400 leading-relaxed flex-1 line-clamp-3">{project.shortDescription}</p>
 
                   {/* Tags */}
                   <div className="flex flex-wrap gap-1.5">
@@ -498,9 +498,6 @@ const Projects = () => {
                 <div>
                   <div className="section-label mb-2.5">CONTENTS</div>
                   <div className="space-y-1">
-                    <a href="#pd-about" className="flex items-center gap-2 text-xs text-slate-500 hover:text-cyan-400 transition-colors py-0.5">
-                      <span className="w-1 h-1 bg-slate-600 rounded-full shrink-0" /> About
-                    </a>
                     {selectedProjectVisibleMediaCount > 0 && (
                       <a href="#pd-media" className="flex items-center gap-2 text-xs text-slate-500 hover:text-cyan-400 transition-colors py-0.5">
                         <span className="w-1 h-1 bg-slate-600 rounded-full shrink-0" /> Media
@@ -522,29 +519,24 @@ const Projects = () => {
 
             {/* ── RIGHT MAIN SCROLL ── */}
             <div className="flex-1 overflow-y-auto">
-              <div className="p-6 sm:p-8 space-y-12">
+              <div className="p-6 sm:p-8 flex flex-col gap-12">
 
-                {/* ── About ── */}
-                <section id="pd-about">
-                  <div className="section-label mb-3">ABOUT</div>
-                  <p className="text-slate-300 leading-relaxed text-sm sm:text-base">{selectedProject?.description}</p>
-
-                  {selectedProjectGitHubStats && (
-                    <div className="mt-4 flex flex-wrap items-center gap-4 text-xs mono text-slate-400">
-                      <span className="flex items-center gap-1.5">
-                        <Star size={12} className="text-slate-400" />
-                        {selectedProjectGitHubStats.stars.toLocaleString()} STARS
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <GitFork size={12} className="text-slate-400" />
-                        {selectedProjectGitHubStats.forks.toLocaleString()} FORKS
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <Users size={12} className="text-slate-400" />
-                        {selectedProjectGitHubStats.contributors.toLocaleString()} CONTRIBUTORS
-                      </span>
-                    </div>
-                  )}
+                {selectedProjectGitHubStats && (
+                  <div className="flex flex-wrap items-center gap-4 text-xs mono text-slate-400">
+                    <span className="flex items-center gap-1.5">
+                      <Star size={12} className="text-slate-400" />
+                      {selectedProjectGitHubStats.stars.toLocaleString()} STARS
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <GitFork size={12} className="text-slate-400" />
+                      {selectedProjectGitHubStats.forks.toLocaleString()} FORKS
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <Users size={12} className="text-slate-400" />
+                      {selectedProjectGitHubStats.contributors.toLocaleString()} CONTRIBUTORS
+                    </span>
+                  </div>
+                )}
 
                   {/* Mobile-only: features + tech + links */}
                   {selectedProject?.features && selectedProject.features.length > 0 && (
@@ -576,8 +568,6 @@ const Projects = () => {
                       ))}
                     </div>
                   )}
-                </section>
-
                 {/* ── Media (videos + screenshots) ── */}
                 {selectedProjectVisibleMediaCount > 0 && (
                   <section id="pd-media">
