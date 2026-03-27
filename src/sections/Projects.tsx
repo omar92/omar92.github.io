@@ -97,13 +97,18 @@ const Projects = () => {
     return undefined;
   };
 
-  const selectedProjectGitHubStats = selectedProject ? getProjectGitHubStats(selectedProject) : undefined;
   const visibleSelectedProjectScreenshots = selectedProject?.screenshots.filter((src) => isImageLoaded(src)) ?? [];
   const visibleSelectedProjectContributionScreenshots = selectedProject?.contributions?.map((contribution) => ({
     ...contribution,
     screenshot: contribution.screenshot.filter((src) => !isImageFailed(src)),
   })) ?? [];
   const selectedProjectVisibleMediaCount = (selectedProject?.videos?.length ?? 0) + visibleSelectedProjectScreenshots.length;
+  const hasProjectDescription = Boolean(selectedProject?.description?.trim());
+  const hasProjectLinks = (selectedProject?.links?.length ?? 0) > 0;
+  const hasProjectSkills = (selectedProject?.skills?.length ?? 0) > 0;
+  const hasProjectFeatures = (selectedProject?.features?.length ?? 0) > 0;
+  const hasProjectContributions = (selectedProject?.contributions?.length ?? 0) > 0;
+  const showContentsIndex = selectedProjectVisibleMediaCount > 0 || hasProjectContributions;
 
   useEffect(() => {
     const imageUrls = new Set<string>();
@@ -421,13 +426,13 @@ const Projects = () => {
       >
         <DialogContent
           showCloseButton={false}
-          className="w-[98vw] max-w-[1600px] max-h-[94vh] h-[94vh] bg-slate-950 border border-slate-700/60 p-0 gap-0 flex flex-col overflow-hidden"
+          className="w-[98vw] max-w-[1600px] max-h-[94vh] h-[94vh] game-card border-cyan-400/20 p-0 gap-0 flex flex-col overflow-hidden"
           onPointerDownOutside={(e) => { if (lightbox) e.preventDefault(); }}
           onInteractOutside={(e) => { if (lightbox) e.preventDefault(); }}
           onEscapeKeyDown={(e) => { if (lightbox) { e.preventDefault(); setLightbox(null); } }}
         >
           {/* ── Top bar: title + close ── */}
-          <div className="shrink-0 flex items-start justify-between gap-4 px-6 pt-5 pb-4 border-b border-slate-800">
+          <div className="shrink-0 flex items-start justify-between gap-4 px-6 pt-5 pb-4 border-b border-cyan-400/15 bg-slate-950/70">
             <DialogHeader className="p-0 m-0 flex-1 min-w-0">
               <div className="flex flex-wrap items-center gap-1.5 mb-1.5">
                 {selectedProject?.platforms?.map((p) => (
@@ -440,14 +445,16 @@ const Projects = () => {
               <DialogTitle className="text-2xl sm:text-3xl font-black text-white leading-tight">
                 {selectedProject?.name}
               </DialogTitle>
-              <DialogDescription className="text-slate-400 text-sm mt-1">
-                {selectedProject?.shortDescription}
-              </DialogDescription>
+              {hasProjectDescription && (
+                <DialogDescription className="text-slate-400 text-sm mt-2 leading-relaxed w-full max-w-none">
+                  {selectedProject?.description}
+                </DialogDescription>
+              )}
             </DialogHeader>
             <div className="shrink-0 mt-1">
               <button
                 onClick={() => setSelectedProject(null)}
-                className="shrink-0 text-slate-500 hover:text-white transition-colors border border-slate-800 hover:border-slate-600 p-1.5"
+                className="shrink-0 text-slate-400 hover:text-cyan-300 transition-colors border border-cyan-400/20 hover:border-cyan-300/40 bg-slate-900/70 p-1.5"
               >
                 <X size={16} />
               </button>
@@ -458,7 +465,7 @@ const Projects = () => {
           <div className="flex flex-1 overflow-hidden">
 
             {/* ── LEFT SIDEBAR ── */}
-            <aside className="hidden lg:flex flex-col w-64 xl:w-72 shrink-0 border-r border-slate-800 overflow-y-auto">
+            <aside className="hidden lg:flex flex-col w-64 xl:w-72 shrink-0 border-r border-cyan-400/10 bg-slate-950/50 overflow-y-auto">
 
               {/* Cover image */}
               {selectedProject?.image && isImageLoaded(selectedProject.image) && (
@@ -474,9 +481,9 @@ const Projects = () => {
 
               <div className="p-5 space-y-6 flex-1">
                 {/* Links */}
-                {selectedProject?.links && selectedProject.links.length > 0 && (
-                  <div className="space-y-2">
-                    {selectedProject.links.map((link) => (
+                {hasProjectLinks && (
+                  <div className="space-y-2 game-card clip-tl p-3">
+                    {selectedProject?.links?.map((link) => (
                       <a
                         key={link.url}
                         href={link.url}
@@ -496,21 +503,23 @@ const Projects = () => {
                 )}
 
                 {/* Technologies */}
-                <div>
-                  <div className="section-label mb-2.5">TECHNOLOGIES</div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {selectedProject?.skills.map((t) => (
-                      <span key={t} className="tag-cyan text-[10px]">{t}</span>
-                    ))}
+                {hasProjectSkills && (
+                  <div className="game-card clip-tl p-3">
+                    <div className="section-label mb-2.5">TECHNOLOGIES</div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {selectedProject?.skills.map((t) => (
+                        <span key={t} className="tag-cyan text-[10px]">{t}</span>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Key features */}
-                {selectedProject?.features && selectedProject.features.length > 0 && (
-                  <div>
+                {hasProjectFeatures && (
+                  <div className="game-card clip-tl p-3">
                     <div className="section-label mb-2.5">KEY FEATURES</div>
                     <ul className="space-y-2">
-                      {selectedProject.features.map((f, i) => (
+                      {selectedProject?.features?.map((f, i) => (
                         <li key={i} className="flex items-start gap-2 text-xs text-slate-400 leading-snug">
                           <span className="text-cyan-400 shrink-0 mt-0.5">&#9656;</span>
                           {f}
@@ -521,92 +530,38 @@ const Projects = () => {
                 )}
 
                 {/* Contents index */}
-                <div>
-                  <div className="section-label mb-2.5">CONTENTS</div>
-                  <div className="space-y-1">
-                    <a href="#pd-about" className="flex items-center gap-2 text-xs text-slate-500 hover:text-cyan-400 transition-colors py-0.5">
-                      <span className="w-1 h-1 bg-slate-600 rounded-full shrink-0" /> About
-                    </a>
-                    {selectedProjectVisibleMediaCount > 0 && (
-                      <a href="#pd-media" className="flex items-center gap-2 text-xs text-slate-500 hover:text-cyan-400 transition-colors py-0.5">
-                        <span className="w-1 h-1 bg-slate-600 rounded-full shrink-0" /> Media
-                        <span className="ml-auto mono text-[10px] text-slate-600">
-                          {selectedProjectVisibleMediaCount}
-                        </span>
-                      </a>
-                    )}
-                    {selectedProject?.contributions && selectedProject.contributions.length > 0 && (
-                      <a href="#pd-contributions" className="flex items-center gap-2 text-xs text-slate-500 hover:text-cyan-400 transition-colors py-0.5">
-                        <span className="w-1 h-1 bg-slate-600 rounded-full shrink-0" /> My Work
-                        <span className="ml-auto mono text-[10px] text-slate-600">{selectedProject.contributions.length}</span>
-                      </a>
-                    )}
+                {showContentsIndex && (
+                  <div className="game-card clip-tl p-3">
+                    <div className="section-label mb-2.5">CONTENTS</div>
+                    <div className="space-y-1">
+                      {selectedProjectVisibleMediaCount > 0 && (
+                        <a href="#pd-media" className="flex items-center gap-2 text-xs text-slate-500 hover:text-cyan-400 transition-colors py-0.5">
+                          <span className="w-1 h-1 bg-slate-600 rounded-full shrink-0" /> Media
+                          <span className="ml-auto mono text-[10px] text-slate-600">
+                            {selectedProjectVisibleMediaCount}
+                          </span>
+                        </a>
+                      )}
+                      {hasProjectContributions && (
+                        <a href="#pd-contributions" className="flex items-center gap-2 text-xs text-slate-500 hover:text-cyan-400 transition-colors py-0.5">
+                          <span className="w-1 h-1 bg-slate-600 rounded-full shrink-0" /> My Work
+                          <span className="ml-auto mono text-[10px] text-slate-600">{selectedProject?.contributions?.length ?? 0}</span>
+                        </a>
+                      )}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </aside>
 
             {/* ── RIGHT MAIN SCROLL ── */}
-            <div className="flex-1 overflow-y-auto">
+            <div className="flex-1 overflow-y-auto bg-slate-950/65">
               <div className="p-6 sm:p-8 space-y-12">
 
                 {/* ── About ── */}
-                <section id="pd-about">
-                  <div className="section-label mb-3">ABOUT</div>
-                  <p className="text-slate-300 leading-relaxed text-sm sm:text-base">{selectedProject?.description}</p>
-
-                  {selectedProjectGitHubStats && (
-                    <div className="mt-4 flex flex-wrap items-center gap-4 text-xs mono text-slate-400">
-                      <span className="flex items-center gap-1.5">
-                        <Star size={12} className="text-slate-400" />
-                        {selectedProjectGitHubStats.stars.toLocaleString()} STARS
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <GitFork size={12} className="text-slate-400" />
-                        {selectedProjectGitHubStats.forks.toLocaleString()} FORKS
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <Users size={12} className="text-slate-400" />
-                        {selectedProjectGitHubStats.contributors.toLocaleString()} CONTRIBUTORS
-                      </span>
-                    </div>
-                  )}
-
-                  {/* Mobile-only: features + tech + links */}
-                  {selectedProject?.features && selectedProject.features.length > 0 && (
-                    <div className="mt-6 lg:hidden">
-                      <div className="section-label mb-2.5">KEY FEATURES</div>
-                      <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-2">
-                        {selectedProject.features.map((f, i) => (
-                          <li key={i} className="flex items-start gap-2 text-sm text-slate-400">
-                            <span className="text-cyan-400 mono shrink-0 mt-0.5 text-[10px]">&#9656;</span>{f}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  <div className="mt-5 lg:hidden">
-                    <div className="section-label mb-2.5">TECHNOLOGIES</div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {selectedProject?.skills.map((t) => <span key={t} className="tag-cyan text-[10px]">{t}</span>)}
-                    </div>
-                  </div>
-                  {selectedProject?.links && selectedProject.links.length > 0 && (
-                    <div className="mt-5 flex flex-wrap gap-3 lg:hidden">
-                      {selectedProject.links.map((link) => (
-                        <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer"
-                          className={(link.type?.toLowerCase() === 'github' || link.icon?.toLowerCase() === 'github') ? 'btn-ghost flex items-center gap-2 text-sm' : 'btn-primary flex items-center gap-2 text-sm'}>
-                          {(link.type?.toLowerCase() === 'github' || link.icon?.toLowerCase() === 'github') ? <Github size={14} /> : <ExternalLink size={14} />}
-                          {link.label || link.text || 'VIEW'}
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                </section>
-
                 {/* ── Media (videos + screenshots) ── */}
                 {selectedProjectVisibleMediaCount > 0 && (
-                  <section id="pd-media">
+                  <section id="pd-media" className="game-card clip-tl p-5 sm:p-6">
                     <div className="flex items-center gap-3 mb-5">
                       <Play size={14} className="text-cyan-400 shrink-0" />
                       <div className="section-label">MEDIA</div>
@@ -658,13 +613,13 @@ const Projects = () => {
                 )}
 
                 {/* ── My Contributions ── */}
-                {selectedProject?.contributions && selectedProject.contributions.length > 0 && (
-                  <section id="pd-contributions">
+                {hasProjectContributions && (
+                  <section id="pd-contributions" className="game-card clip-tl p-5 sm:p-6">
                     <div className="flex items-center gap-3 mb-5">
                       <Wrench size={14} className="text-cyan-400 shrink-0" />
                       <div className="section-label">MY WORK ON THIS PROJECT</div>
                       <div className="flex-1 h-px bg-slate-800" />
-                      <span className="mono text-[10px] text-slate-600">{selectedProject.contributions.length} contributions</span>
+                      <span className="mono text-[10px] text-slate-600">{selectedProject?.contributions?.length ?? 0} contributions</span>
                     </div>
                     <div className="space-y-4">
                       {visibleSelectedProjectContributionScreenshots.map((c, i) => {
