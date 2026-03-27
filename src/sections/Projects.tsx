@@ -98,6 +98,7 @@ const Projects = () => {
   };
 
   const selectedProjectGitHubStats = selectedProject ? getProjectGitHubStats(selectedProject) : undefined;
+  const hasProjectLinks = (selectedProject?.links?.length ?? 0) > 0;
   const visibleSelectedProjectScreenshots = selectedProject?.screenshots.filter((src) => isImageLoaded(src)) ?? [];
   const visibleSelectedProjectContributionScreenshots = selectedProject?.contributions?.map((contribution) => ({
     ...contribution,
@@ -440,24 +441,28 @@ const Projects = () => {
 
               <div className="p-5 space-y-6 flex-1">
                 {/* Links */}
-                {selectedProject?.links && selectedProject.links.length > 0 && (
-                  <div className="space-y-2">
-                    {selectedProject.links.map((link) => (
-                      <a
-                        key={link.url}
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={
-                          (link.type?.toLowerCase() === 'github' || link.icon?.toLowerCase() === 'github')
-                            ? 'btn-ghost flex items-center gap-2 text-sm w-full justify-center'
-                            : 'btn-primary flex items-center gap-2 text-sm w-full justify-center'
-                        }
-                      >
-                        {(link.type?.toLowerCase() === 'github' || link.icon?.toLowerCase() === 'github') ? <Github size={14} /> : <ExternalLink size={14} />}
-                        {link.label || link.text || 'VIEW'}
-                      </a>
-                    ))}
+                {hasProjectLinks && (
+                  <div className="space-y-2 game-card clip-tl p-3">
+                    {selectedProject?.links?.map((link) => {
+                      const isGithubLink = link.type?.toLowerCase() === 'github' || link.icon?.toLowerCase() === 'github';
+                      const linkLabel = (link.label || link.text || 'VIEW').replace(/`+/g, '').trim();
+
+                      return (
+                        <a
+                          key={link.url}
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={
+                            `${isGithubLink ? 'btn-ghost' : 'btn-primary'} flex items-center gap-2 text-sm w-full justify-center ` +
+                            'px-3 py-2 text-center leading-tight normal-case tracking-[0.08em] whitespace-normal break-words'
+                          }
+                        >
+                          {isGithubLink ? <Github size={14} /> : <ExternalLink size={14} />}
+                          <span className="min-w-0">{linkLabel}</span>
+                        </a>
+                      );
+                    })}
                   </div>
                 )}
 
