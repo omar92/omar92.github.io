@@ -673,21 +673,23 @@ const Projects = () => {
             <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
               <div className="pt-2 sm:pt-3 lg:pt-4 space-y-8">
               <section className="grid xl:grid-cols-[minmax(0,1fr)_340px] gap-5 lg:gap-6 items-stretch" id="pd-media">
-                <div className="h-full flex flex-col min-h-0">
-                  <div className="border border-slate-800 bg-slate-950/70 overflow-hidden flex-1 min-h-[260px] sm:min-h-[380px] lg:min-h-[460px]">
+                <div className="h-full flex flex-col min-h-0 self-stretch">
+                  <div className="border border-slate-800 bg-slate-950/70 overflow-hidden flex-1 min-h-[260px] sm:min-h-[380px] lg:min-h-[460px] relative">
+                    <div className="absolute inset-0 flex items-center justify-center">
                     {!activeSelectedMedia && selectedProject?.image ? (
-                      <img src={selectedProject.image} alt={selectedProject.name} className="w-full h-full object-cover" />
+                      <img src={selectedProject.image} alt={selectedProject.name} className="max-w-full max-h-full w-auto h-auto object-contain" />
                     ) : activeSelectedMedia?.kind === 'video' ? (
                       activeSelectedMedia.videoType === 'local' ? (
                         <video src={activeSelectedMedia.src} controls className="w-full h-full object-contain bg-slate-900" />
                       ) : activeSelectedMedia.videoType === 'youtube' ? (
-                        <iframe src={activeSelectedMedia.src} className="w-full h-full min-h-[260px] sm:min-h-[380px] lg:min-h-[460px]" allowFullScreen title={activeSelectedMedia.label} />
+                        <iframe src={activeSelectedMedia.src} className="w-full h-full" allowFullScreen title={activeSelectedMedia.label} />
                       ) : null
                     ) : activeSelectedMedia?.kind === 'screenshot' ? (
                       <button className="w-full h-full" onClick={() => setLightbox(activeSelectedMedia.src)}>
-                        <img src={activeSelectedMedia.src} alt={activeSelectedMedia.label} className="w-full h-full object-cover hover:opacity-90 transition-opacity" />
+                        <img src={activeSelectedMedia.src} alt={activeSelectedMedia.label} className="max-w-full max-h-full w-auto h-auto object-contain hover:opacity-90 transition-opacity mx-auto my-auto" />
                       </button>
                     ) : null}
+                    </div>
                   </div>
 
                   {selectedProjectMedia.length > 0 && (
