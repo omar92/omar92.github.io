@@ -39,7 +39,7 @@ const Hero = () => {
     <section id="home" ref={heroRef} className="relative pt-[52px]" style={{ background: '#1b2838' }}>
 
       {/* ── "Featured & Recommended" section label ── */}
-      <div className="h-featured-label w-full px-4 lg:px-8 pt-6 pb-3">
+      <div className="h-featured-label w-full max-w-[1400px] mx-auto px-4 lg:px-8 pt-6 pb-3">
         <div className="flex items-center gap-3">
           <h2 className="text-base font-semibold" style={{ color: '#c6d4df', letterSpacing: '0.02em' }}>
             Featured Developer
@@ -51,7 +51,7 @@ const Hero = () => {
       </div>
 
       {/* ── Main featured banner ── */}
-      <div className="w-full px-4 lg:px-8 pb-4">
+      <div className="w-full max-w-[1400px] mx-auto px-4 lg:px-8 pb-4">
         <div className="flex gap-4 lg:gap-6 items-start">
 
           {/* ── Left: big banner ── */}

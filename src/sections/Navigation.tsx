@@ -35,7 +35,7 @@ const Navigation = () => {
     <>
       {/* Steam top bar */}
       <div className="fixed top-0 left-0 right-0 z-50 h-[52px]" style={{ background: '#171a21', borderBottom: '1px solid #000' }}>
-        <div className="w-full h-full flex items-center px-4 lg:px-8 gap-0">
+        <div className="w-full max-w-[1400px] mx-auto h-full flex items-center px-4 lg:px-8 gap-0">
 
           {/* Logo / Brand */}
           <button

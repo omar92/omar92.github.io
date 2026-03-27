@@ -122,7 +122,7 @@ const About = () => {
 
   return (
     <section id="about" ref={sectionRef} className="relative py-12 reveal-section" style={{ background: '#1b2838', borderTop: '1px solid rgba(0,0,0,0.3)' }}>
-      <div className="w-full px-4 lg:px-8">
+      <div className="w-full max-w-[1400px] mx-auto px-4 lg:px-8">
 
         {/* Section header — Steam style */}
         <div className="ab-header flex items-center gap-0 mb-8">

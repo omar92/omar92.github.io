@@ -73,7 +73,7 @@ const Contact = () => {
 
   return (
     <section id="contact" ref={sectionRef} className="relative py-12 reveal-section" style={{ background: '#1b2838', borderTop: '1px solid rgba(0,0,0,0.3)' }}>
-      <div className="w-full px-4 lg:px-8">
+      <div className="w-full max-w-[1400px] mx-auto px-4 lg:px-8">
         <div className="ct-header mb-6">
           <div className="steam-section-header">
             <span className="text-sm font-semibold" style={{ color: '#c6d4df' }}>Contact</span>

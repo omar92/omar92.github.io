@@ -29,7 +29,7 @@ const Footer = () => {
 
   return (
     <footer ref={footerRef} className="relative py-8" style={{ background: '#171a21', borderTop: '1px solid #000' }}>
-      <div className="w-full px-4 lg:px-8">
+      <div className="w-full max-w-[1400px] mx-auto px-4 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-5">
           <div className="text-center md:text-left">
             <div className="text-sm font-semibold" style={{ color: '#c6d4df' }}>{data.personal.name}</div>

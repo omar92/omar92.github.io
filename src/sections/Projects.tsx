@@ -440,7 +440,7 @@ const Projects = () => {
 
   return (
 <section id="projects" ref={sectionRef} className="relative py-12 reveal-section" style={{ background: '#1b2838', borderTop: '1px solid rgba(0,0,0,0.3)' }}>
-      <div className="w-full px-4 lg:px-8">
+      <div className="w-full max-w-[1400px] mx-auto px-4 lg:px-8">
 
         {/* Steam section header */}
         <div className="pj-header mb-6 flex items-center justify-between flex-wrap gap-4">
