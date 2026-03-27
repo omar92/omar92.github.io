@@ -1,7 +1,7 @@
 ﻿import { useEffect, useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ExternalLink, Github, X, ChevronRight, Play, Wrench, Star, GitFork, Users } from 'lucide-react';
+import { ExternalLink, Github, X, Play, Wrench, Star, GitFork, Users } from 'lucide-react';
 import data, { type PortfolioProject } from '../lib/portfolio';
 import { fetchGitHubRepoStats, parseGitHubRepoFromUrl, type GitHubRepoStats } from '@/lib/github';
 import {
@@ -50,7 +50,11 @@ const Projects = () => {
   const [activeDetailSection, setActiveDetailSection] = useState<'pd-media' | 'pd-about' | 'pd-contributions'>('pd-media');
   const [projectGitHubStats, setProjectGitHubStats] = useState<Record<string, GitHubRepoStats>>({});
   const [imageStates, setImageStates] = useState<Record<string, ImageLoadState>>({});
+  const [hoveredProject, setHoveredProject] = useState<PortfolioProject | null>(null);
+  const [panelPos, setPanelPos] = useState({ top: 80, left: 0 });
   const [visibleTabCount, setVisibleTabCount] = useState(3);
+  const rightColRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const loadingImageUrlsRef = useRef(new Set<string>());
 
   const getImageState = (src: string): ImageLoadState | undefined => imageStates[src];
@@ -103,11 +107,12 @@ const Projects = () => {
   const publishedProjectsCount = data.projects.filter((project) => project.published).length;
 
   const categories = ['Showcase', 'All', ...(publishedProjectsCount > 0 ? ['Published'] : []), ...sortedFilterTags];
-  const filtered =
+  const filtered = useMemo(() =>
     activeFilter === 'Showcase' ? data.projects.filter((p) => p.featured) :
     activeFilter === 'All' ? data.projects :
     activeFilter === 'Published' ? data.projects.filter((p) => p.published) :
-    data.projects.filter((p) => p.filterTags.includes(activeFilter));
+    data.projects.filter((p) => p.filterTags.includes(activeFilter))
+  , [activeFilter]);
   const getProjectGitHubStats = (project: PortfolioProject): GitHubRepoStats | undefined => {
     const fetchedStats = projectGitHubStats[project.id];
     if (fetchedStats) {
@@ -312,7 +317,30 @@ const Projects = () => {
     gsap.fromTo('.pj-card', { opacity: 0, y: 32 }, {
       opacity: 1, y: 0, duration: 0.5, stagger: 0.08, ease: 'expo.out',
     });
+    setHoveredProject(filtered[0] ?? null);
   }, [filtered]);
+
+  useEffect(() => {
+    const compute = () => {
+      if (!sectionRef.current || !rightColRef.current) return;
+      const sectionRect = sectionRef.current.getBoundingClientRect();
+      const colRect = rightColRef.current.getBoundingClientRect();
+      const panelH = panelRef.current?.offsetHeight ?? 360;
+      const NAV = 80;
+      const top = Math.min(
+        Math.max(sectionRect.top + 48, NAV),
+        sectionRect.bottom - panelH - 16
+      );
+      setPanelPos({ top, left: colRect.left });
+    };
+    compute();
+    window.addEventListener('scroll', compute, { passive: true });
+    window.addEventListener('resize', compute);
+    return () => {
+      window.removeEventListener('scroll', compute);
+      window.removeEventListener('resize', compute);
+    };
+  }, [hoveredProject]);
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -563,35 +591,24 @@ const Projects = () => {
 
 
 
-        {/* Steam game grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 relative" style={{ zIndex: 0 }}>
+        {/* Steam game list + hover preview */}
+        <div className="flex gap-6" style={{ zIndex: 0 }}>
+          {/* Project list */}
+          <div className="space-y-0.5 flex-1 min-w-0">
           {filtered.map((project) => {
-            const githubLink = project.links.find(
-              (link) =>
-                link.type?.toLowerCase() === 'github' ||
-                link.icon?.toLowerCase() === 'github' ||
-                link.url.toLowerCase().includes('github.com/'),
-            );
-            const websiteLink = project.links.find(
-              (link) =>
-                link.type?.toLowerCase() === 'demo' ||
-                link.type?.toLowerCase() === 'live' ||
-                link.type?.toLowerCase() === 'website',
-            );
             const githubStats = getProjectGitHubStats(project);
 
             return (
               <article
                 key={project.id}
                 data-project-id={project.id}
-                className="pj-card cursor-pointer flex flex-col rounded-sm overflow-hidden transition-all group"
-                style={{ background: '#16202d', border: '1px solid rgba(0,0,0,0.3)' }}
+                className="pj-card cursor-pointer flex gap-4 rounded-sm overflow-hidden transition-all group py-2 px-2"
+                style={{ background: hoveredProject?.id === project.id ? '#1e3048' : 'transparent', border: '1px solid transparent' }}
                 onClick={() => setSelectedProject(project)}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#1e3048'; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = '#16202d'; }}
+                onMouseEnter={() => setHoveredProject(project)}
               >
-                {/* Capsule image */}
-                <div className="relative overflow-hidden" style={{ aspectRatio: '16/9', background: '#0d1926' }}>
+                {/* Left: Thumbnail image */}
+                <div className="relative overflow-hidden flex-shrink-0" style={{ width: '184px', height: '104px', background: '#0d1926' }}>
                   {project.image && isImageLoaded(project.image) ? (
                     <img
                       src={project.image}
@@ -603,18 +620,9 @@ const Projects = () => {
                       {project.name[0]}
                     </div>
                   )}
-                  {/* Platform badges top-right */}
-                  <div className="absolute top-2 right-2 flex flex-wrap justify-end gap-1">
-                    {project.platforms.slice(0, 2).map((platform) => (
-                      <span key={platform} className="text-[10px] px-1.5 py-0.5 rounded-sm font-medium"
-                        style={{ background: 'rgba(0,0,0,0.75)', color: '#8f98a0' }}>
-                        {platform}
-                      </span>
-                    ))}
-                  </div>
                   {/* Published badge */}
                   {project.published && (
-                    <div className="absolute top-2 left-2">
+                    <div className="absolute top-1 left-1">
                       <span className="text-[10px] px-1.5 py-0.5 rounded-sm font-semibold"
                         style={{ background: 'rgba(106,184,13,0.85)', color: '#fff' }}>
                         Released
@@ -623,74 +631,109 @@ const Projects = () => {
                   )}
                 </div>
 
-                {/* Card body */}
-                <div className="p-3 flex flex-col flex-1 gap-2">
+                {/* Middle: Content */}
+                <div className="flex-1 flex flex-col gap-2 min-w-0">
                   <h3 className="text-sm font-semibold leading-snug" style={{ color: '#e8f4fd' }}>{project.name}</h3>
 
-                  {/* Review score */}
-                  {githubStats ? (
-                    <div className="flex items-center gap-2 text-[11px]" style={{ color: '#8f98a0' }}>
-                      <span className="flex items-center gap-1" style={{ color: '#66c0f4' }}>
-                        <Star size={10} />
-                        {githubStats.stars.toLocaleString()}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <GitFork size={10} />
-                        {githubStats.forks.toLocaleString()}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Users size={10} />
-                        {githubStats.contributors.toLocaleString()}
-                      </span>
-                    </div>
-                  ) : (
-                    <p className="text-xs line-clamp-2 flex-1" style={{ color: '#8f98a0', lineHeight: 1.5 }}>
-                      {project.shortDescription}
-                    </p>
-                  )}
+                  {/* Description */}
+                  <p className="text-xs line-clamp-2 flex-1" style={{ color: '#8f98a0', lineHeight: 1.5 }}>
+                    {project.shortDescription}
+                  </p>
 
                   {/* Tags */}
-                  <div className="flex flex-wrap gap-1 mt-auto">
-                    {project.skills.slice(0, 3).map((t) => (
-                      <span key={t} className="tag-cyan text-[10px]">{t}</span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.filterTags.slice(0, 4).map((tag) => (
+                      <span key={tag} className="text-[10px] px-2 py-0.5 rounded-sm"
+                        style={{ background: 'rgba(102, 192, 244, 0.1)', color: '#66c0f4', border: '1px solid rgba(102, 192, 244, 0.2)' }}>
+                        {tag}
+                      </span>
                     ))}
-                    {project.skills.length > 3 && (
-                      <span className="tag-cyan text-[10px]">+{project.skills.length - 3}</span>
-                    )}
                   </div>
+                </div>
 
-                  {/* Bottom row */}
-                  <div className="flex items-center justify-between pt-2" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                    <div className="flex gap-2">
-                      {githubLink && (
-                        <a href={githubLink.url} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer"
-                          className="transition-colors" style={{ color: '#4a6b8a' }}
-                          onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#c6d4df'; }}
-                          onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#4a6b8a'; }}>
-                          <Github size={13} />
-                        </a>
-                      )}
-                      {websiteLink && (
-                        <a href={websiteLink.url} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer"
-                          className="transition-colors" style={{ color: '#4a6b8a' }}
-                          onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#66c0f4'; }}
-                          onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#4a6b8a'; }}>
-                          <ExternalLink size={13} />
-                        </a>
-                      )}
-                    </div>
-                    <span className="flex items-center gap-0.5 text-[11px] font-medium transition-colors"
-                      style={{ color: '#4a6b8a' }}
-                      onMouseEnter={(e) => { (e.currentTarget as HTMLSpanElement).style.color = '#66c0f4'; }}
-                      onMouseLeave={(e) => { (e.currentTarget as HTMLSpanElement).style.color = '#4a6b8a'; }}>
-                      View <ChevronRight size={11} />
-                    </span>
+                {/* Right: Platform badges */}
+                <div className="flex-shrink-0 flex flex-col items-end justify-between gap-2">
+                  <div className="flex flex-wrap justify-end gap-1">
+                    {project.platforms.slice(0, 2).map((platform) => (
+                      <span key={platform} className="text-[10px] px-1.5 py-0.5 rounded-sm font-medium"
+                        style={{ background: 'rgba(0,0,0,0.4)', color: '#8f98a0' }}>
+                        {platform}
+                      </span>
+                    ))}
                   </div>
+                  {githubStats && (
+                    <div className="flex items-center gap-2 text-[10px]" style={{ color: '#8f98a0' }}>
+                      <span className="flex items-center gap-1" style={{ color: '#66c0f4' }}>
+                        <Star size={11} />{githubStats.stars.toLocaleString()}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <GitFork size={11} />{githubStats.forks.toLocaleString()}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </article>
             );
           })}
+          </div>
+
+          {/* Right: layout spacer so list doesn't stretch full width */}
+          <div ref={rightColRef} className="hidden lg:block flex-shrink-0" style={{ width: '300px' }} />
         </div>
+
+        {/* Fixed preview panel — follows scroll, clamped to section bounds */}
+        {hoveredProject && (
+          <div
+            ref={panelRef}
+            className="hidden lg:block rounded-sm overflow-hidden"
+            style={{
+              position: 'fixed',
+              top: panelPos.top,
+              left: panelPos.left,
+              width: '300px',
+              zIndex: 50,
+              background: '#16202d',
+              border: '1px solid rgba(102,192,244,0.2)',
+              pointerEvents: 'none',
+            }}
+          >
+            {/* Project name header */}
+            <div className="px-4 py-3" style={{ background: '#2a475e', borderBottom: '1px solid rgba(0,0,0,0.3)' }}>
+              <h4 className="text-sm font-semibold truncate" style={{ color: '#e8f4fd' }}>{hoveredProject.name}</h4>
+            </div>
+
+            {/* Tags row */}
+            <div className="px-3 py-2.5" style={{ background: '#1e3048', borderBottom: '1px solid rgba(0,0,0,0.2)' }}>
+              <div className="text-[10px] mb-0.5" style={{ color: '#8f98a0' }}>Category</div>
+              <div className="flex flex-wrap gap-1">
+                {hoveredProject.filterTags.slice(0, 4).map((tag) => (
+                  <span key={tag} className="text-[10px] px-1.5 py-0.5 rounded-sm"
+                    style={{ background: 'rgba(102,192,244,0.15)', color: '#66c0f4', border: '1px solid rgba(102,192,244,0.25)' }}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Screenshots */}
+            <div className="p-2">
+              {hoveredProject.image && (
+                <div className="overflow-hidden rounded-sm mb-1.5" style={{ aspectRatio: '16/9', background: '#0d1926' }}>
+                  <img src={hoveredProject.image} alt={hoveredProject.name} className="w-full h-full object-cover" />
+                </div>
+              )}
+              {hoveredProject.screenshots.length > 0 && (
+                <div className="space-y-1.5">
+                  {hoveredProject.screenshots.slice(0, 3).map((src, i) => (
+                    <div key={i} className="overflow-hidden rounded-sm" style={{ aspectRatio: '16/9', background: '#0d1926' }}>
+                      <img src={src} alt="" className="w-full h-full object-cover" />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Detail dialog */}
