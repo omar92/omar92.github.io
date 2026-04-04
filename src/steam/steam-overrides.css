@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+body[data-design='steam'] {
+  background-color: #1b2838;
+  color: #c6d4df;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+}
+
+body[data-design='steam'] .btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.5rem;
+  font-family: 'Inter', Arial, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: #beee11;
+  background: linear-gradient(to bottom right, #75b022, #3d6b0f);
+  border-radius: 3px;
+  border: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 3px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+body[data-design='steam'] .btn-primary:hover {
+  filter: brightness(1.12);
+}
+
+body[data-design='steam'] .btn-ghost {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.5rem;
+  font-family: 'Inter', Arial, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: #c6d4df;
+  background: linear-gradient(to bottom right, #4a5c6b, #2a3d4e);
+  border-radius: 3px;
+  border: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+body[data-design='steam'] .btn-ghost:hover {
+  filter: brightness(1.12);
+}
+
+body[data-design='steam'] .text-gradient,
+body[data-design='steam'] .text-gradient-cyan,
+body[data-design='steam'] .text-gradient-violet,
+body[data-design='steam'] .text-gradient-gold {
+  background: linear-gradient(180deg, #d2e9fc 0%, #66c0f4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body[data-design='steam'] .tag-cyan {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  font-family: 'Inter', Arial, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: #c6d4df;
+  background: rgba(102, 192, 244, 0.2);
+  border: 1px solid rgba(102, 192, 244, 0.2);
+  border-radius: 2px;
+}
+
+body[data-design='steam'] .tag-violet {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  font-family: 'Inter', Arial, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: #c6d4df;
+  background: rgba(60, 85, 105, 0.5);
+  border: 1px solid rgba(102, 144, 192, 0.25);
+  border-radius: 2px;
+}
+
+body[data-design='steam'] .tag-gold {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  font-family: 'Inter', Arial, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: #b8c840;
+  background: rgba(180, 197, 62, 0.1);
+  border: 1px solid rgba(180, 197, 62, 0.25);
+  border-radius: 2px;
+}
+
+body[data-design='steam'] .steam-input {
+  width: 100%;
+  background: #32404e;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  padding: 0.6rem 0.875rem;
+  font-family: 'Inter', Arial, sans-serif;
+  font-size: 0.875rem;
+  color: #c6d4df;
+  outline: none;
+}
+
+body[data-design='steam'] .steam-input:focus {
+  background: #3d4f5e;
+  border-color: rgba(102, 192, 244, 0.5);
+  box-shadow: 0 0 0 1px rgba(102, 192, 244, 0.2);
+}
+
+body[data-design='steam'] .steam-input::placeholder {
+  color: #556677;
+}
+
+body[data-design='steam'] .game-card,
+body[data-design='steam'] .pokemon-card {
+  background: #16202d;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  border-radius: 3px;
+}
+
+body[data-design='steam'] .glass-nav {
+  background: #171a21;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+body[data-design='steam'] .divider-cyan {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(102, 192, 244, 0.25) 40%, rgba(102, 192, 244, 0.25) 60%, transparent 100%);
+}
+
+@keyframes steam-float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+body[data-design='steam'] .animate-float {
+  animation: steam-float 2.2s ease-in-out infinite;
+}

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navigation from './sections/Navigation';
@@ -10,12 +10,29 @@ import Contact from './sections/Contact';
 import Footer from './sections/Footer';
 import AnimatedBackground from './components/AnimatedBackground';
 import PortfolioEditor from './pages/PortfolioEditor';
+import DesignToggle from './components/DesignToggle';
+import SteamPortfolio from './steam/SteamPortfolio';
 
 gsap.registerPlugin(ScrollTrigger);
 
+type DesignMode = 'main' | 'steam';
+
+const DESIGN_STORAGE_KEY = 'portfolio-design-mode';
+
+const getInitialDesignMode = (): DesignMode => {
+  const saved = window.localStorage.getItem(DESIGN_STORAGE_KEY);
+  return saved === 'steam' ? 'steam' : 'main';
+};
+
 function App() {
+  const [designMode, setDesignMode] = useState<DesignMode>(getInitialDesignMode);
   const normalizedPath = window.location.pathname.replace(/\/+$/, '');
   const isEditorRoute = normalizedPath.endsWith('/editor');
+
+  useEffect(() => {
+    window.localStorage.setItem(DESIGN_STORAGE_KEY, designMode);
+    document.body.setAttribute('data-design', designMode);
+  }, [designMode]);
 
   useEffect(() => {
     if (isEditorRoute) {
@@ -109,23 +126,38 @@ function App() {
     return <PortfolioEditor />;
   }
 
+  const showSteam = designMode === 'steam';
+
   return (
     <div className="relative min-h-screen overflow-x-hidden">
-      {/* Animated 3D Background */}
-      <AnimatedBackground />
-      
-      {/* Content */}
-      <div className="relative z-10">
-        <Navigation />
-        <main>
-          <Hero />
-          <About />
-          <Projects />
-          <Experience />
-          <Contact />
-        </main>
-        <Footer />
+      <div className="fixed right-4 top-20 z-[60]">
+        <DesignToggle
+          mode={designMode}
+          onToggle={() => setDesignMode((prev) => (prev === 'main' ? 'steam' : 'main'))}
+        />
       </div>
+
+      {showSteam ? (
+        <SteamPortfolio />
+      ) : (
+        <>
+          {/* Animated 3D Background */}
+          <AnimatedBackground />
+
+          {/* Content */}
+          <div className="relative z-10">
+            <Navigation />
+            <main>
+              <Hero />
+              <About />
+              <Projects />
+              <Experience />
+              <Contact />
+            </main>
+            <Footer />
+          </div>
+        </>
+      )}
     </div>
   );
 }
