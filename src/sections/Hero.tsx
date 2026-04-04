@@ -56,7 +56,7 @@ const Hero = () => {
 
       {/* Bottom fade */}
       <div className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none z-[2]"
-        style={{ background: 'linear-gradient(to top, #050510, transparent)' }} />
+        style={{ background: 'linear-gradient(to top, hsl(var(--background)), transparent)' }} />
 
       <div className="relative z-10 w-full px-6 lg:px-16 xl:px-24">
         {/* Status bar */}

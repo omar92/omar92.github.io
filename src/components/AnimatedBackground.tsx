@@ -17,10 +17,16 @@ interface Particle {
   colorIdx: number;
 }
 
-const COLORS = [
+const DARK_COLORS = [
   [0, 229, 255],   // cyan
   [139, 92, 246],  // violet
   [245, 158, 11],  // gold
+] as const;
+
+const LIGHT_COLORS = [
+  [3, 105, 161],   // blueprint blue
+  [14, 116, 144],  // teal steel
+  [12, 74, 110],   // deep cyan
 ] as const;
 
 const AnimatedBackground = () => {
@@ -70,7 +76,7 @@ const AnimatedBackground = () => {
       vy: (Math.random() - 0.5) * 0.28,
       size: Math.random() * 1.6 + 0.4,
       opacity: Math.random() * 0.45 + 0.1,
-      colorIdx: Math.floor(Math.random() * COLORS.length),
+      colorIdx: Math.floor(Math.random() * DARK_COLORS.length),
     }));
 
     /* ── Draw a flat-top hex outline ── */
@@ -102,6 +108,13 @@ const AnimatedBackground = () => {
 
       const mx = mouseRef.current.x;
       const my = mouseRef.current.y;
+      const isDark = document.documentElement.classList.contains('dark');
+      const palette = isDark ? DARK_COLORS : LIGHT_COLORS;
+      const gridScale = isDark ? 1 : 0.35;
+      const proxScale = isDark ? 1 : 0.32;
+      const particleScale = isDark ? 1 : 0.45;
+      const lineScale = isDark ? 1 : 0.4;
+      const gridRgb = isDark ? '0,229,255' : '14,116,144';
 
       /* ── Hex grid ── */
       for (const h of hexes) {
@@ -111,16 +124,16 @@ const AnimatedBackground = () => {
         const dy       = h.cy - my;
         const dist     = Math.sqrt(dx * dx + dy * dy);
         const prox     = Math.max(0, 1 - dist / 260);
-        const opacity  = ambient + prox * 0.18;
+        const opacity  = (ambient + prox * 0.18) * gridScale;
         const lw       = 0.4 + prox * 1.2;
 
         ctx.lineWidth   = lw;
-        ctx.strokeStyle = `rgba(0,229,255,${opacity})`;
+        ctx.strokeStyle = `rgba(${gridRgb},${opacity})`;
         drawHex(h.cx, h.cy, R - 1.5);
         ctx.stroke();
 
         if (prox > 0.04) {
-          ctx.fillStyle = `rgba(0,229,255,${prox * 0.05})`;
+          ctx.fillStyle = `rgba(${gridRgb},${prox * 0.05 * proxScale})`;
           drawHex(h.cx, h.cy, R - 1.5);
           ctx.fill();
         }
@@ -136,7 +149,7 @@ const AnimatedBackground = () => {
         if (p.y < 0)      p.y = height;
         if (p.y > height) p.y = 0;
 
-        const [r, g, b] = COLORS[p.colorIdx];
+        const [r, g, b] = palette[p.colorIdx];
         const pulse = (Math.sin(t * 1.8 + i) * 0.25 + 0.75);
 
         /* connections */
@@ -146,7 +159,7 @@ const AnimatedBackground = () => {
           const d  = Math.sqrt(dx * dx + dy * dy);
           if (d < 110) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(0,229,255,${(1 - d / 110) * 0.09})`;
+            ctx.strokeStyle = `rgba(${gridRgb},${(1 - d / 110) * 0.09 * lineScale})`;
             ctx.lineWidth = 0.5;
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(q.x, q.y);
@@ -157,14 +170,19 @@ const AnimatedBackground = () => {
         /* dot */
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${r},${g},${b},${p.opacity * pulse})`;
+        ctx.fillStyle = `rgba(${r},${g},${b},${p.opacity * pulse * particleScale})`;
         ctx.fill();
       }
+
+      /* Keep vignette synced with active theme so light mode is actually bright */
+      const vignetteColor = getComputedStyle(document.documentElement)
+        .getPropertyValue('--canvas-vignette')
+        .trim() || 'rgba(5,5,16,0.55)';
 
       /* ── Subtle vignette ── */
       const vg = ctx.createRadialGradient(width / 2, height / 2, height * 0.3, width / 2, height / 2, height * 0.85);
       vg.addColorStop(0, 'transparent');
-      vg.addColorStop(1, 'rgba(5,5,16,0.55)');
+      vg.addColorStop(1, vignetteColor);
       ctx.fillStyle = vg;
       ctx.fillRect(0, 0, width, height);
 

@@ -1,6 +1,7 @@
 ﻿import { useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { Menu, X } from 'lucide-react';
+import { ThemeToggle } from '../components/ThemeToggle';
 import data from '../lib/portfolio';
 
 const NAV_LINKS = [
@@ -61,7 +62,7 @@ const Navigation = () => {
                 <span className="section-label text-[9px]">{(data.personal.title ?? '').toUpperCase()}</span>
               </div>
             </button>
-            <div className="hidden md:flex items-center">
+            <div className="hidden md:flex items-center gap-3">
               {NAV_LINKS.map((link) => {
                 const active = activeId === link.href.slice(1);
                 return (
@@ -72,7 +73,8 @@ const Navigation = () => {
                   </button>
                 );
               })}
-              <a href={data.personal.resume} target="_blank" rel="noopener noreferrer" className="nav-cta btn-primary ml-6 text-xs py-2 px-5">RESUME</a>
+              <a href={data.personal.resume} target="_blank" rel="noopener noreferrer" className="nav-cta btn-primary ml-3 text-xs py-2 px-5">RESUME</a>
+              <ThemeToggle />
             </div>
             <button onClick={() => setMobileOpen((v) => !v)} className="md:hidden p-2 border border-cyan-400/30 text-cyan-400 hover:bg-cyan-400/10 transition-all">
               {mobileOpen ? <X size={18} /> : <Menu size={18} />}
@@ -85,6 +87,7 @@ const Navigation = () => {
           {NAV_LINKS.map((link) => (
             <button key={link.href} onClick={() => scrollTo(link.href)} className="text-2xl tracking-widest text-slate-300 hover:text-cyan-400 transition-colors" style={{ fontFamily: 'Orbitron, monospace' }}>{link.label}</button>
           ))}
+          <ThemeToggle />
           <a href={data.personal.resume} target="_blank" rel="noopener noreferrer" className="btn-primary mt-4">RESUME</a>
         </div>
       )}

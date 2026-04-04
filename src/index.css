@@ -6,37 +6,73 @@
 
 @layer base {
   :root {
-    /* ── Game Dev Portfolio — "PROTOCOL" Design System ── */
-    --background: 238 40% 3%;
-    --foreground: 200 60% 92%;
-    --card: 238 40% 5%;
-    --card-foreground: 200 60% 92%;
-    --popover: 238 40% 5%;
-    --popover-foreground: 200 60% 92%;
-    --primary: 185 100% 50%;
-    --primary-foreground: 238 40% 3%;
-    --secondary: 262 84% 65%;
-    --secondary-foreground: 200 60% 92%;
-    --muted: 238 30% 10%;
-    --muted-foreground: 215 20% 50%;
-    --accent: 185 100% 50%;
-    --accent-foreground: 238 40% 3%;
+    /* Light theme: paper + blueprint */
+    --background: 210 55% 98%;
+    --foreground: 220 35% 14%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 35% 14%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 35% 14%;
+    --primary: 206 85% 40%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 198 65% 92%;
+    --secondary-foreground: 210 55% 28%;
+    --muted: 204 32% 93%;
+    --muted-foreground: 216 18% 34%;
+    --accent: 206 85% 40%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 200 60% 92%;
-    --border: 238 40% 14%;
-    --input: 238 40% 7%;
-    --ring: 185 100% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 28% 82%;
+    --input: 210 26% 88%;
+    --ring: 206 85% 40%;
     --radius: 0.125rem;
+
+    --glass-nav-bg: rgba(246, 250, 255, 0.88);
+    --glass-nav-border: rgba(14, 116, 144, 0.24);
+    --game-card-bg: rgba(255, 255, 255, 0.86);
+    --game-card-bg-hover: rgba(255, 255, 255, 0.98);
+    --scrollbar-track: #dfe8f1;
+    --canvas-vignette: rgba(71, 85, 105, 0.05);
     
     /* ── Sidebar (kept for compatibility) ── */
-    --sidebar-background: 238 40% 4%;
-    --sidebar-foreground: 200 60% 92%;
-    --sidebar-primary: 185 100% 50%;
-    --sidebar-primary-foreground: 238 40% 3%;
-    --sidebar-accent: 238 40% 8%;
-    --sidebar-accent-foreground: 200 60% 92%;
-    --sidebar-border: 238 40% 14%;
-    --sidebar-ring: 185 100% 50%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 35% 14%;
+    --sidebar-primary: 206 85% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 204 32% 93%;
+    --sidebar-accent-foreground: 220 35% 14%;
+    --sidebar-border: 210 28% 82%;
+    --sidebar-ring: 206 85% 40%;
+  }
+
+  .dark {
+    --background: 220 10% 5%;
+    --foreground: 0 0% 95%;
+    --accent: 0 100% 50%;
+    --neon: 160 100% 50%;
+    --card: 220 10% 7%;
+    --card-foreground: 0 0% 95%;
+    --popover: 220 10% 7%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 0 100% 50%;
+    --primary-foreground: 220 10% 5%;
+    --secondary: 220 15% 15%;
+    --secondary-foreground: 0 0% 95%;
+    --muted: 220 15% 10%;
+    --muted-foreground: 220 20% 30%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 220 10% 5%;
+    --border: 220 10% 20%;
+    --input: 220 10% 15%;
+    --ring: 0 100% 50%;
+
+    --glass-nav-bg: rgba(5, 5, 16, 0.92);
+    --glass-nav-border: rgba(0, 229, 255, 0.12);
+    --game-card-bg: rgba(8, 8, 22, 0.82);
+    --game-card-bg-hover: rgba(10, 10, 28, 0.92);
+    --scrollbar-track: #050510;
+    --canvas-vignette: rgba(5, 5, 16, 0.55);
   }
 }
 
@@ -48,9 +84,9 @@
   body {
     @apply antialiased;
     font-family: 'Inter', sans-serif;
-    background-color: #050510;
-    overflow-x: hidden;
-    color: #b0cce0;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -69,8 +105,8 @@
   .glass-nav {
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    background: rgba(5, 5, 16, 0.92);
-    border-bottom: 1px solid rgba(0, 229, 255, 0.12);
+    background: var(--glass-nav-bg);
+    border-bottom: 1px solid var(--glass-nav-border);
   }
 
   /* ─── Text gradients ─── */
@@ -241,6 +277,11 @@
     opacity: 0.7;
   }
 
+  html:not(.dark) .section-label {
+    color: #0f4a6d;
+    opacity: 0.9;
+  }
+
   /* ─── Mono text ─── */
   .mono {
     font-family: 'JetBrains Mono', monospace;
@@ -248,14 +289,14 @@
 
   /* ─── Game card ─── */
   .game-card {
-    background: rgba(8, 8, 22, 0.82);
+    background: var(--game-card-bg);
     border: 1px solid rgba(0, 229, 255, 0.09);
     transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
   }
 
   .game-card:hover {
     border-color: rgba(0, 229, 255, 0.25);
-    background: rgba(10, 10, 28, 0.92);
+    background: var(--game-card-bg-hover);
     box-shadow: 0 0 24px rgba(0, 229, 255, 0.06), 0 24px 64px rgba(0, 0, 0, 0.55);
   }
 
@@ -263,7 +304,7 @@
   .pokemon-card {
     perspective: 1000px;
     position: relative;
-    background: rgba(8, 8, 22, 0.82);
+    background: var(--game-card-bg);
     border: 1px solid rgba(0, 229, 255, 0.09);
     transition: transform 0.18s ease-out, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
     transform-style: preserve-3d;
@@ -311,7 +352,7 @@
   }
 
   .pokemon-card:hover {
-    background: rgba(10, 10, 28, 0.92);
+    background: var(--game-card-bg-hover);
     box-shadow: 
       0 0 18px rgba(0, 229, 255, 0.14),
       0 14px 34px rgba(0, 0, 0, 0.62);
@@ -398,9 +439,151 @@
 
   /* ─── Scrollbar ─── */
   ::-webkit-scrollbar { width: 4px; height: 4px; }
-  ::-webkit-scrollbar-track { background: #050510; }
+  ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
   ::-webkit-scrollbar-thumb { background: rgba(0, 229, 255, 0.25); }
   ::-webkit-scrollbar-thumb:hover { background: rgba(0, 229, 255, 0.55); }
+
+  html:not(.dark) body {
+    background-image:
+      radial-gradient(circle at 10% 8%, rgba(125, 211, 252, 0.12), transparent 36%),
+      radial-gradient(circle at 92% 18%, rgba(165, 243, 252, 0.08), transparent 34%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(243, 248, 253, 0.95));
+  }
+
+  html:not(.dark) .glass-nav {
+    box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08);
+  }
+
+  html:not(.dark) .divider-cyan {
+    background: linear-gradient(90deg, transparent 0%, rgba(14,116,144,0.35) 30%, rgba(14,116,144,0.35) 70%, transparent 100%);
+  }
+
+  html:not(.dark) .text-gradient {
+    background: linear-gradient(135deg, #0f4a6d 0%, #0369a1 55%, #0284c7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  html:not(.dark) .text-gradient-cyan {
+    background: linear-gradient(135deg, #0f4a6d 0%, #0369a1 60%, #0284c7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  html:not(.dark) .text-gradient-violet {
+    background: linear-gradient(135deg, #075985 0%, #0369a1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  html:not(.dark) .text-gradient-gold {
+    background: linear-gradient(135deg, #b45309 0%, #d97706 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  html:not(.dark) .btn-primary {
+    color: #f8fbff;
+    background: linear-gradient(135deg, #0f4a6d 0%, #0369a1 55%, #0284c7 100%);
+  }
+
+  html:not(.dark) .btn-primary:hover {
+    background: linear-gradient(135deg, #075985 0%, #0369a1 55%, #0284c7 100%);
+    box-shadow: 0 8px 24px rgba(3, 105, 161, 0.35);
+  }
+
+  html:not(.dark) .btn-ghost {
+    color: #0b4f75;
+    border-color: rgba(14, 116, 144, 0.42);
+    background: rgba(255, 255, 255, 0.72);
+  }
+
+  html:not(.dark) .btn-ghost:hover {
+    background: rgba(14, 116, 144, 0.1);
+    border-color: rgba(14, 116, 144, 0.7);
+    box-shadow: 0 8px 18px rgba(2, 132, 199, 0.2);
+  }
+
+  html:not(.dark) .game-card,
+  html:not(.dark) .pokemon-card {
+    border-color: rgba(14, 116, 144, 0.2);
+    box-shadow: 0 10px 28px rgba(30, 41, 59, 0.08);
+  }
+
+  html:not(.dark) .game-card:hover,
+  html:not(.dark) .pokemon-card:hover {
+    border-color: rgba(14, 116, 144, 0.38);
+    box-shadow: 0 14px 34px rgba(30, 41, 59, 0.12);
+  }
+
+  html:not(.dark) .hud-corners::before,
+  html:not(.dark) .hud-corners::after {
+    border-color: rgba(14, 116, 144, 0.48);
+  }
+
+  html:not(.dark) .hud-corners:hover::before,
+  html:not(.dark) .hud-corners:hover::after {
+    border-color: rgba(3, 105, 161, 0.92);
+  }
+
+  html:not(.dark) .tag-cyan {
+    color: #0b4f75;
+    background: rgba(14, 116, 144, 0.1);
+    border-color: rgba(14, 116, 144, 0.36);
+  }
+
+  html:not(.dark) .tag-violet {
+    color: #155e75;
+    background: rgba(8, 145, 178, 0.1);
+    border-color: rgba(8, 145, 178, 0.32);
+  }
+
+  html:not(.dark) .tag-gold {
+    color: #92400e;
+    background: rgba(217, 119, 6, 0.1);
+    border-color: rgba(217, 119, 6, 0.32);
+  }
+
+  html:not(.dark) .text-white { color: hsl(220 35% 14%) !important; }
+  html:not(.dark) .text-slate-100 { color: hsl(216 30% 22%) !important; }
+  html:not(.dark) .text-slate-200 { color: hsl(216 24% 26%) !important; }
+  html:not(.dark) .text-slate-300 { color: hsl(215 20% 30%) !important; }
+  html:not(.dark) .text-slate-400 { color: hsl(215 16% 36%) !important; }
+  html:not(.dark) .text-slate-500 { color: hsl(215 13% 42%) !important; }
+  html:not(.dark) .text-slate-600 { color: hsl(215 13% 34%) !important; }
+  html:not(.dark) .text-slate-700 { color: hsl(215 14% 28%) !important; }
+
+  html:not(.dark) .border-slate-700,
+  html:not(.dark) .border-slate-700\/60,
+  html:not(.dark) .border-slate-800\/80,
+  html:not(.dark) .border-slate-800\/90,
+  html:not(.dark) .border-slate-900\/20 {
+    border-color: rgba(51, 65, 85, 0.24) !important;
+  }
+
+  html:not(.dark) .bg-slate-900\/35,
+  html:not(.dark) .bg-slate-900\/45,
+  html:not(.dark) .bg-slate-900\/50,
+  html:not(.dark) .bg-slate-900\/55,
+  html:not(.dark) .bg-slate-900\/80,
+  html:not(.dark) .bg-slate-900\/90,
+  html:not(.dark) .bg-slate-950\/40,
+  html:not(.dark) .bg-slate-950\/50,
+  html:not(.dark) .bg-slate-950\/60,
+  html:not(.dark) .bg-slate-950\/70,
+  html:not(.dark) .bg-slate-950\/80,
+  html:not(.dark) .bg-slate-950\/85,
+  html:not(.dark) .bg-slate-950\/90,
+  html:not(.dark) .bg-slate-950\/95 {
+    background-color: rgba(255, 255, 255, 0.86) !important;
+  }
+
+  html:not(.dark) .text-violet-200 { color: #155e75 !important; }
+  html:not(.dark) .border-violet-300\/45 { border-color: rgba(8, 145, 178, 0.36) !important; }
 }
 
 @layer utilities {
