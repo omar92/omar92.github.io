@@ -1,7 +1,7 @@
 ﻿import { useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { Menu, X } from 'lucide-react';
-import { ThemeToggle } from '../components/ThemeToggle';
+import DesignToggle from '../components/DesignToggle';
 import data from '../lib/portfolio';
 
 const NAV_LINKS = [
@@ -12,7 +12,14 @@ const NAV_LINKS = [
   { href: '#contact',    label: 'CONTACT' },
 ] as const;
 
-const Navigation = () => {
+type DesignMode = 'main' | 'steam';
+
+type NavigationProps = {
+  mode: DesignMode;
+  onToggleDesign: () => void;
+};
+
+const Navigation = ({ mode, onToggleDesign }: NavigationProps) => {
   const [scrolled,   setScrolled]   = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeId,   setActiveId]   = useState('home');
@@ -74,7 +81,7 @@ const Navigation = () => {
                 );
               })}
               <a href={data.personal.resume} target="_blank" rel="noopener noreferrer" className="nav-cta btn-primary ml-3 text-xs py-2 px-5">RESUME</a>
-              <ThemeToggle />
+              <DesignToggle mode={mode} onToggle={onToggleDesign} compact />
             </div>
             <button onClick={() => setMobileOpen((v) => !v)} className="md:hidden p-2 border border-cyan-400/30 text-cyan-400 hover:bg-cyan-400/10 transition-all">
               {mobileOpen ? <X size={18} /> : <Menu size={18} />}
@@ -87,7 +94,7 @@ const Navigation = () => {
           {NAV_LINKS.map((link) => (
             <button key={link.href} onClick={() => scrollTo(link.href)} className="text-2xl tracking-widest text-slate-300 hover:text-cyan-400 transition-colors" style={{ fontFamily: 'Orbitron, monospace' }}>{link.label}</button>
           ))}
-          <ThemeToggle />
+          <DesignToggle mode={mode} onToggle={onToggleDesign} />
           <a href={data.personal.resume} target="_blank" rel="noopener noreferrer" className="btn-primary mt-4">RESUME</a>
         </div>
       )}

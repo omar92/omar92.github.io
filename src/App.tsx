@@ -10,7 +10,6 @@ import Contact from './sections/Contact';
 import Footer from './sections/Footer';
 import AnimatedBackground from './components/AnimatedBackground';
 import PortfolioEditor from './pages/PortfolioEditor';
-import DesignToggle from './components/DesignToggle';
 import SteamPortfolio from './steam/SteamPortfolio';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -130,15 +129,11 @@ function App() {
 
   return (
     <div className="relative min-h-screen overflow-x-hidden">
-      <div className="fixed right-4 top-20 z-[60]">
-        <DesignToggle
-          mode={designMode}
-          onToggle={() => setDesignMode((prev) => (prev === 'main' ? 'steam' : 'main'))}
-        />
-      </div>
-
       {showSteam ? (
-        <SteamPortfolio />
+        <SteamPortfolio
+          mode={designMode}
+          onToggleDesign={() => setDesignMode((prev) => (prev === 'main' ? 'steam' : 'main'))}
+        />
       ) : (
         <>
           {/* Animated 3D Background */}
@@ -146,7 +141,10 @@ function App() {
 
           {/* Content */}
           <div className="relative z-10">
-            <Navigation />
+            <Navigation
+              mode={designMode}
+              onToggleDesign={() => setDesignMode((prev) => (prev === 'main' ? 'steam' : 'main'))}
+            />
             <main>
               <Hero />
               <About />

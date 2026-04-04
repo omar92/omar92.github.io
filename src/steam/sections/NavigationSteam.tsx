@@ -1,5 +1,6 @@
 ﻿import { useState, useEffect } from 'react';
 import { Menu, X, ShoppingCart } from 'lucide-react';
+import DesignToggle from '../../components/DesignToggle';
 import data from '../../lib/portfolio';
 
 const NAV_LINKS = [
@@ -10,7 +11,14 @@ const NAV_LINKS = [
   { href: '#contact',    label: 'CONTACT' },
 ] as const;
 
-const Navigation = () => {
+type DesignMode = 'main' | 'steam';
+
+type NavigationSteamProps = {
+  mode: DesignMode;
+  onToggleDesign: () => void;
+};
+
+const Navigation = ({ mode, onToggleDesign }: NavigationSteamProps) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeId,   setActiveId]   = useState('home');
 
@@ -100,6 +108,7 @@ const Navigation = () => {
                 Resume
               </a>
             )}
+            <DesignToggle mode={mode} onToggle={onToggleDesign} compact />
           </div>
 
           {/* Mobile menu toggle */}
@@ -129,6 +138,9 @@ const Navigation = () => {
               {link.label}
             </button>
           ))}
+          <div className="mx-6 mt-6 flex justify-center">
+            <DesignToggle mode={mode} onToggle={onToggleDesign} />
+          </div>
           {data.personal.resume && (
             <a
               href={data.personal.resume}
