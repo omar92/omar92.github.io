@@ -593,19 +593,19 @@ const Projects = () => {
       >
         <DialogContent
           showCloseButton={false}
-          className="w-screen max-w-none h-screen max-h-none rounded-none bg-slate-950/95 border-0 p-0 gap-0 flex flex-col overflow-hidden backdrop-blur-xl"
+          className="project-dialog w-screen max-w-none h-screen max-h-none rounded-none bg-slate-950/95 border-0 p-0 gap-0 flex flex-col overflow-hidden backdrop-blur-xl"
           onPointerDownOutside={(e) => { if (lightbox) e.preventDefault(); }}
           onInteractOutside={(e) => { if (lightbox) e.preventDefault(); }}
           onEscapeKeyDown={(e) => { if (lightbox) { e.preventDefault(); setLightbox(null); } }}
         >
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,229,255,0.12),transparent_45%),radial-gradient(circle_at_bottom_left,rgba(139,92,246,0.10),transparent_45%)]" />
+          <div className="project-dialog-ambient pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,229,255,0.12),transparent_45%),radial-gradient(circle_at_bottom_left,rgba(139,92,246,0.10),transparent_45%)]" />
           
           <div
             ref={projectDialogScrollRef}
             onScroll={updateActiveDetailSectionFromScroll}
-            className="relative z-10 flex-1 overflow-y-auto bg-gradient-to-b from-slate-900/10 to-slate-950/30"
+            className="project-dialog-scroll relative z-10 flex-1 overflow-y-auto bg-gradient-to-b from-slate-900/10 to-slate-950/30"
           >
-            <div ref={projectDetailHeaderRef} className="sticky top-0 z-20 w-full bg-gradient-to-b from-slate-950/95 via-slate-950/88 to-slate-950/72 backdrop-blur-md border-b border-slate-700/60 shadow-[0_10px_30px_rgba(2,6,23,0.45)]">
+            <div ref={projectDetailHeaderRef} className="project-dialog-header sticky top-0 z-20 w-full bg-gradient-to-b from-slate-950/95 via-slate-950/88 to-slate-950/72 backdrop-blur-md border-b border-slate-700/60 shadow-[0_10px_30px_rgba(2,6,23,0.45)]">
               <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-3.5">
                 <div className="flex items-start justify-between gap-4 mb-2">
                   <div className="flex-1 min-w-0">
@@ -615,7 +615,7 @@ const Projects = () => {
 
                   <button
                     onClick={() => setSelectedProject(null)}
-                    className="shrink-0 text-slate-400 hover:text-white transition-all border border-slate-700/80 hover:border-cyan-400/50 bg-slate-900/45 hover:bg-slate-900/80 p-1.5"
+                    className="project-dialog-close shrink-0 text-slate-400 hover:text-white transition-all border border-slate-700/80 hover:border-cyan-400/50 bg-slate-900/45 hover:bg-slate-900/80 p-1.5"
                   >
                     <X size={16} />
                   </button>
@@ -674,13 +674,13 @@ const Projects = () => {
               <div className="pt-2 sm:pt-3 lg:pt-4 space-y-8">
               <section className="grid xl:grid-cols-[minmax(0,1fr)_340px] gap-5 lg:gap-6 items-stretch" id="pd-media">
                 <div className="h-full flex flex-col min-h-0 self-stretch">
-                  <div className="border border-slate-800 bg-slate-950/70 overflow-hidden flex-1 min-h-[260px] sm:min-h-[380px] lg:min-h-[460px] relative">
+                  <div className="project-dialog-media-frame border border-slate-800 bg-slate-950/70 overflow-hidden flex-1 min-h-[260px] sm:min-h-[380px] lg:min-h-[460px] relative">
                     <div className="absolute inset-0 flex items-center justify-center">
                     {!activeSelectedMedia && selectedProject?.image ? (
                       <img src={selectedProject.image} alt={selectedProject.name} className="max-w-full max-h-full w-auto h-auto object-contain" />
                     ) : activeSelectedMedia?.kind === 'video' ? (
                       activeSelectedMedia.videoType === 'local' ? (
-                        <video src={activeSelectedMedia.src} controls className="w-full h-full object-contain bg-slate-900" />
+                        <video src={activeSelectedMedia.src} controls className="project-dialog-media-bg w-full h-full object-contain bg-slate-900" />
                       ) : activeSelectedMedia.videoType === 'youtube' ? (
                         <iframe src={activeSelectedMedia.src} className="w-full h-full" allowFullScreen title={activeSelectedMedia.label} />
                       ) : null
@@ -698,20 +698,20 @@ const Projects = () => {
                         <button
                           key={media.id}
                           onClick={() => setActiveMediaId(media.id)}
-                          className={`relative shrink-0 w-36 h-20 border transition-all ${
+                          className={`project-dialog-thumb relative shrink-0 w-36 h-20 border transition-all ${
                             activeSelectedMedia?.id === media.id
                               ? 'border-cyan-400/80 shadow-[0_0_0_1px_rgba(0,229,255,0.25)]'
                               : 'border-slate-800 hover:border-slate-600'
                           }`}
                         >
                           {media.kind === 'video' ? (
-                            <div className="w-full h-full bg-slate-900 flex items-center justify-center">
+                            <div className="project-dialog-thumb-media w-full h-full bg-slate-900 flex items-center justify-center">
                               <Play size={16} className="text-cyan-300" />
                             </div>
                           ) : (
                             <img src={media.src} alt={media.label} className="w-full h-full object-cover opacity-80" />
                           )}
-                          <span className="absolute bottom-1 left-1 right-1 mono text-[9px] leading-tight text-white bg-slate-950/85 border border-slate-700/70 px-1 py-0.5 truncate text-left">
+                          <span className="project-dialog-thumb-label absolute bottom-1 left-1 right-1 mono text-[9px] leading-tight text-white bg-slate-950/85 border border-slate-700/70 px-1 py-0.5 truncate text-left">
                             {media.label}
                           </span>
                         </button>
@@ -720,7 +720,7 @@ const Projects = () => {
                   )}
                 </div>
 
-                <aside className="game-card border border-slate-800/90 bg-slate-900/55 p-4 sm:p-5 space-y-4 h-full self-stretch">
+                <aside className="project-dialog-side game-card border border-slate-800/90 bg-slate-900/55 p-4 sm:p-5 space-y-4 h-full self-stretch">
                   {selectedProject?.image && (
                     <img src={selectedProject.image} alt={selectedProject.name} className="w-full border border-slate-800 object-cover max-h-44" />
                   )}
@@ -802,10 +802,10 @@ const Projects = () => {
                 </aside>
               </section>
 
-              <section id="pd-about" className="game-card border border-slate-800/90 bg-slate-900/35 p-5 sm:p-6 space-y-5">
+              <section id="pd-about" className="project-dialog-section game-card border border-slate-800/90 bg-slate-900/35 p-5 sm:p-6 space-y-5">
                 <div className="flex items-center gap-3">
                   <div className="section-label">ABOUT THIS PROJECT</div>
-                  <div className="flex-1 h-px bg-slate-800" />
+                  <div className="project-dialog-separator flex-1 h-px bg-slate-800" />
                   <span className="mono text-[10px] text-slate-600">{selectedProjectVisibleMediaCount} media</span>
                 </div>
 
@@ -840,7 +840,7 @@ const Projects = () => {
                   <div className="flex items-center gap-3">
                     <Wrench size={14} className="text-cyan-400 shrink-0" />
                     <div className="section-label">MY WORK ON THIS PROJECT</div>
-                    <div className="flex-1 h-px bg-slate-800" />
+                    <div className="project-dialog-separator flex-1 h-px bg-slate-800" />
                     <span className="mono text-[10px] text-slate-600">{selectedProject.contributions.length} entries</span>
                   </div>
                   <div className="space-y-4">
@@ -848,7 +848,7 @@ const Projects = () => {
                       const loadedContributionScreenshots = contribution.screenshot.filter((src) => isImageLoaded(src));
 
                       return (
-                        <article key={contributionIndex} className="border border-slate-800/90 bg-slate-900/35 hover:bg-slate-900/50 transition-colors">
+                        <article key={contributionIndex} className="project-dialog-contribution border border-slate-800/90 bg-slate-900/35 hover:bg-slate-900/50 transition-colors">
                           <div className="p-5 pb-4 flex items-start gap-4">
                             <span className="mono text-3xl font-black text-slate-800/80 tabular-nums shrink-0 leading-none select-none">
                               {String(contributionIndex + 1).padStart(2, '0')}
@@ -903,7 +903,7 @@ const Projects = () => {
           className="max-w-[98vw] max-h-[98vh] w-auto h-auto bg-transparent border-0 shadow-none p-0 flex items-center justify-center"
         >
           <button
-            className="absolute top-3 right-3 z-10 text-slate-400 hover:text-white transition-colors bg-slate-900/90 border border-slate-700 p-2"
+            className="project-lightbox-close absolute top-3 right-3 z-10 text-slate-400 hover:text-white transition-colors bg-slate-900/90 border border-slate-700 p-2"
             onClick={() => setLightbox(null)}
           >
             <X size={18} />

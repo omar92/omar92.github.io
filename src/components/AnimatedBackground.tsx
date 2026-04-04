@@ -29,6 +29,12 @@ const LIGHT_COLORS = [
   [12, 74, 110],   // deep cyan
 ] as const;
 
+const STEAM_COLORS = [
+  [102, 192, 244], // steam blue
+  [26, 159, 255],  // action blue
+  [75, 107, 153],  // steel blue
+] as const;
+
 const AnimatedBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: -2000, y: -2000 });
@@ -108,13 +114,15 @@ const AnimatedBackground = () => {
 
       const mx = mouseRef.current.x;
       const my = mouseRef.current.y;
-      const isDark = document.documentElement.classList.contains('dark');
-      const palette = isDark ? DARK_COLORS : LIGHT_COLORS;
-      const gridScale = isDark ? 1 : 0.35;
-      const proxScale = isDark ? 1 : 0.32;
-      const particleScale = isDark ? 1 : 0.45;
-      const lineScale = isDark ? 1 : 0.4;
-      const gridRgb = isDark ? '0,229,255' : '14,116,144';
+      const root = document.documentElement;
+      const isSteam = root.classList.contains('theme-steam');
+      const isDark = root.classList.contains('dark');
+      const palette = isSteam ? STEAM_COLORS : isDark ? DARK_COLORS : LIGHT_COLORS;
+      const gridScale = isSteam ? 0.85 : isDark ? 1 : 0.35;
+      const proxScale = isSteam ? 0.8 : isDark ? 1 : 0.32;
+      const particleScale = isSteam ? 0.82 : isDark ? 1 : 0.45;
+      const lineScale = isSteam ? 0.76 : isDark ? 1 : 0.4;
+      const gridRgb = isSteam ? '102,192,244' : isDark ? '0,229,255' : '14,116,144';
 
       /* ── Hex grid ── */
       for (const h of hexes) {
