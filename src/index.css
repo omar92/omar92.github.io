@@ -6,47 +6,7 @@
 
 @layer base {
   :root {
-    /* Light theme: paper + blueprint */
-    --background: 210 55% 98%;
-    --foreground: 220 35% 14%;
-    --card: 0 0% 100%;
-    --card-foreground: 220 35% 14%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 35% 14%;
-    --primary: 206 85% 40%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 198 65% 92%;
-    --secondary-foreground: 210 55% 28%;
-    --muted: 204 32% 93%;
-    --muted-foreground: 216 18% 34%;
-    --accent: 206 85% 40%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 210 28% 82%;
-    --input: 210 26% 88%;
-    --ring: 206 85% 40%;
-    --radius: 0.125rem;
-
-    --glass-nav-bg: rgba(246, 250, 255, 0.88);
-    --glass-nav-border: rgba(14, 116, 144, 0.24);
-    --game-card-bg: rgba(255, 255, 255, 0.86);
-    --game-card-bg-hover: rgba(255, 255, 255, 0.98);
-    --scrollbar-track: #dfe8f1;
-    --canvas-vignette: rgba(71, 85, 105, 0.05);
-    
-    /* ── Sidebar (kept for compatibility) ── */
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 220 35% 14%;
-    --sidebar-primary: 206 85% 40%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 204 32% 93%;
-    --sidebar-accent-foreground: 220 35% 14%;
-    --sidebar-border: 210 28% 82%;
-    --sidebar-ring: 206 85% 40%;
-  }
-
-  .dark {
+    /* Dark theme only */
     --background: 220 10% 5%;
     --foreground: 0 0% 95%;
     --accent: 0 100% 50%;
@@ -66,6 +26,7 @@
     --border: 220 10% 20%;
     --input: 220 10% 15%;
     --ring: 0 100% 50%;
+    --radius: 0.125rem;
 
     --glass-nav-bg: rgba(5, 5, 16, 0.92);
     --glass-nav-border: rgba(0, 229, 255, 0.12);
@@ -73,7 +34,19 @@
     --game-card-bg-hover: rgba(10, 10, 28, 0.92);
     --scrollbar-track: #050510;
     --canvas-vignette: rgba(5, 5, 16, 0.55);
+    
+    /* ── Sidebar (dark theme) ── */
+    --sidebar-background: 220 10% 7%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 0 100% 50%;
+    --sidebar-primary-foreground: 220 10% 5%;
+    --sidebar-accent: 220 15% 15%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 220 10% 20%;
+    --sidebar-ring: 0 100% 50%;
   }
+
+  /* Dark theme is now the only theme */
 }
 
 @layer base {
